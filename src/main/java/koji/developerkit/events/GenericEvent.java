@@ -12,7 +12,7 @@ public class GenericEvent<T extends Event> extends Event implements Listener {
 
     public GenericEvent(Consumer<? super T> mainThing) {
         this.mainThing = mainThing;
-        this.exclusions = (Class<? extends Event>[]) new Class[0]
+        this.exclusions = (Class<? extends Event>[]) new Class[0];
     }
 
     public GenericEvent(Consumer<? super T> mainThing, Class<? extends Event>... exclusions) {
