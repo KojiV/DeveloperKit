@@ -2,6 +2,7 @@ package koji.developerkit.events;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
 
 import java.util.function.Consumer;
 

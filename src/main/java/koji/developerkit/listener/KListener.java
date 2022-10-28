@@ -18,12 +18,15 @@ public class KListener extends KBase implements Listener {
 
             if(annotation != null && method.getParameterTypes().length > 0) {
                 Class<? extends Event>[] exclusions = annotation.excludedEvents();
-                Class<?> listenerType = method.getParameterTypes()[0];
+                Class<?> eventType = method.getParameterTypes()[0];
+                if(eventType instanceof Event) {
+                    Event listenerType = (Event) method.getParameterTypes()[0];
 
-                Bukkit.getPluginManager().registerEvents(new GenericEvent<listenerType>(
-                    toConsumer(this, method),
-                    exclusions
-                ));
+                    Bukkit.getPluginManager().registerEvents(new GenericEvent<listenerType>(
+                        toConsumer(this, method),
+                        exclusions
+                    ));
+                }
             }
         }
     }
@@ -31,7 +34,7 @@ public class KListener extends KBase implements Listener {
     public static <T> Consumer<T> toConsumer(Object obj, Method m) {
         return param -> {
             try {
-                m.invoke(annotated, param);
+                m.invoke(obj, param);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
