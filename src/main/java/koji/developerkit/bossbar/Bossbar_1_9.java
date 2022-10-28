@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 
 public class Bossbar_1_9 implements IBossbar {
+
     HashMap<Player, BossBar> bossbars = new HashMap<>();
 
     public void setBar(Player p, String text, double healthPercent) {
