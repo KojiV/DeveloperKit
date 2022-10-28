@@ -7,7 +7,7 @@
     <artifactId>developerkit</artifactId>
     <groupId>io.github.kojiv</groupId>
     <!--https://github.com/marketplace/actions/github-release-changelog-generator-->
-    <version>1.5.1</version>
+    <version>1.5.2</version>
 
     <properties>
         <java.version>1.8</java.version>
@@ -52,11 +52,6 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <annotationProcessors>
-                        <annotationProcessor>
-                            koji.developerkit.events.EventAnnotationProcessor
-                        </annotationProcessor>
-                    </annotationProcessors>
                 </configuration>
             </plugin>
             <plugin>
@@ -171,7 +166,7 @@
         <dependency>
             <groupId>com.github.cryptomorin</groupId>
             <artifactId>XSeries</artifactId>
-            <version>9.0.0</version>
+            <version>9.1.0</version>
         </dependency>
         <dependency>
             <groupId>com.mojang</groupId>
@@ -214,12 +209,6 @@
             <version>1.8</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/nms/spigot-1.8.8.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>io.github.kojiv</groupId>
-            <artifactId>annotations</artifactId>
-            <version>1.1</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 
