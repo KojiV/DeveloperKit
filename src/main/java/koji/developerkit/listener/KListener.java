@@ -7,7 +7,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 
+import java.lang.IllegalAccessException;
 import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 import java.util.function.Consumer;
 
 public class KListener extends KBase implements Listener {
@@ -24,7 +26,7 @@ public class KListener extends KBase implements Listener {
                     eventType,
                     toConsumer(this, method),
                     exclusions
-                ));
+                ), KBase.getPlugin());
                 
             }
         }
