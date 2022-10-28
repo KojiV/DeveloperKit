@@ -36,7 +36,7 @@ public class GenericEvent<T extends Event> extends Event implements Listener {
             }
             sb.append(clazz.getName());
         }
-        exclusionString = sb.append(" }").build();
+        exclusionString = sb.append(" }").toString();
     }
 
     private static final HandlerList handlers = new HandlerList();
@@ -51,7 +51,7 @@ public class GenericEvent<T extends Event> extends Event implements Listener {
 
     final String exclusionString;
 
-    @ExpandEventHandler(exclude = exclusions)
+    @ExpandEventHandler(exclude = exclusionString)
     public void event(T generic) {
         mainThing.accept(generic);
     }
