@@ -34,7 +34,7 @@ public class GenericEvent<T extends Event> extends Event implements Listener {
             if(sb.length() != 0) {
                 sb.append(", ");
             }
-            sb.append(clazz.getName());
+            sb.append(clazz.getSimpleName()).append(".class");
         }
         exclusionString = sb.append(" }").toString();
     }
