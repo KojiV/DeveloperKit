@@ -11,6 +11,14 @@ public class GenericEvent<T extends Event> extends Event implements Listener {
     private final Consumer<? super T> mainThing;
     private final Class<? extends Event>[] exclusions;
 
+    public static <A extends Event> GenericEvent<A> newInstance(Class<A> type, Consumer<? super T> mainThing) {
+        return new GenericEvent<A>(mainThing);
+    }
+
+    public static <A extends Event> GenericEvent<A> newInstance(Class<A> type, Consumer<? super T> mainThing, Class<? extends Event>... exclusions) {
+        return new GenericEvent<A>(mainThing, exclusions);
+    }
+
     public GenericEvent(Consumer<? super T> mainThing) {
         this.mainThing = mainThing;
         this.exclusions = (Class<? extends Event>[]) new Class[0];
