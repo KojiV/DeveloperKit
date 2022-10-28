@@ -19,13 +19,12 @@ public class KListener extends KBase implements Listener {
             GenericEventHandler annotation = method.getDeclaredAnnotation(GenericEventHandler.class);
 
             if(annotation != null && method.getParameterTypes().length > 0) {
-                Class<? extends Event>[] exclusions = annotation.excludedEvents();
                 Class<? extends Event> eventType = (Class<? extends Event>) method.getParameterTypes()[0];
 
                 Bukkit.getPluginManager().registerEvents(GenericEvent.newInstance(
                     eventType,
                     toConsumer(this, method),
-                    exclusions
+                    annotation
                 ), KBase.getPlugin());
                 
             }
