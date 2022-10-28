@@ -8,19 +8,15 @@ import java.util.function.Consumer;
 public class GenericEvent<T extends Event> extends Event implements Listener {
 
     private final Consumer<? super T> mainThing;
-    private final Class<? extends Event>[] exclusions = new Class<? extends Event>[0];
+    private final Class<? extends Event>[] exclusions;
 
     public GenericEvent(Consumer<? super T> mainThing) {
         this.mainThing = mainThing;
+        this.exclusions = (Class<? extends Event>[]) new Class[0]
     }
 
     public GenericEvent(Consumer<? super T> mainThing, Class<? extends Event>... exclusions) {
-        this(mainThing);
-        this.exclusions = exclusions;
-    }
-
-    public GenericEvent(Consumer<? super T> mainThing, Class<? extends Event>[] exclusions) {
-        this(mainThing);
+        this.mainThing = mainThing;
         this.exclusions = exclusions;
     }
 
@@ -36,6 +32,6 @@ public class GenericEvent<T extends Event> extends Event implements Listener {
 
     @ExpandEventHandler(exclusions)
     public void event(T generic) {
-        mainThing.accept();
+        mainThing.accept(generic);
     }
 }
