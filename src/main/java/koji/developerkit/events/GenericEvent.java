@@ -23,11 +23,20 @@ public class GenericEvent<T extends Event> extends Event implements Listener {
     public GenericEvent(Consumer<? super T> mainThing) {
         this.mainThing = mainThing;
         this.exclusions = (Class<? extends Event>[]) new Class[0];
+        exclusionString = "{}";
     }
 
     public GenericEvent(Consumer<? super T> mainThing, Class<? extends Event>... exclusions) {
         this.mainThing = mainThing;
         this.exclusions = exclusions;
+        StringBuilder sb = new StringBuilder("{ ");
+        for(Class<? extends Event> clazz : exclusions) {
+            if(sb.length() != 0) {
+                sb.append(", ");
+            }
+            sb.append(clazz.getName());
+        }
+        exclusionString = sb.append(" }").build();
     }
 
     private static final HandlerList handlers = new HandlerList();
@@ -39,6 +48,8 @@ public class GenericEvent<T extends Event> extends Event implements Listener {
     public static HandlerList getHandlerList() {
         return handlers;
     }
+
+    final String exclusionString;
 
     @ExpandEventHandler(exclude = exclusions)
     public void event(T generic) {
