@@ -40,7 +40,7 @@ public class GenericEvent<T extends Event> extends Event implements Listener {
         return handlers;
     }
 
-    @ExpandEventHandler(exclusions)
+    @ExpandEventHandler(exclude = exclusions)
     public void event(T generic) {
         mainThing.accept(generic);
     }
