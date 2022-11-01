@@ -130,7 +130,7 @@
             <properties>
                 <repo-id>github</repo-id>
                 <repo-name>GitHub KojiV Apache Maven Packages</repo-name>
-                <repo-url>https://maven.pkg.github.com/KojiV/DeveloperKit</repo-url>
+                <repo-url>https://maven.pkg.github.com/kojiv/developerkit</repo-url>
             </properties>
         </profile>
         <profile>
