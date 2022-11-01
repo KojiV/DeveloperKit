@@ -10,10 +10,25 @@
     <version>1.5.3</version>
     <packaging>jar</packaging>
 
+
+    <name>DeveloperKit</name>
+    <description>Koji's Developer kit is a dev kit I made for Minecraft that can make creating things and doing things
+        within the Minecraft Spigot API easier
+    </description>
+    <url>https://github.com/KojiV/DeveloperKit</url>
+
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
     <developers>
         <developer>
@@ -29,20 +44,6 @@
         <url>KojiV/DeveloperKit</url>
         <tag>HEAD</tag>
     </scm>
-
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <name>DeveloperKit</name>
-    <description>Koji's Developer kit is a dev kit I made for Minecraft that can make creating things and doing things
-        within the Minecraft Spigot API easier
-    </description>
-    <url>https://github.com/KojiV/DeveloperKit</url>
 
     <build>
         <plugins>
@@ -122,6 +123,72 @@
             </resource>
         </resources>
     </build>
+
+    <profiles>
+        <profile>
+            <id>github</id>
+            <properties>
+                <repo-id>github</repo-id>
+                <repo-name>GitHub KojiV Apache Maven Packages</repo-name>
+                <repo-url>https://maven.pkg.github.com/KojiV/DeveloperKit</repo-url>
+            </properties>
+        </profile>
+        <profile>
+            <id>maven-central</id>
+            <properties>
+                <repo-id>ossrh</repo-id>
+                <repo-name>Maven Central</repo-name>
+                <repo-url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2</repo-url>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.7</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <distributionManagement>
+        <repository>
+            <id>${repo-id}</id>
+            <name>${repo-name}</name>
+            <url>${repo-url}</url>
+        </repository>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <repositories>
         <repository>
@@ -212,70 +279,4 @@
             <systemPath>${project.basedir}/libs/nms/spigot-1.8.8.jar</systemPath>
         </dependency>
     </dependencies>
-
-    <profiles>
-        <profile>
-            <id>github</id>
-            <properties>
-                <repo-id>github</repo-id>
-                <repo-name>GitHub KojiV Apache Maven Packages</repo-name>
-                <repo-url>https://maven.pkg.github.com/KojiV/DeveloperKit</repo-url>
-            </properties>
-        </profile>
-        <profile>
-            <id>maven-central</id>
-            <properties>
-                <repo-id>ossrh</repo-id>
-                <repo-name>Maven Central</repo-name>
-                <repo-url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2</repo-url>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>3.0.1</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                                <configuration>
-                                    <gpgArguments>
-                                        <arg>--pinentry-mode</arg>
-                                        <arg>loopback</arg>
-                                    </gpgArguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.7</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
-    <distributionManagement>
-        <repository>
-            <id>${repo-id}</id>
-            <name>${repo-name}</name>
-            <url>${repo-url}</url>
-        </repository>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
 </project>

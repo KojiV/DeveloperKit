@@ -68,6 +68,3 @@ This dev kit includes libraries from other people, specifically:
 - [NBT API](https://www.spigotmc.org/resources/nbt-api.7939/) by tr7zw on Github & Spigot
 - [XSeries](https://www.spigotmc.org/threads/xseries-xmaterial-xparticle-xsound-xpotion-titles-actionbar-etc.378136/) by
   CryptoMorin on Github & Spigot
-# DeveloperKit
-# DeveloperKit
-# DeveloperKit
