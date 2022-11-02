@@ -91,7 +91,7 @@ new KRunnable(task -> {
 ).cancelTask(task -> 
   
   world.getPlayers().forEach(p -> 
-    p.sendMessage(ChatColor.GREEN + "Good job!"
+    p.sendMessage(ChatColor.GREEN + "Good job!")
   )
 ), KRunnable.CancellationActivationType.PREMATURE //The above function runs if the canceled type is "Premature"
   
@@ -99,7 +99,7 @@ new KRunnable(task -> {
 ).cancelTask(task -> 
   
   world.getPlayers().forEach(p ->
-    p.sendMessage(ChatColor.RED + "Failed to kill the zombie!" 
+    p.sendMessage(ChatColor.RED + "Failed to kill the zombie!" )
   )
 ), KRunnable.CancellationActivationType.TIME //The above function runs if the canceled type is "Time"
 
@@ -107,7 +107,7 @@ new KRunnable(task -> {
 ).cancelTask(task -> 
   
   world.getPlayers().forEach(p ->
-    p.sendMessage(ChatColor.GREEN + "Challenge Ended."
+    p.sendMessage(ChatColor.GREEN + "Challenge Ended.")
   )
 ), KRunnable.CancellationActivationType.BOTH //The above function runs if it's canceled no matter what
   
