@@ -71,21 +71,31 @@ World world = Bukkit.getWorlds().get(0);
 Zombie zomb = world.spawn(world.getPlayers().get(0).getLocation(), Zombie.class);
 
 new KRunnable(task -> {
+  //If the zombie isn't dead
   if(!zomb.isDead()) {
     for(Player player : world.getPlayers()) {
+      //Say to every player in the world that the zombie is still alive
       player.sendMessage(ChatColor.RED + "Zombie is still alive! You have " + i[0] + " seconds!");
     }
   } else {
+    //Cancel it (this will cancel with the type of "Premature"
     task.cancel();
   }
   i[0]--;
-}, 10 * 20L).cancelTask(task -> 
+}, 10 * 20L //If this time hits, then time ran out, canceling withe the type of "Time"
+).cancelTask(task -> 
+  
   world.getPlayers().forEach(p -> 
-    p.sendMessage(ChatColor.GREEN + "Good job!")
-  ), KRunnable.CancellationActivationType.PREMATURE).cancelTask(task -> 
+    p.sendMessage(ChatColor.GREEN + "Good job!"
+    
+  )), KRunnable.CancellationActivationType.PREMATURE //The above function runs if the canceled with the type "Premature"
+  ).cancelTask(task -> 
+  
   world.getPlayers().forEach(p ->
-    p.sendMessage(ChatColor.RED + "Failed to kill the zombie!")
-  ), KRunnable.CancellationActivationType.TIME).runTaskTimer(KBase.getPlugin(), 0L, 20L);
+    p.sendMessage(ChatColor.RED + "Failed to kill the zombie!"
+    
+  )), KRunnable.CancellationActivationType.TIME //The above function runs if the canceled with the type "Time"
+  ).runTaskTimer(KBase.getPlugin(), 0L, 20L);
 ```
 
 ## Credits
