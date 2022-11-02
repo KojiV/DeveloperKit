@@ -31,7 +31,7 @@ jobs:
 
   central:
     runs-on: ubuntu-latest
-    if: ${{ !startsWith(github.event.head_commit.message, 'style') }}
+    if: ${{ startsWith(github.event.head_commit.message, 'version') }}
 
     steps:
       - uses: actions/checkout@v2
@@ -52,7 +52,7 @@ jobs:
           MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
   release:
     runs-on: ubuntu-latest
-    if: ${{ !startsWith(github.event.head_commit.message, 'style') }}
+    if: ${{ startsWith(github.event.head_commit.message, 'version') }}
 
     steps:
       - uses: actions/checkout@v3
