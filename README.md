@@ -102,8 +102,16 @@ new KRunnable(task -> {
     p.sendMessage(ChatColor.RED + "Failed to kill the zombie!" 
   )
 ), KRunnable.CancellationActivationType.TIME //The above function runs if the canceled type is "Time"
+
+//Specify a task that runs on cancel
+).cancelTask(task -> 
   
-  //Actually schedule the thing
+  world.getPlayers().forEach(p ->
+    p.sendMessage(ChatColor.GREEN + "Challenge Ended."
+  )
+), KRunnable.CancellationActivationType.BOTH //The above function runs if it's canceled no matter what
+  
+//Actually schedule the thing
 ).runTaskTimer(KBase.getPlugin(), 0L, 20L); 
 ```
 
