@@ -61,6 +61,33 @@ dependencies {
 
 ## Examples
 
+#### Example 1: KRunnable
+
+In this example, the runnable will check if the entity is dead, and cancel the runnable if it is, but no matter what it will be canceled in 10 seconds. 
+```
+final int[] i = {10};
+
+World world = Bukkit.getWorlds().get(0);
+Zombie zomb = world.spawn(world.getPlayers().get(0).getLocation(), Zombie.class);
+
+new KRunnable(task -> {
+  if(!zomb.isDead()) {
+    for(Player player : world.getPlayers()) {
+      player.sendMessage(ChatColor.RED + "Zombie is still alive! You have " + i[0] + " seconds!");
+    }
+  } else {
+    task.cancel();
+  }
+  i[0]--;
+}, 10 * 20L).cancelTask(task -> 
+  world.getPlayers().forEach(p -> 
+    p.sendMessage(ChatColor.GREEN + "Good job!")
+  ), KRunnable.CancellationActivationType.PREMATURE).cancelTask(task -> 
+  world.getPlayers().forEach(p ->
+    p.sendMessage(ChatColor.RED + "Failed to kill the zombie!")
+  ), KRunnable.CancellationActivationType.TIME).runTaskTimer(KBase.getPlugin(), 0L, 20L);
+```
+
 ## Credits
 
 This dev kit includes libraries from other people, specifically:
