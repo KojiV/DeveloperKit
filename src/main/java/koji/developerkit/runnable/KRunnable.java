@@ -16,11 +16,11 @@ public class KRunnable extends BukkitRunnable {
 
     private static final JavaPlugin plugin;
 
-    public KRunnable(Consumer<BukkitRunnable> task) {
+    public KRunnable(Consumer<KRunnable> task) {
         this.task = task;
     }
 
-    public KRunnable(Consumer<BukkitRunnable> task, long period) {
+    public KRunnable(Consumer<KRunnable> task, long period) {
         this.task = task;
         this.period = period;
 
@@ -29,8 +29,8 @@ public class KRunnable extends BukkitRunnable {
 
     long period = -Integer.MAX_VALUE;
 
-    Consumer<BukkitRunnable> task;
-    HashMap<CancellationActivationType, Consumer<BukkitRunnable>> tasksOnCancel = new HashMap<>();
+    Consumer<KRunnable> task;
+    HashMap<CancellationActivationType, Consumer<KRunnable>> tasksOnCancel = new HashMap<>();
 
     boolean isCancelled = false;
 
@@ -68,7 +68,7 @@ public class KRunnable extends BukkitRunnable {
         cancel(CancellationActivationType.PREMATURE);
     }
 
-    public KRunnable cancelTask(Consumer<BukkitRunnable> taskAfter, CancellationActivationType type) {
+    public KRunnable cancelTask(Consumer<KRunnable> taskAfter, CancellationActivationType type) {
         tasksOnCancel.put(type, taskAfter);
         return this;
     }
