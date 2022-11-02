@@ -653,7 +653,7 @@ public class KBase {
         return list.get(list.size() - 1);
     }
 
-    // Math Stuff
+    // Number Stuff
 
     /**
      * Rounds the number aligning with the fraction
@@ -664,6 +664,27 @@ public class KBase {
      */
     public static double round(double value, int frac) {
         return Math.round(Math.pow(10.0, frac) * value) / Math.pow(10.0, frac);
+    }
+
+    /**
+     * Adds the percent of the number to the number
+     *
+     * @param value The initial value
+     * @param percent The percent that it's adding
+     * @return The number + percent% of the number
+     */
+     public static double addPercent(double value, double percent) {
+        return value + (percent / 100 * value);
+     }
+
+     /**
+     * Checks if the put in number is negative or not
+     *
+     * @param number The number that will be checked
+     * @return Returns if the number is negative
+     */
+    public static boolean isNegative(double number) {
+        return number < 0;
     }
 
     //Scoreboard Stuff
@@ -1122,37 +1143,5 @@ public class KBase {
         }
         item.setItemMeta(hm);
         return item;
-    }
-
-    /*public static ItemStack IDtoSkull(ItemStack head, String id) {
-        JsonParser parser = new JsonParser();
-        JsonObject o = parser.parse(new String(koji.skyblock.utils.base64.Base64.decodeBase64(id))).getAsJsonObject();
-        String skinUrl = o.get("textures").getAsJsonObject().get("SKIN").getAsJsonObject().get("url").getAsString();
-        SkullMeta headMeta = (SkullMeta) head.getItemMeta();
-        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-        byte[] encodedData = koji.skyblock.utils.base64.Base64.encodeBase64(("{textures:{SKIN:{url:\"" + skinUrl + "\"}}}").getBytes());
-        profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
-        Field profileField;
-        try {
-            profileField = headMeta.getClass().getDeclaredField("profile");
-            profileField.setAccessible(true);
-            profileField.set(headMeta, profile);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        head.setItemMeta(headMeta);
-        return head;
-    }
-
-     */
-
-    /**
-     * Checks if the put in number is negative or not
-     *
-     * @param number The number that will be checked
-     * @return Returns if the number is negative
-     */
-    public static boolean isNegative(double number) {
-        return number < 0;
     }
 }
