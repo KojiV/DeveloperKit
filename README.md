@@ -83,19 +83,21 @@ new KRunnable(task -> {
   }
   i[0]--;
 }, 10 * 20L //If this time hits, then time ran out, canceling withe the type of "Time"
+//Specify a task that runs on cancel
 ).cancelTask(task -> 
   
   world.getPlayers().forEach(p -> 
     p.sendMessage(ChatColor.GREEN + "Good job!"
     
   )), KRunnable.CancellationActivationType.PREMATURE //The above function runs if the canceled with the type "Premature"
-  ).cancelTask(task -> 
+  //Specify a task that runs on cancel
+).cancelTask(task -> 
   
   world.getPlayers().forEach(p ->
     p.sendMessage(ChatColor.RED + "Failed to kill the zombie!"
     
   )), KRunnable.CancellationActivationType.TIME //The above function runs if the canceled with the type "Time"
-  ).runTaskTimer(KBase.getPlugin(), 0L, 20L);
+).runTaskTimer(KBase.getPlugin(), 0L, 20L);
 ```
 
 ## Credits
