@@ -8,20 +8,20 @@ This will explain everything you need to know for this kit.
 
 The Developer Kit comes with multiple classes to aid in making the creation of Minecraft plugins easier, including:
 
-- [KBase](https://github.com/GKojiV/DeveloperKit/blob/main/src/main/java/koji/developerkit/KBase.java), which is a class
+- [KBase](https://github.com/KojiV/DeveloperKit/blob/main/src/main/java/koji/developerkit/KBase.java), which is a class
   that it meant to hold a bunch of util classes. Note: it is recommended that classes that aren't extending anything
   extend this
-- [KListener](https://github.com/GKojiV/DeveloperKit/blob/main/src/main/java/koji/developerkit/listener/KListener.java),
+- [KListener](https://github.com/KojiV/DeveloperKit/blob/main/src/main/java/koji/developerkit/listener/KListener.java),
   which is a class meant to be used instead
   of [Listener](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/Listener.html). This extends KBase, so all
   KBase functions are present in KListener as well
-- [KCommand](https://github.com/GKojiV/DeveloperKit/blob/main/src/main/java/koji/developerkit/commands/KCommand.java),
+- [KCommand](https://github.com/KojiV/DeveloperKit/blob/main/src/main/java/koji/developerkit/commands/KCommand.java),
   which is a class meant to be used instead
   of [CommandExecutor](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/command/CommandExecutor.html). This extends
   KBase, so all KBase functions are present in KCommand as well
-- [GUIClickableItem](https://github.com/GKojiV/DeveloperKit/blob/main/src/main/java/koji/developerkit/gui/GUIClickableItem.java), which is a class meant for running an action in the run function upon clicking the item specified in the
+- [GUIClickableItem](https://github.com/KojiV/DeveloperKit/blob/main/src/main/java/koji/developerkit/gui/GUIClickableItem.java), which is a class meant for running an action in the run function upon clicking the item specified in the
   GUIClickableItem. This is meant to replace the need for making listeners for clicking items in a GUI.
-- [KRunnable](https://github.com/GKojiV/DeveloperKit/blob/main/src/main/java/koji/developerkit/runnable/KRunnable.java),
+- [KRunnable](https://github.com/KojiV/DeveloperKit/blob/main/src/main/java/koji/developerkit/runnable/KRunnable.java),
   which is a class meant to be used instead
   of [BukkitRunnable](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/scheduler/BukkitRunnable.html). This functions
   as a normal BukkitRunnable, but includes the following new features
