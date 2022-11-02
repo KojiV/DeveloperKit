@@ -78,7 +78,7 @@ new KRunnable(task -> {
       player.sendMessage(ChatColor.RED + "Zombie is still alive! You have " + i[0] + " seconds!");
     }
   } else {
-    //Cancel it (this will cancel with the type of "Premature"
+    //Cancel it (this will cancel with the type of "Premature")
     task.cancel();
   }
   i[0]--;
@@ -89,14 +89,14 @@ new KRunnable(task -> {
   world.getPlayers().forEach(p -> 
     p.sendMessage(ChatColor.GREEN + "Good job!"
     
-  )), KRunnable.CancellationActivationType.PREMATURE //The above function runs if the canceled with the type "Premature"
+  )), KRunnable.CancellationActivationType.PREMATURE //The above function runs if the canceled type is "Premature"
   //Specify a task that runs on cancel
 ).cancelTask(task -> 
   
   world.getPlayers().forEach(p ->
     p.sendMessage(ChatColor.RED + "Failed to kill the zombie!"
     
-  )), KRunnable.CancellationActivationType.TIME //The above function runs if the canceled with the type "Time"
+  )), KRunnable.CancellationActivationType.TIME //The above function runs if the canceled type is "Time"
 ).runTaskTimer(KBase.getPlugin(), 0L, 20L);
 ```
 
