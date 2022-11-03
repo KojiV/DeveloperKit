@@ -124,6 +124,35 @@ public class KBase {
     }
 
     /**
+     * Gets the empty slots in a given inventory
+     *
+     * @param inventory The inventory to check
+     * @return The amount of unclaimed slots
+     */
+    public static int getEmptySlots(Inventory inventory) {
+        int i = 0;
+        for (ItemStack is : inventory.getContents()) {
+            if (is == null)
+                continue;
+            i++;
+        }
+        return i;
+    }
+
+    /**
+     * Sets multiple slots with the same item
+     *
+     * @param inv   The inventory it's being set on
+     * @param slots The slots it will set them to
+     * @param is    The item all the slots are being set to
+     */
+    public static void setMultipleSlots(Inventory inv, int[] slots, ItemStack is) {
+        for (int slot : slots) {
+            inv.setItem(slot, is);
+        }
+    }
+
+    /**
      * Sets the border of the inventory with the border item
      *
      * @param inv The inventory the border item is being set on
