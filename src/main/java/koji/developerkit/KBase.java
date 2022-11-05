@@ -124,6 +124,18 @@ public class KBase {
     }
 
     /**
+     * Sets the inventory slot corresponding to the slot specified
+     *
+     * @param inv  The inventory
+     * @param item The item
+     * @param slot the slot
+     * @see KBase#set(Inventory, GUIClickableItem)
+     */
+    public static void set(Inventory inv, GUIClickableItem item, int slot) {
+        inv.setItem(slot, item.getFinishedItem());
+    }
+
+    /**
      * Gets the empty slots in a given inventory
      *
      * @param inventory The inventory to check
@@ -197,6 +209,18 @@ public class KBase {
     public static void fill(Inventory inv, ItemStack is) {
         for (int i = 0; i < inv.getSize(); i++) {
             inv.setItem(i, is);
+        }
+    }
+
+    /**
+     * Fills an inventory with the selected GUI item
+     *
+     * @param inv The inventory to fill
+     * @param is  The item that will fill it
+     */
+    public static void fill(Inventory inv, GUIClickableItem is) {
+        for (int i = 0; i < inv.getSize(); i++) {
+            set(inv, is, i);
         }
     }
 
