@@ -29,9 +29,10 @@ The Developer Kit comes with multiple classes to aid in making the creation of M
   - The ability to run a function upon the runnable cancellation
   - Uses lambda functions, making it look a lot neater and easier to read
     - task -> {} instead of @Override public void run() {}
+- [NBTItem](https://github.com/KojiV/DeveloperKit/blob/main/src/main/java/koji/developerkit/utils/NBTItem.java), which is a version of tr7zw's [NBTItem (https://github.com/tr7zw/Item-NBT-API/blob/master/item-nbt-api/src/main/java/de/tr7zw/changeme/nbtapi/NBTItem.java) that adds get or default functions, and puts everything by default onto another compound (ExtraAttributes) to remove the excessive amount of nbt tags when looked at with advanced tooltips
 
 ## Known Issues
-- For some reason the libraries I include are included twice, including the un-relocated stuff AND the relocated stuff (at least that happens with my personal project)
+- Good for now!
 
 ## Future Things
 - Auto register listeners (with toggle for it)
