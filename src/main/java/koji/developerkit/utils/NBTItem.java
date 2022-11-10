@@ -58,40 +58,80 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
         return getCompound("ExtraAttributes").getString(key);
     }
 
+    public String getStringOrDefault(String key, String def) {
+        return hasKey(key) ? getString(key) : def;
+    }
+
     public Integer getInteger(String key) {
         return getCompound("ExtraAttributes").getInteger(key);
+    }
+
+    public Integer getIntegerOrDefault(String key, Integer def) {
+        return hasKey(key) ? getInteger(key) : def;
     }
 
     public Boolean getBoolean(String key) {
         return getCompound("ExtraAttributes").getBoolean(key);
     }
 
+    public Boolean getBooleanOrDefault(String key, Boolean def) {
+        return hasKey(key) ? getBoolean(key) : def;
+    }
+
     public Double getDouble(String key) {
         return getCompound("ExtraAttributes").getDouble(key);
+    }
+
+    public Double getDoubleOrDefault(String key, Double def) {
+        return hasKey(key) ? getDouble(key) : def;
     }
 
     public Long getLong(String key) {
         return getCompound("ExtraAttributes").getLong(key);
     }
 
+    public Long getLongOrDefault(String key, Long def) {
+        return hasKey(key) ? getLong(key) : def;
+    }
+
     public Byte getByte(String key) {
         return getCompound("ExtraAttributes").getByte(key);
+    }
+
+    public Byte getByteOrDefault(String key, Byte def) {
+        return hasKey(key) ? getByte(key) : def;
     }
 
     public Short getShort(String key) {
         return getCompound("ExtraAttributes").getShort(key);
     }
 
+    public Short getShortOrDefault(String key, Short def) {
+        return hasKey(key) ? getShort(key) : def;
+    }
+
     public Float getFloat(String key) {
         return getCompound("ExtraAttributes").getFloat(key);
+    }
+
+    public Float getFloatOrDefault(String key, Float def) {
+        return hasKey(key) ? getFloat(key) : def;
     }
 
     public byte[] getByteArray(String key) {
         return getCompound("ExtraAttributes").getByteArray(key);
     }
 
+    public byte[] getByteArrayOrDefault(String key, byte[] def) {
+        return hasKey(key) ? getByteArray(key) : def;
+    }
+
     public int[] getIntArray(String key) {
         return getCompound("ExtraAttributes").getIntArray(key);
+    }
+
+    public int[] getIntArrayOrDefault(String key, int[] def) {
+        return hasKey(key) ? getIntArray(key) : def;
     }
 
     public Boolean hasKey(String key) {
