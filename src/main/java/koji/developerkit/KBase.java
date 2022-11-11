@@ -120,6 +120,19 @@ public class KBase {
     // GUI Stuff
 
     /**
+     * Adds an item to an inventory unless it's full
+     *
+     * @param inv The inventory it's attempting to add it to
+     * @param item The item attempting to be added
+     * @return Whether it successfully added the item or not
+     */
+    public static boolean addItemUnlessFull(Inventory inv, ItemStack item) {
+        if(inv.firstEmpty() == -1) return false;
+        inv.addItem(item);
+        return true;
+    }
+
+    /**
      * Sets the inventory slot corresponding to the GUIClickable item's slot
      *
      * @param inv  The inventory
