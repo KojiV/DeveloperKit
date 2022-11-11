@@ -5,6 +5,7 @@ import koji.developerkit.listener.KListener;
 import koji.developerkit.utils.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class GUIListener extends KListener {
@@ -23,7 +24,7 @@ public class GUIListener extends KListener {
      *
      * @param e The event
      */
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onInventoryClick(InventoryClickEvent e) {
         if (e.getCurrentItem() != null && e.getCurrentItem().getType() != XMaterial.AIR.parseMaterial()) {
             NBTItem item = new NBTItem(e.getCurrentItem());
@@ -32,6 +33,7 @@ public class GUIListener extends KListener {
                         GUIClickableItem.itemsToRun.get(
                                 item.getString("ClickItem")
                         );
+                if(guiItem == null) return;
                 guiItem.run(e);
                 if (!guiItem.canPickup()) {
                     e.setCancelled(true);
