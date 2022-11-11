@@ -164,8 +164,7 @@ public class KBase {
         int i = 0;
         for (ItemStack is : inventory.getContents()) {
             if (is == null)
-                continue;
-            i++;
+                i++;
         }
         return i;
     }
