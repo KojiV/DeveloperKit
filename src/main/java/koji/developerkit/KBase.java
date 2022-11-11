@@ -1,6 +1,7 @@
 package koji.developerkit;
 
 import com.cryptomorin.xseries.XMaterial;
+import com.cryptomorin.xseries.XSound;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
@@ -9,10 +10,12 @@ import koji.developerkit.gui.GUIListener;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -37,6 +40,7 @@ import java.util.logging.Level;
  *
  * @author Koji
  */
+@SuppressWarnings("unused")
 public class KBase {
 
     private static final JavaPlugin plugin;
@@ -60,12 +64,14 @@ public class KBase {
      * Creates folders with the path
      *
      * @param path The main path
+     * @return Whether it was successful
      */
-    public static void createFolder(String path) {
+    public static boolean createFolder(String path) {
         File file = new File(path);
         if (!file.exists()) {
-            file.mkdir();
+            return file.mkdir();
         }
+        return false;
     }
 
     /**
@@ -1196,5 +1202,19 @@ public class KBase {
         }
         item.setItemMeta(hm);
         return item;
+    }
+
+    // Sound Stuff
+
+    /**
+     * Compact version of Player object's playSound
+     *
+     * @param p The player and the location (it will play at the player's location)
+     * @param sound The sound (as an XSound for multiversion)
+     * @param pitch The pitch the sound will be played at)
+     * @see Player#playSound(Location, Sound, float, float)
+     */
+    public static void playSound(Player p, XSound sound, float pitch) {
+        p.playSound(p.getLocation(), sound.parseSound(), 100, pitch);
     }
 }
