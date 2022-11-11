@@ -1,9 +1,11 @@
 package koji.developerkit.gui;
 
 import com.cryptomorin.xseries.XMaterial;
+import com.cryptomorin.xseries.XSound;
 import koji.developerkit.KBase;
 import koji.developerkit.utils.ItemBuilder;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -129,6 +131,7 @@ public abstract class GUIClickableItem extends KBase implements GUIItem {
         return new GUIClickableItem() {
             @Override
             public void run(InventoryClickEvent e) {
+                playSound((Player) e.getWhoClicked(), XSound.UI_BUTTON_CLICK, 1);
                 e.getWhoClicked().openInventory(back);
             }
 
