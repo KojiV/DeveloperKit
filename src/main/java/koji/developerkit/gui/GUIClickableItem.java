@@ -118,11 +118,9 @@ public abstract class GUIClickableItem extends KBase implements GUIItem {
 
             @Override
             public ItemStack getItem() {
-                ItemStack item = XMaterial.BLACK_STAINED_GLASS_PANE.parseItem();
-                ItemMeta meta = item.getItemMeta();
-                meta.setDisplayName(" ");
-                item.setItemMeta(meta);
-                return item;
+                return new ItemBuilder(XMaterial.BLACK_STAINED_GLASS_PANE)
+                        .setName(" ")
+                        .build();
             }
         };
     }
