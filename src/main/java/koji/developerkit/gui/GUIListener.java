@@ -35,6 +35,7 @@ public class GUIListener extends KListener {
                         );
                 if(guiItem == null) return;
                 guiItem.run(e);
+                println(e.isCancelled(), guiItem.canPickup());
                 e.setCancelled(e.isCancelled() || !guiItem.canPickup());
             }
         }

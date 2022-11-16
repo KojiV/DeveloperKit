@@ -27,7 +27,6 @@ public abstract class GUIClickableItem extends KBase implements GUIItem {
     public GUIClickableItem() {
         uuid = UUID.randomUUID().toString();
         itemsToRun.put(uuid, this);
-        println(uuid, this.getFinishedItem().getItemMeta().getDisplayName());
     }
 
     private final String uuid;
