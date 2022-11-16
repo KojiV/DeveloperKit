@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -28,6 +27,7 @@ public abstract class GUIClickableItem extends KBase implements GUIItem {
     public GUIClickableItem() {
         uuid = UUID.randomUUID().toString();
         itemsToRun.put(uuid, this);
+        println(uuid, this.getFinishedItem().getItemMeta().getDisplayName());
     }
 
     private final String uuid;
@@ -63,11 +63,9 @@ public abstract class GUIClickableItem extends KBase implements GUIItem {
 
             @Override
             public ItemStack getItem() {
-                ItemStack item = new ItemStack(XMaterial.BARRIER.parseMaterial());
-                ItemMeta meta = item.getItemMeta();
-                meta.setDisplayName(ChatColor.RED + "Close");
-                item.setItemMeta(meta);
-                return item;
+                return new ItemBuilder(XMaterial.BARRIER)
+                        .setName(ChatColor.RED + "Close")
+                        .build();
             }
         };
     }
@@ -139,6 +137,7 @@ public abstract class GUIClickableItem extends KBase implements GUIItem {
             public void run(InventoryClickEvent e) {
                 playSound((Player) e.getWhoClicked(), XSound.UI_BUTTON_CLICK, 1);
                 e.getWhoClicked().openInventory(back);
+                e.setCancelled(true);
             }
 
             @Override
@@ -148,12 +147,10 @@ public abstract class GUIClickableItem extends KBase implements GUIItem {
 
             @Override
             public ItemStack getItem() {
-                ItemStack item = XMaterial.ARROW.parseItem();
-                ItemMeta meta = item.getItemMeta();
-                meta.setDisplayName(ChatColor.GREEN + "Go Back");
-                meta.setLore(arrayList(ChatColor.GRAY + "To " + pageName));
-                item.setItemMeta(meta);
-                return item;
+                return new ItemBuilder(XMaterial.ARROW)
+                        .setName(ChatColor.GREEN + "Go Back")
+                        .setLore(ChatColor.GRAY + "To " + pageName)
+                        .build();
             }
         };
     }
