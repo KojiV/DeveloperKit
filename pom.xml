@@ -7,7 +7,7 @@
     <groupId>io.github.kojiv</groupId>
     <artifactId>developerkit</artifactId>
     <!--https://github.com/marketplace/actions/github-release-changelog-generator-->
-    <version>1.5.12</version>
+    <version>1.5.13</version>
     <packaging>jar</packaging>
 
 

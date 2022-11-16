@@ -13,8 +13,16 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public abstract class GUIClickableItem extends KBase implements GUIItem {
+    static {
+        KBase.getPlugin().getLogger().log(Level.INFO,
+                "GUI items referenced for the first time, registering listener..."
+        );
+        GUIListener.startup();
+    }
+
     public static final HashMap<String, GUIClickableItem> itemsToRun = new HashMap<>();
 
     public GUIClickableItem() {

@@ -6,7 +6,6 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import koji.developerkit.gui.GUIClickableItem;
-import koji.developerkit.gui.GUIListener;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -53,7 +52,6 @@ public class KBase {
         plugin = JavaPlugin.getProvidingPlugin(KBase.class);
 
         plugin.getLogger().log(Level.INFO, "Connecting Koji Dev Kit...");
-        GUIListener.startup();
 
         MinecraftVersion.getVersion();
     }
