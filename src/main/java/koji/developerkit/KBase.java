@@ -310,7 +310,7 @@ public class KBase {
      * @param placeholder The stuff to replace
      * @return param original with the placeholders replaced
      */
-    public static ArrayList<String> replacePlaceholder(ArrayList<String> original, HashMap<String, List<String>> placeholder) {
+    public static ArrayList<String> replacePlaceholder(ArrayList<String> original, SortedMap<String, List<String>> placeholder) {
         ArrayList<String> lore = new ArrayList<>();
         for (String str : original) {
             boolean more = false;
