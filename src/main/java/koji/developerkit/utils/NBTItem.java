@@ -1,5 +1,6 @@
 package koji.developerkit.utils;
 
+import de.tr7zw.changeme.nbtapi.NBTContainer;
 import org.bukkit.inventory.ItemStack;
 
 public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
@@ -144,5 +145,13 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
 
     public void HideFlags(int flags) {
         super.setInteger("HideFlags", flags);
+    }
+
+    public String getCompoundToString() {
+        return getCompound("ExtraAttributes").toString();
+    }
+
+    public static void applyFromString(String compound) {
+        return getCompound("ExtraAttributes").mergeCompound(new NBTContainer(compound));
     }
 }
