@@ -205,6 +205,8 @@ public class ItemBuilder extends KBase {
     }
 
     public ItemBuilder setTexture(String texture) {
+        if(im.getType() != XMaterial.PLAYER_HEAD.parseMaterial()) return this;
+
         SkullMeta hm = (SkullMeta) im.getItemMeta();
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
         profile.getProperties().put("textures", new Property("textures", texture));
@@ -220,9 +222,23 @@ public class ItemBuilder extends KBase {
     }
 
     public ItemBuilder setColor(Color c) {
+        if(!im.getType().toString().startsWith("LEATHER_")) return this;
+
         LeatherArmorMeta is = (LeatherArmorMeta) im.getItemMeta();
         is.setColor(c);
         im.setItemMeta(is);
+        return this;
+    }
+
+    public String getStringFromCompound() {
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getCompoundToString();
+    }
+
+    public ItemBuilder applyCompoundFromString(String compoundAsString) {
+        NBTItem nbt = new NBTItem(im);
+        nbt.applyFromString(compoundAsString);
+        im = nbt.getItem();
         return this;
     }
 }
