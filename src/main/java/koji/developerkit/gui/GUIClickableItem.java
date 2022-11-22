@@ -121,7 +121,6 @@ public abstract class GUIClickableItem extends KBase implements GUIItem {
             }
         };
     }
-
     /**
      * The arrow that symbolises that it will move back a menu
      *
