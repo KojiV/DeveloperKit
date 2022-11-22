@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.function.Consumer;
 
 public class KRunnable extends BukkitRunnable {
-
     static {
         plugin = KBase.getPlugin();
     }
