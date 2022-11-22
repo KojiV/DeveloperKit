@@ -151,7 +151,7 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
         return getCompound("ExtraAttributes").toString();
     }
 
-    public static void applyFromString(String compound) {
-        return getCompound("ExtraAttributes").mergeCompound(new NBTContainer(compound));
+    public void applyFromString(String compound) {
+        getCompound("ExtraAttributes").mergeCompound(new NBTContainer(compound));
     }
 }
