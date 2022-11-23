@@ -148,10 +148,10 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public String getCompoundToString() {
-        return getCompound("ExtraAttributes").toString();
+        return toString();
     }
 
     public void applyFromString(String compound) {
-        getCompound("ExtraAttributes").mergeCompound(new NBTContainer(compound));
+        mergeCompound(new NBTContainer(compound));
     }
 }

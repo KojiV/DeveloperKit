@@ -181,6 +181,20 @@ public class KBase {
     }
 
     /**
+     * Sets multiple slots with the same item
+     *
+     * @param inv   The inventory it's being set on
+     * @param slots The slots it will set them to
+     * @param is    The item all the slots are being set to
+     * @see KBase#setMultipleSlots(Inventory, int[], ItemStack)
+     */
+    public static void setMultipleSlots(Inventory inv, int[] slots, GUIClickableItem is) {
+        for (int slot : slots) {
+            set(inv, is, slot);
+        }
+    }
+
+    /**
      * Sets the border of the inventory with the border item
      *
      * @param inv The inventory the border item is being set on
@@ -265,7 +279,7 @@ public class KBase {
      */
     public static List<Location> generateSphere(Location centerBlock, int radius, boolean hollow) {
 
-        List<Location> circleBlocks = new ArrayList<Location>();
+        List<Location> circleBlocks = new ArrayList<>();
 
         int bx = centerBlock.getBlockX();
         int by = centerBlock.getBlockY();
