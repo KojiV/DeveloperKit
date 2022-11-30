@@ -1241,4 +1241,19 @@ public class KBase {
     public static void playSound(Player p, XSound sound, float pitch) {
         p.playSound(p.getLocation(), sound.parseSound(), 100, pitch);
     }
+
+    // Reflection Stuff
+
+    /**
+     * Gets the NMS world, which is the reflection equivalent
+     * of ((CraftWorld) world).getHandle()
+     * @param world The world of which it will be getting for NMS
+     * @return Returns the Object (that is the NMS world) for reflection
+     */
+    public static Object getNMSWorld(World world) {
+        Class<?> craftWorldClass = ReflectionUtils.getCraftClass("CraftWorld");
+        Object craftWorld = craftWorldClass.cast(world);
+        Method getHandle = craftWorldClass.getDeclaredMethod("getHandle");
+        return getHandle.invoke(craftWorld);
+    }
 }
