@@ -1259,5 +1259,6 @@ public class KBase {
             Method getHandle = craftWorldClass.getDeclaredMethod("getHandle");
             return getHandle.invoke(craftWorld);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored) {}
+        return null;
     }
 }
