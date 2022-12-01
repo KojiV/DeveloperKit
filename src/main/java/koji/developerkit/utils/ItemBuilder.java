@@ -73,127 +73,177 @@ public class ItemBuilder extends KBase {
     }
 
     public ItemBuilder setInt(String key, int value) {
-        NBTItem nbti = new NBTItem(im);
-        nbti.setInteger(key, value);
-        im = nbti.getItem();
+        NBTItem nbt = new NBTItem(im);
+        nbt.setInteger(key, value);
+        im = nbt.getItem();
         return this;
     }
 
     public ItemBuilder setBoolean(String key, boolean value) {
-        NBTItem nbti = new NBTItem(im);
-        nbti.setBoolean(key, value);
-        im = nbti.getItem();
+        NBTItem nbt = new NBTItem(im);
+        nbt.setBoolean(key, value);
+        im = nbt.getItem();
         return this;
     }
 
     public ItemBuilder setDouble(String key, double value) {
-        NBTItem nbti = new NBTItem(im);
-        nbti.setDouble(key, value);
-        im = nbti.getItem();
+        NBTItem nbt = new NBTItem(im);
+        nbt.setDouble(key, value);
+        im = nbt.getItem();
         return this;
     }
 
     public ItemBuilder setLong(String key, long value) {
-        NBTItem nbti = new NBTItem(im);
-        nbti.setLong(key, value);
-        im = nbti.getItem();
+        NBTItem nbt = new NBTItem(im);
+        nbt.setLong(key, value);
+        im = nbt.getItem();
         return this;
     }
 
     public ItemBuilder setByte(String key, byte value) {
-        NBTItem nbti = new NBTItem(im);
-        nbti.setByte(key, value);
-        im = nbti.getItem();
+        NBTItem nbt = new NBTItem(im);
+        nbt.setByte(key, value);
+        im = nbt.getItem();
         return this;
     }
 
     public ItemBuilder setShort(String key, short value) {
-        NBTItem nbti = new NBTItem(im);
-        nbti.setShort(key, value);
-        im = nbti.getItem();
+        NBTItem nbt = new NBTItem(im);
+        nbt.setShort(key, value);
+        im = nbt.getItem();
         return this;
     }
 
     public ItemBuilder setFloat(String key, float value) {
-        NBTItem nbti = new NBTItem(im);
-        nbti.setFloat(key, value);
-        im = nbti.getItem();
+        NBTItem nbt = new NBTItem(im);
+        nbt.setFloat(key, value);
+        im = nbt.getItem();
         return this;
     }
 
     public ItemBuilder setByteArray(String key, byte[] value) {
-        NBTItem nbti = new NBTItem(im);
-        nbti.setByteArray(key, value);
-        im = nbti.getItem();
+        NBTItem nbt = new NBTItem(im);
+        nbt.setByteArray(key, value);
+        im = nbt.getItem();
         return this;
     }
 
     public ItemBuilder setIntArray(String key, int[] value) {
-        NBTItem nbti = new NBTItem(im);
-        nbti.setIntArray(key, value);
-        im = nbti.getItem();
+        NBTItem nbt = new NBTItem(im);
+        nbt.setIntArray(key, value);
+        im = nbt.getItem();
         return this;
     }
 
     public String getString(String key) {
-        NBTItem nbti = new NBTItem(im);
-        return nbti.getString(key);
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getString(key);
+    }
+
+    public String getStringOrDefault(String key, String def) {
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getStringOrDefault(key, def);
     }
 
     public int getInt(String key) {
-        NBTItem nbti = new NBTItem(im);
-        return nbti.getInteger(key);
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getInteger(key);
+    }
+
+    public int getIntOrDefault(String key, int def) {
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getIntegerOrDefault(key, def);
     }
 
     public boolean getBoolean(String key) {
-        NBTItem nbti = new NBTItem(im);
-        return nbti.getBoolean(key);
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getBoolean(key);
+    }
+
+    public boolean getBooleanOrDefault(String key, boolean def) {
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getBooleanOrDefault(key, def);
     }
 
     public double getDouble(String key) {
-        NBTItem nbti = new NBTItem(im);
-        return nbti.getDouble(key);
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getDouble(key);
+    }
+
+    public double getDoubleOrDefault(String key, double def) {
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getDoubleOrDefault(key, def);
     }
 
     public long getLong(String key) {
-        NBTItem nbti = new NBTItem(im);
-        return nbti.getLong(key);
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getLong(key);
+    }
+
+    public long getLongOrDefault(String key, long def) {
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getLongOrDefault(key, def);
     }
 
     public byte getByte(String key) {
-        NBTItem nbti = new NBTItem(im);
-        return nbti.getByte(key);
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getByte(key);
+    }
+
+    public byte getByteOrDefault(String key, byte def) {
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getByteOrDefault(key, def);
     }
 
     public short getShort(String key) {
-        NBTItem nbti = new NBTItem(im);
-        return nbti.getShort(key);
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getShort(key);
+    }
+
+    public short getShortOrDefault(String key, short def) {
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getShortOrDefault(key, def);
     }
 
     public float getFloat(String key) {
-        NBTItem nbti = new NBTItem(im);
-        return nbti.getFloat(key);
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getFloat(key);
+    }
+
+    public float getFloatOrDefault(String key, float def) {
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getFloatOrDefault(key, def);
     }
 
     public byte[] getByteArray(String key) {
-        NBTItem nbti = new NBTItem(im);
-        return nbti.getByteArray(key);
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getByteArray(key);
+    }
+
+    public byte[] getByteArrayOrDefault(String key, byte[] def) {
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getByteArrayOrDefault(key, def);
     }
 
     public int[] getIntArray(String key) {
-        NBTItem nbti = new NBTItem(im);
-        return nbti.getIntArray(key);
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getIntArray(key);
+    }
+
+    public int[] getIntArrayOrDefault(String key, int[] def) {
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getIntArrayOrDefault(key, def);
     }
 
     public boolean hasKey(String key) {
-        NBTItem nbti = new NBTItem(im);
-        return nbti.hasKey(key);
+        NBTItem nbt = new NBTItem(im);
+        return nbt.hasKey(key);
     }
 
     public ItemBuilder HideFlags(int flags) {
-        NBTItem nbti = new NBTItem(im);
-        nbti.HideFlags(flags);
-        im = nbti.getItem();
+        NBTItem nbt = new NBTItem(im);
+        nbt.HideFlags(flags);
+        im = nbt.getItem();
         return this;
     }
 
