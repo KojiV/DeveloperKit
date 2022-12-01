@@ -1253,9 +1253,11 @@ public class KBase {
      * @return Returns the Object (that is the NMS world) for reflection
      */
     public static Object getNMSWorld(World world) {
-        Class<?> craftWorldClass = ReflectionUtils.getCraftClass("CraftWorld");
-        Object craftWorld = craftWorldClass.cast(world);
-        Method getHandle = craftWorldClass.getDeclaredMethod("getHandle");
-        return getHandle.invoke(craftWorld);
+        try {
+            Class<?> craftWorldClass = ReflectionUtils.getCraftClass("CraftWorld");
+            Object craftWorld = craftWorldClass.cast(world);
+            Method getHandle = craftWorldClass.getDeclaredMethod("getHandle");
+            return getHandle.invoke(craftWorld);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored) {}
     }
 }
