@@ -11,7 +11,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -43,11 +43,11 @@ public class ItemBuilder extends KBase {
     }
 
     public ItemBuilder setLore(String... lore) {
-        setLore(new ArrayList<>(Arrays.asList(lore)));
+        setLore(Arrays.asList(lore));
         return this;
     }
 
-    public ItemBuilder setLore(ArrayList<String> lore) {
+    public ItemBuilder setLore(List<String> lore) {
         ItemMeta meta = this.im.getItemMeta();
         meta.setLore(lore);
         im.setItemMeta(meta);
