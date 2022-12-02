@@ -322,8 +322,8 @@ public class KBase {
      * @param placeholder The stuff to replace
      * @return param original with the placeholders replaced
      */
-    public static ArrayList<String> replacePlaceholder(ArrayList<String> original, HashMap<String, List<String>> placeholder) {
-        ArrayList<String> lore = new ArrayList<>();
+    public static List<String> replacePlaceholder(List<String> original, HashMap<String, List<String>> placeholder) {
+        List<String> lore = new ArrayList<>();
         for (String str : original) {
             boolean more = false;
             String holder = "";
@@ -365,8 +365,8 @@ public class KBase {
      * @return The list but with proper MC color code stuff
      * @see #color(String)
      */
-    public static ArrayList<String> coloredList(List<String> s) {
-        ArrayList<String> list = new ArrayList<>();
+    public static List<String> coloredList(List<String> s) {
+        List<String> list = new ArrayList<>();
         s.forEach(line -> list.add(color(line)));
         return list;
     }

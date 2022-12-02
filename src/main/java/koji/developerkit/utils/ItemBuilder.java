@@ -49,14 +49,14 @@ public class ItemBuilder extends KBase {
 
     public ItemBuilder setLore(List<String> lore) {
         ItemMeta meta = this.im.getItemMeta();
-        meta.setLore(lore);
+        meta.setLore(coloredList(lore));
         im.setItemMeta(meta);
         return this;
     }
 
     public ItemBuilder setName(String name) {
         ItemMeta meta = this.im.getItemMeta();
-        meta.setDisplayName(name);
+        meta.setDisplayName(color(name));
         im.setItemMeta(meta);
         return this;
     }
