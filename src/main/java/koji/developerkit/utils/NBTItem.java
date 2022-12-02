@@ -1,5 +1,6 @@
 package koji.developerkit.utils;
 
+import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTContainer;
 import org.bukkit.inventory.ItemStack;
 
@@ -16,43 +17,93 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public void setString(String key, String value) {
-        getCompound("ExtraAttributes").setString(key, value);
+        setString(key, value, false);
+    }
+
+    public void setString(String key, String value, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        compound.setString(key, value);
     }
 
     public void setInteger(String key, int value) {
-        getCompound("ExtraAttributes").setInteger(key, value);
+        setInteger(key, value, false);
+    }
+
+    public void setInteger(String key, int value, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        compound.setInteger(key, value);
     }
 
     public void setBoolean(String key, boolean value) {
-        getCompound("ExtraAttributes").setBoolean(key, value);
+        setBoolean(key, value, false);
+    }
+
+    public void setBoolean(String key, boolean value, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        compound.setBoolean(key, value);
     }
 
     public void setDouble(String key, double value) {
-        getCompound("ExtraAttributes").setDouble(key, value);
+        setDouble(key, value, false);
+    }
+
+    public void setDouble(String key, double value, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        compound.setDouble(key, value);
     }
 
     public void setLong(String key, long value) {
-        getCompound("ExtraAttributes").setLong(key, value);
+        setLong(key, value, false);
+    }
+
+    public void setLong(String key, long value, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        compound.setLong(key, value);
     }
 
     public void setByte(String key, byte value) {
-        getCompound("ExtraAttributes").setByte(key, value);
+        setByte(key, value, false);
+    }
+
+    public void setByte(String key, byte value, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        compound.setByte(key, value);
     }
 
     public void setShort(String key, short value) {
-        getCompound("ExtraAttributes").setShort(key, value);
+        setShort(key, value, false);
+    }
+
+    public void setShort(String key, short value, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        compound.setShort(key, value);
     }
 
     public void setFloat(String key, float value) {
-        getCompound("ExtraAttributes").setFloat(key, value);
+        setFloat(key, value, false);
+    }
+
+    public void setFloat(String key, float value, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        compound.setFloat(key, value);
     }
 
     public void setByteArray(String key, byte[] value) {
-        getCompound("ExtraAttributes").setByteArray(key, value);
+        setByteArray(key, value, false);
+    }
+
+    public void setByteArray(String key, byte[] value, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        compound.setByteArray(key, value);
     }
 
     public void setIntArray(String key, int[] value) {
-        getCompound("ExtraAttributes").setIntArray(key, value);
+        setIntArray(key, value, false);
+    }
+
+    public void setIntArray(String key, int[] value, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        compound.setIntArray(key, value);
     }
 
     public String getString(String key) {

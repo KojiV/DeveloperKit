@@ -66,72 +66,111 @@ public class ItemBuilder extends KBase {
     }
 
     public ItemBuilder setString(String string, String value) {
+        return setString(string, value, false);
+    }
+
+    public ItemBuilder setString(String string, String value, boolean ignoreCompound) {
         NBTItem nbtItem = new NBTItem(im);
-        nbtItem.setString(string, value);
+        nbtItem.setString(string, value, ignoreCompound);
         im = nbtItem.getItem();
         return this;
     }
 
     public ItemBuilder setInt(String key, int value) {
-        NBTItem nbt = new NBTItem(im);
-        nbt.setInteger(key, value);
-        im = nbt.getItem();
+        return setInt(key, value, false);
+    }
+    public ItemBuilder setInt(String string, int value, boolean ignoreCompound) {
+        NBTItem nbtItem = new NBTItem(im);
+        nbtItem.setInteger(string, value, ignoreCompound);
+        im = nbtItem.getItem();
         return this;
     }
 
     public ItemBuilder setBoolean(String key, boolean value) {
-        NBTItem nbt = new NBTItem(im);
-        nbt.setBoolean(key, value);
-        im = nbt.getItem();
+        return setBoolean(key, value, false);
+    }
+
+    public ItemBuilder setBoolean(String string, boolean value, boolean ignoreCompound) {
+        NBTItem nbtItem = new NBTItem(im);
+        nbtItem.setBoolean(string, value, ignoreCompound);
+        im = nbtItem.getItem();
         return this;
     }
 
     public ItemBuilder setDouble(String key, double value) {
-        NBTItem nbt = new NBTItem(im);
-        nbt.setDouble(key, value);
-        im = nbt.getItem();
+        return setDouble(key, value, false);
+    }
+
+    public ItemBuilder setDouble(String string, double value, boolean ignoreCompound) {
+        NBTItem nbtItem = new NBTItem(im);
+        nbtItem.setDouble(string, value, ignoreCompound);
+        im = nbtItem.getItem();
         return this;
     }
 
     public ItemBuilder setLong(String key, long value) {
-        NBTItem nbt = new NBTItem(im);
-        nbt.setLong(key, value);
-        im = nbt.getItem();
+        return setLong(key, value, false);
+    }
+
+    public ItemBuilder setLong(String string, long value, boolean ignoreCompound) {
+        NBTItem nbtItem = new NBTItem(im);
+        nbtItem.setLong(string, value, ignoreCompound);
+        im = nbtItem.getItem();
         return this;
     }
 
     public ItemBuilder setByte(String key, byte value) {
-        NBTItem nbt = new NBTItem(im);
-        nbt.setByte(key, value);
-        im = nbt.getItem();
+        return setByte(key, value, false);
+    }
+
+    public ItemBuilder setByte(String string, byte value, boolean ignoreCompound) {
+        NBTItem nbtItem = new NBTItem(im);
+        nbtItem.setByte(string, value, ignoreCompound);
+        im = nbtItem.getItem();
         return this;
     }
 
     public ItemBuilder setShort(String key, short value) {
-        NBTItem nbt = new NBTItem(im);
-        nbt.setShort(key, value);
-        im = nbt.getItem();
+        return setShort(key, value, false);
+    }
+
+    public ItemBuilder setShort(String string, short value, boolean ignoreCompound) {
+        NBTItem nbtItem = new NBTItem(im);
+        nbtItem.setShort(string, value, ignoreCompound);
+        im = nbtItem.getItem();
         return this;
     }
 
     public ItemBuilder setFloat(String key, float value) {
-        NBTItem nbt = new NBTItem(im);
-        nbt.setFloat(key, value);
-        im = nbt.getItem();
+        return setFloat(key, value, false);
+    }
+
+    public ItemBuilder setFloat(String string, float value, boolean ignoreCompound) {
+        NBTItem nbtItem = new NBTItem(im);
+        nbtItem.setFloat(string, value, ignoreCompound);
+        im = nbtItem.getItem();
         return this;
     }
 
     public ItemBuilder setByteArray(String key, byte[] value) {
-        NBTItem nbt = new NBTItem(im);
-        nbt.setByteArray(key, value);
-        im = nbt.getItem();
+        return setByteArray(key, value, false);
+    }
+
+    public ItemBuilder setByteArray(String string, byte[] value, boolean ignoreCompound) {
+        NBTItem nbtItem = new NBTItem(im);
+        nbtItem.setByteArray(string, value, ignoreCompound);
+        im = nbtItem.getItem();
         return this;
     }
 
     public ItemBuilder setIntArray(String key, int[] value) {
-        NBTItem nbt = new NBTItem(im);
-        nbt.setIntArray(key, value);
-        im = nbt.getItem();
+        return setIntArray(key, value, false);
+    }
+
+    public ItemBuilder setIntArray(String string, int[] value, boolean ignoreCompound) {
+        NBTItem nbtItem = new NBTItem(im);
+        nbtItem.setIntArray(string, value, ignoreCompound);
+        im = nbtItem.getItem();
         return this;
     }
 
