@@ -737,7 +737,7 @@ public class KBase {
     // Number Stuff
 
     /**
-     * Rounds the number aligning with the fraction
+     * Rounds to the decimal place indicated in frac
      *
      * @param value The value being rounded
      * @param frac  The fraction
@@ -766,6 +766,36 @@ public class KBase {
      */
     public static boolean isNegative(double number) {
         return number < 0;
+    }
+
+    /**
+     * Gets if the number is in range (inclusive)
+     *
+     * @param num The number it's checking
+     * @param range1 The range num 1
+     * @param range2 The range num 2
+     * @return Whether the number is in the range (inclusive)
+     */
+    public static boolean isInRange(double num, double range1, double range2) {
+        return isInRange(num, range1, range2, true);
+    }
+
+    /**
+     * Gets if the number is in range (inclusive according to boolean of same name)
+     *
+     * @param num The number it's checking
+     * @param range1 The range num 1
+     * @param range2 The range num 2
+     * @return Whether the number is in the range (inclusive according to boolean of same name)
+     */
+    public static boolean isInRange(double num, double range1, double range2, boolean inclusive) {
+        double lower = Math.min(range1, range2);
+        double higher = Math.max(range1, range2);
+        if(inclusive) {
+            higher += 1;
+            lower -= 1;
+        }
+        return num > lower && num < higher;
     }
 
     //Scoreboard Stuff
