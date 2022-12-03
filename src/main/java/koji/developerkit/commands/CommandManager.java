@@ -4,6 +4,7 @@ import koji.developerkit.KBase;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
+import org.bukkit.command.defaults.BukkitCommand;
 
 import java.util.List;
 import java.util.Map;
@@ -19,12 +20,12 @@ public class CommandManager extends KBase {
         }
     }
 
-    public void registerCommand(String label, Command actualCommand) {
+    public void registerCommand(String label, BukkitCommand actualCommand) {
         getCommandMap().register(label, getPlugin().getName(), actualCommand);
     }
 
     @SuppressWarnings("unchecked")
-    public void unregisterCommand(Command actualCommand) {
+    public void unregisterCommand(BukkitCommand actualCommand) {
         try {
             CommandMap commandMap = getCommandMap();
             Map<String, Command> knownCommands =
