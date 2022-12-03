@@ -19,6 +19,7 @@ public abstract class KCommand extends KBase implements CommandExecutor {
     public Command getCommand(String cmd) {
         for (Command command : PluginCommandYamlParser.parse(getPlugin())) {
             if (command.getName().equals(cmd)) {
+                println(command.getName(), command.getAliases());
                 return new Command(
                         command.getName(),
                         command.getDescription(),
