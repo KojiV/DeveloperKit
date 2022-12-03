@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 
 public abstract class KCommand extends KBase implements CommandExecutor {
@@ -32,7 +33,9 @@ public abstract class KCommand extends KBase implements CommandExecutor {
     public void registerCommand(String cmd) {
         try {
             PluginDescriptionFile descriptionFile = new PluginDescriptionFile(
-                    getPlugin().getResource("plugin.yml")
+                    Objects.requireNonNull(
+                            getPlugin().getResource("plugin.yml")
+                    )
             );
             List<String> aliases = new ArrayList<>();
             if(descriptionFile.getCommands().containsKey(cmd)) {
