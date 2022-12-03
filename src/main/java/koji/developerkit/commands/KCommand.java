@@ -10,10 +10,6 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class KCommand extends KBase implements CommandExecutor {
 
-    public KCommand() {
-
-    }
-
     @Override
     public abstract boolean onCommand(CommandSender sender, Command command, String label, String[] args);
 
