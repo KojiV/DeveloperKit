@@ -3,9 +3,12 @@ package koji.developerkit.commands;
 import koji.developerkit.KBase;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 
 public abstract class KCommand extends KBase implements CommandExecutor {
@@ -28,6 +31,29 @@ public abstract class KCommand extends KBase implements CommandExecutor {
 
     public void registerCommand(String cmd) {
         try {
+            PluginDescriptionFile descriptionFile = new PluginDescriptionFile(
+                    getPlugin().getResource("plugin.yml")
+            );
+            List<String> aliases = new ArrayList<>();
+            if(descriptionFile.getCommands().containsKey(cmd)) {
+                Object aliasList = descriptionFile.getCommands().get(cmd).get("aliases");
+
+                if(aliasList != null) {
+                    if (aliasList instanceof List) {
+                        for (Object o : (List<?>) aliasList) {
+                            if (o.toString().contains(":")) {
+                                continue;
+                            }
+                            aliases.add(o.toString());
+                        }
+                    } else {
+                        if (!aliases.toString().contains(":")) {
+                            aliases.add(aliases.toString());
+                        }
+                    }
+                }
+            }
+
             for (Command command : PluginCommandYamlParser.parse(getPlugin())) {
                 if (command.getName().equals(cmd)) {
                     Command pluginCommand = new Command(
@@ -36,6 +62,7 @@ public abstract class KCommand extends KBase implements CommandExecutor {
                             command.getUsage(),
                             command.getAliases()
                     ) {
+
                         @Override
                         public boolean execute(
                                 @NotNull CommandSender sender,
@@ -49,8 +76,10 @@ public abstract class KCommand extends KBase implements CommandExecutor {
                             }
                         }
                     };
+                    if(!aliases.isEmpty()) command.setAliases(aliases);
+
                     CommandMap commandMap = getCommandMap();
-                    commandMap.register(KBase.getPlugin().getName(),  pluginCommand);
+                    commandMap.register(getPlugin().getName(), pluginCommand);
                 }
             }
         } catch (Exception e) {
