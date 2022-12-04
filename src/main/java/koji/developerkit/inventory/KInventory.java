@@ -23,7 +23,7 @@ public abstract class KInventory extends KBase {
         return title;
     }
 
-    public Inventory getInventory() {
+    public Inventory getBaseCreatedInventory() {
         return inv;
     }
 
@@ -32,16 +32,6 @@ public abstract class KInventory extends KBase {
     }
 
     public abstract Inventory getConstantInventory();
-
-    public KInventory set(int slot, ItemStack item) {
-        inv.setItem(slot, item);
-        return this;
-    }
-
-    public KInventory set(GUIClickableItem item) {
-        set(inv, item);
-        return this;
-    }
 
     public static class PlayerInstance extends KBase {
         private final Player player;
@@ -52,7 +42,7 @@ public abstract class KInventory extends KBase {
         public PlayerInstance(Player player, KInventory base) {
             this.player = player;
             this.base = base;
-            this.inventory = base.getInventory();
+            this.inventory = base.getConstantInventory();
             this.title = base.getTitle();
         }
 
