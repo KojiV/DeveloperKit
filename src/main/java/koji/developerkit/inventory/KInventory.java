@@ -31,17 +31,7 @@ public abstract class KInventory extends KBase {
         return size;
     }
 
-    public ItemStack[] getConstantSlots() {
-        ItemStack[] constants = new ItemStack[size];
-        for(int i = 0; i < inv.getSize(); i++) {
-            if(inv.getItem(i) != null) {
-                constants[i] = inv.getItem(i);
-            }
-        }
-        return constants;
-    }
-
-    public abstract void setConstants();
+    public abstract Inventory getConstantInventory();
 
     public KInventory set(int slot, ItemStack item) {
         inv.setItem(slot, item);
@@ -88,7 +78,7 @@ public abstract class KInventory extends KBase {
 
         public PlayerInstance reset(String title) {
             setTitle(title);
-            inventory.setContents(base.getConstantSlots());
+            inventory.setContents(base.getConstantInventory().getContents());
             return this;
         }
 
