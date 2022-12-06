@@ -22,14 +22,25 @@ public abstract class GUIClickableItem extends KBase implements GUIItem {
         GUIListener.startup();
     }
 
-    public static final HashMap<String, GUIClickableItem> itemsToRun = new HashMap<>();
+    private static final HashMap<String, GUIClickableItem> itemsToRun = new HashMap<>();
+
+    public static HashMap<String, GUIClickableItem> getItemsToRun() {
+        return itemsToRun;
+    }
 
     public GUIClickableItem() {
         uuid = UUID.randomUUID().toString();
+        while (itemsToRun.containsKey(uuid)) {
+            uuid = UUID.randomUUID().toString();
+        }
         itemsToRun.put(uuid, this);
     }
 
-    private final String uuid;
+    private String uuid;
+
+    public String getUUID() {
+        return uuid;
+    }
 
     /**
      * Get the item fully made

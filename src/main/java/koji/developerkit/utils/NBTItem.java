@@ -4,6 +4,7 @@ import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTContainer;
 import org.bukkit.inventory.ItemStack;
 
+@SuppressWarnings("unused")
 public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
 
     public NBTItem(ItemStack item) {
@@ -106,88 +107,183 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
         compound.setIntArray(key, value);
     }
 
+    public String getString(String key, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        return compound.getString(key);
+    }
+
     public String getString(String key) {
-        return getCompound("ExtraAttributes").getString(key);
+        return getString(key, false);
     }
 
     public String getStringOrDefault(String key, String def) {
-        return hasKey(key) ? getString(key) : def;
+        return getStringOrDefault(key, def, false);
+    }
+
+    public String getStringOrDefault(String key, String def, boolean ignoreCompound) {
+        return hasKey(key, ignoreCompound) ? getString(key, ignoreCompound) : def;
+    }
+
+    public Integer getInteger(String key, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        return compound.getInteger(key);
     }
 
     public Integer getInteger(String key) {
-        return getCompound("ExtraAttributes").getInteger(key);
+        return getInteger(key, false);
     }
 
     public Integer getIntegerOrDefault(String key, Integer def) {
-        return hasKey(key) ? getInteger(key) : def;
+        return getIntegerOrDefault(key, def, false);
+    }
+
+    public Integer getIntegerOrDefault(String key, Integer def, boolean ignoreCompound) {
+        return hasKey(key, ignoreCompound) ? getInteger(key, ignoreCompound) : def;
+    }
+
+    public Boolean getBoolean(String key, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        return compound.getBoolean(key);
     }
 
     public Boolean getBoolean(String key) {
-        return getCompound("ExtraAttributes").getBoolean(key);
+        return getBoolean(key, false);
     }
 
     public Boolean getBooleanOrDefault(String key, Boolean def) {
         return hasKey(key) ? getBoolean(key) : def;
     }
 
+    public Boolean getBooleanOrDefault(String key, Boolean def, boolean ignoreCompound) {
+        return hasKey(key, ignoreCompound) ? getBoolean(key, ignoreCompound) : def;
+    }
+
+    public Double getDouble(String key, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        return compound.getDouble(key);
+    }
+
     public Double getDouble(String key) {
-        return getCompound("ExtraAttributes").getDouble(key);
+        return getDouble(key, false);
     }
 
     public Double getDoubleOrDefault(String key, Double def) {
         return hasKey(key) ? getDouble(key) : def;
     }
 
+    public Double getDoubleOrDefault(String key, Double def, boolean ignoreCompound) {
+        return hasKey(key, ignoreCompound) ? getDouble(key, ignoreCompound) : def;
+    }
+
+    public Long getLong(String key, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        return compound.getLong(key);
+    }
+
     public Long getLong(String key) {
-        return getCompound("ExtraAttributes").getLong(key);
+        return getLong(key, false);
     }
 
     public Long getLongOrDefault(String key, Long def) {
         return hasKey(key) ? getLong(key) : def;
     }
 
+    public Long getLongOrDefault(String key, Long def, boolean ignoreCompound) {
+        return hasKey(key, ignoreCompound) ? getLong(key, ignoreCompound) : def;
+    }
+
+    public Byte getByte(String key, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        return compound.getByte(key);
+    }
+
     public Byte getByte(String key) {
-        return getCompound("ExtraAttributes").getByte(key);
+        return getByte(key, false);
     }
 
     public Byte getByteOrDefault(String key, Byte def) {
         return hasKey(key) ? getByte(key) : def;
     }
 
+    public Byte getByteOrDefault(String key, Byte def, boolean ignoreCompound) {
+        return hasKey(key, ignoreCompound) ? getByte(key, ignoreCompound) : def;
+    }
+
+    public Short getShort(String key, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        return compound.getShort(key);
+    }
+
     public Short getShort(String key) {
-        return getCompound("ExtraAttributes").getShort(key);
+        return getShort(key, false);
     }
 
     public Short getShortOrDefault(String key, Short def) {
         return hasKey(key) ? getShort(key) : def;
     }
 
+    public Short getShortOrDefault(String key, Short def, boolean ignoreCompound) {
+        return hasKey(key, ignoreCompound) ? getShort(key, ignoreCompound) : def;
+    }
+
+    public Float getFloat(String key, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        return compound.getFloat(key);
+    }
+
     public Float getFloat(String key) {
-        return getCompound("ExtraAttributes").getFloat(key);
+        return getFloat(key, false);
     }
 
     public Float getFloatOrDefault(String key, Float def) {
         return hasKey(key) ? getFloat(key) : def;
     }
 
+    public Float getFloatOrDefault(String key, Float def, boolean ignoreCompound) {
+        return hasKey(key, ignoreCompound) ? getFloat(key, ignoreCompound) : def;
+    }
+
+    public byte[] getByteArray(String key, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        return compound.getByteArray(key);
+    }
+
     public byte[] getByteArray(String key) {
-        return getCompound("ExtraAttributes").getByteArray(key);
+        return getByteArray(key, false);
     }
 
     public byte[] getByteArrayOrDefault(String key, byte[] def) {
         return hasKey(key) ? getByteArray(key) : def;
     }
 
+    public byte[] getByteArrayOrDefault(String key, byte[] def, boolean ignoreCompound) {
+        return hasKey(key, ignoreCompound) ? getByteArray(key, ignoreCompound) : def;
+    }
+
+    public int[] getIntArray(String key, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        return compound.getIntArray(key);
+    }
+
     public int[] getIntArray(String key) {
-        return getCompound("ExtraAttributes").getIntArray(key);
+        return getIntArray(key, false);
     }
 
     public int[] getIntArrayOrDefault(String key, int[] def) {
         return hasKey(key) ? getIntArray(key) : def;
     }
 
+    public int[] getIntArrayOrDefault(String key, int[] def, boolean ignoreCompound) {
+        return hasKey(key, ignoreCompound) ? getIntArray(key, ignoreCompound) : def;
+    }
+
     public Boolean hasKey(String key) {
-        return getCompound("ExtraAttributes").hasKey(key);
+        return hasKey(key, false);
+    }
+
+    public Boolean hasKey(String key, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        return compound.hasKey(key);
     }
 
     public void setUnbreakable(boolean boo) {
