@@ -68,6 +68,7 @@ public abstract class KInventory extends KBase {
 
         public PlayerInstance reset(String title) {
             setTitle(title);
+            inventory.clear();
             inventory.setContents(base.getConstantInventory().getContents());
             return this;
         }
