@@ -50,6 +50,10 @@ public abstract class KInventory extends KBase {
             return player;
         }
 
+        public KInventory getBaseKInventory() {
+            return base;
+        }
+
         public Inventory getInventory() {
             return inventory;
         }
