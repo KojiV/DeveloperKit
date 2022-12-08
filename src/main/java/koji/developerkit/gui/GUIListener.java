@@ -75,6 +75,7 @@ public class GUIListener extends KListener {
             clickItems.get(e.getInventory()).forEach(gui ->
                     GUIClickableItem.getItemsToRun().remove(gui.getUUID())
             );
+            clickItems.remove(e.getInventory());
         }
     }
 }
