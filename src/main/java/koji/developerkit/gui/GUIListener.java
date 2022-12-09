@@ -48,34 +48,4 @@ public class GUIListener extends KListener {
             }
         }
     }
-
-    private final HashMap<Inventory, ArrayList<GUIClickableItem>> clickItems = new HashMap<>();
-
-    @EventHandler
-    public void onInventoryOpen(InventoryOpenEvent e) {
-        ArrayList<GUIClickableItem> clickables = new ArrayList<>();
-        for(ItemStack item : e.getInventory().getContents()) {
-            if(item != null) {
-                NBTItem nbtItem = new NBTItem(item);
-                if(nbtItem.hasKey("ClickItem")) {
-                    clickables.add(
-                            GUIClickableItem.getItemsToRun().get(
-                                    nbtItem.getString("ClickItem")
-                            )
-                    );
-                }
-            }
-        }
-        clickItems.put(e.getInventory(), clickables);
-    }
-
-    @EventHandler
-    public void onInventoryClose(InventoryCloseEvent e) {
-        if(clickItems.containsKey(e.getInventory())) {
-            clickItems.get(e.getInventory()).forEach(gui ->
-                    GUIClickableItem.getItemsToRun().remove(gui.getUUID())
-            );
-            clickItems.remove(e.getInventory());
-        }
-    }
 }

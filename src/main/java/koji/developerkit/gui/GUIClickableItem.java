@@ -32,13 +32,10 @@ public abstract class GUIClickableItem extends KBase implements GUIItem {
 
     public GUIClickableItem() {
         uuid = UUID.randomUUID().toString();
-        while (itemsToRun.containsKey(uuid)) {
-            uuid = UUID.randomUUID().toString();
-        }
         itemsToRun.put(uuid, this);
     }
 
-    private String uuid;
+    private final String uuid;
 
     public String getUUID() {
         return uuid;

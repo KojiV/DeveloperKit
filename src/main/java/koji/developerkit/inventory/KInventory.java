@@ -72,15 +72,24 @@ public abstract class KInventory extends KBase {
 
         public PlayerInstance reset(String title) {
             setTitle(title);
-            for(int i = 0; i < base.getConstantInventory().getContents().length; i++) {
-                if (!inventory.getItem(i).equals(
-                        base.getConstantInventory().getItem(i)
-                )) {
-                    inventory.setItem(i, base.getConstantInventory().getItem(i));
+            ItemStack[] currentContents = inventory.getContents();
+            ItemStack[] newContents = base.getConstantInventory().getContents();
+
+            for (int i = 0; currentContents.length > i; i++) {
+                ItemStack oldStack = currentContents[i];
+                ItemStack newStack = newContents[i];
+
+                if (oldStack == null && newStack != null) {
+                    currentContents[i] = newStack;
+                } else if (oldStack != null && newStack != null) {
+                    if (!oldStack.isSimilar(newStack)) {
+                        currentContents[i] = newStack;
+                    }
+                } else {
+                    currentContents[i] = null;
                 }
             }
-            //inventory.clear();
-            //inventory.setContents(base.getConstantInventory().getContents());
+            inventory.setContents(currentContents);
             return this;
         }
 
