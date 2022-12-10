@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+
 public abstract class KInventory extends KBase {
     private final int size;
     private final Inventory inv;
@@ -32,6 +34,8 @@ public abstract class KInventory extends KBase {
     }
 
     public abstract Inventory getConstantInventory();
+
+    public abstract List<Integer> getIgnoreSlots();
 
     public static class PlayerInstance extends KBase {
         private final Player player;
@@ -79,6 +83,8 @@ public abstract class KInventory extends KBase {
             for(int i = 0; i < inventory.getSize(); i++) {
                 ItemStack oldItem = inventory.getItem(i);
                 ItemStack newItem = base.getConstantInventory().getItem(i);
+
+                if(base.getIgnoreSlots().contains(i)) continue;
 
                 if(oldItem != null && newItem != null) {
                     if(!oldItem.equals(newItem)) {

@@ -3,7 +3,6 @@ package koji.developerkit.gui;
 import com.cryptomorin.xseries.XMaterial;
 import com.cryptomorin.xseries.XSound;
 import koji.developerkit.KBase;
-import koji.developerkit.inventory.KInventory;
 import koji.developerkit.runnable.KRunnable;
 import koji.developerkit.utils.ItemBuilder;
 import org.bukkit.ChatColor;
@@ -141,25 +140,11 @@ public abstract class GUIClickableItem extends KBase implements GUIItem {
      * @return The finished item
      */
     public static GUIClickableItem goBackItem(int slot, Inventory back, String pageName) {
-        KInventory inv = new KInventory(pageName, back.getSize()) {
-            @Override
-            public Inventory getConstantInventory() {
-                getBaseCreatedInventory().setContents(back.getContents());
-
-                return getBaseCreatedInventory();
-            }
-        };
         return new GUIClickableItem() {
             @Override
             public void run(InventoryClickEvent e) {
                 playSound((Player) e.getWhoClicked(), XSound.UI_BUTTON_CLICK, 1);
-                e.getWhoClicked().openInventory(
-                        new KInventory.PlayerInstance(
-                                (Player) e.getWhoClicked(),
-                                inv
-                        ).getInventory()
-                );
-                e.setCancelled(true);
+                e.getWhoClicked().openInventory(back);
             }
 
             @Override
