@@ -17,6 +17,8 @@ public abstract class KInventory extends KBase {
         this.title = title;
 
         inv = Bukkit.createInventory(null, size, title);
+
+        constantInventory = getConstantInventory();
     }
 
     public String getTitle() {
@@ -30,6 +32,12 @@ public abstract class KInventory extends KBase {
     public int getSize() {
         return size;
     }
+
+    private final Inventory constantInventory;
+
+    public Inventory getPermanentConstantInventory() {
+        return constantInventory;
+    };
 
     public abstract Inventory getConstantInventory();
 
@@ -74,7 +82,7 @@ public abstract class KInventory extends KBase {
             setTitle(title);
             for(int i = 0; i < inventory.getSize(); i++) {
                 ItemStack oldItem = inventory.getItem(i);
-                ItemStack newItem = base.getConstantInventory().getItem(i);
+                ItemStack newItem = base.getPermanentConstantInventory().getItem(i);
 
                 if(oldItem != null && newItem != null) {
                     if(!oldItem.equals(newItem)) {
