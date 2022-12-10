@@ -17,8 +17,6 @@ public abstract class KInventory extends KBase {
         this.title = title;
 
         inv = Bukkit.createInventory(null, size, title);
-
-        constantInventory = getConstantInventory();
     }
 
     public String getTitle() {
@@ -33,12 +31,6 @@ public abstract class KInventory extends KBase {
         return size;
     }
 
-    private final Inventory constantInventory;
-
-    public Inventory getPermanentConstantInventory() {
-        return constantInventory;
-    };
-
     public abstract Inventory getConstantInventory();
 
     public static class PlayerInstance extends KBase {
@@ -50,7 +42,11 @@ public abstract class KInventory extends KBase {
         public PlayerInstance(Player player, KInventory base) {
             this.player = player;
             this.base = base;
-            this.inventory = base.getConstantInventory();
+
+            Inventory inv = Bukkit.createInventory(null, base.getSize(), base.getTitle());
+            inv.setContents(base.getConstantInventory().getContents());
+
+            this.inventory = inv;
             this.title = base.getTitle();
         }
 
@@ -82,7 +78,7 @@ public abstract class KInventory extends KBase {
             setTitle(title);
             for(int i = 0; i < inventory.getSize(); i++) {
                 ItemStack oldItem = inventory.getItem(i);
-                ItemStack newItem = base.getPermanentConstantInventory().getItem(i);
+                ItemStack newItem = base.getConstantInventory().getItem(i);
 
                 if(oldItem != null && newItem != null) {
                     if(!oldItem.equals(newItem)) {
