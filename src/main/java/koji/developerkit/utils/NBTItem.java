@@ -309,6 +309,11 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public void applyFromString(String compound) {
-        mergeCompound(new NBTContainer(compound));
+        applyFromString(compound, false);
+    }
+
+    public void applyFromString(String compoundName, boolean ignoreCompound) {
+        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
+        compound.mergeCompound(new NBTContainer(compoundName));
     }
 }
