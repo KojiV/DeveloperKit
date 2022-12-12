@@ -283,7 +283,7 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
 
     public Boolean hasKey(String key, boolean ignoreCompound) {
         NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        return compound.hasKey(key);
+        return compound.hasTag(key);
     }
 
     public void setUnbreakable(boolean boo) {
