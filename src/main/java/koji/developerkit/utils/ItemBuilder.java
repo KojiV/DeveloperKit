@@ -295,7 +295,7 @@ public class ItemBuilder extends KBase {
     }
 
     public NBTCompound getCompound(String compound) {
-        NBTItem nbt = new NBTItem(im);
+        NBTItem nbt = new NBTItem(im, arrayList(compound));
         return nbt.getCompound("ExtraAttributes").getOrCreateCompound(compound);
     }
 
