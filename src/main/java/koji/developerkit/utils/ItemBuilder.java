@@ -3,6 +3,7 @@ package koji.developerkit.utils;
 import com.cryptomorin.xseries.XMaterial;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import de.tr7zw.changeme.nbtapi.NBTCompound;
 import koji.developerkit.KBase;
 import org.bukkit.Color;
 import org.bukkit.inventory.ItemStack;
@@ -291,6 +292,11 @@ public class ItemBuilder extends KBase {
         nbt.setUnbreakable(bol);
         im = nbt.getItem();
         return this;
+    }
+
+    public NBTCompound getCompound(String compound) {
+        NBTItem nbt = new NBTItem(im);
+        return nbt.getOrCreateCompound(compound);
     }
 
     public ItemBuilder setTexture(String texture) {
