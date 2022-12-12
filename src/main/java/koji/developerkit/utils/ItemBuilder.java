@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings("unused")
 public class ItemBuilder extends KBase {
     protected ItemStack im;
 
@@ -44,8 +45,7 @@ public class ItemBuilder extends KBase {
     }
 
     public ItemBuilder setLore(String... lore) {
-        setLore(Arrays.asList(lore));
-        return this;
+        return setLore(Arrays.asList(lore));
     }
 
     public ItemBuilder setLore(List<String> lore) {
@@ -176,108 +176,192 @@ public class ItemBuilder extends KBase {
     }
 
     public String getString(String key) {
+        return getString(key, false);
+    }
+
+    public String getString(String key, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.getString(key);
+        return nbt.getString(key, ignoreCompound);
     }
 
     public String getStringOrDefault(String key, String def) {
+        return getStringOrDefault(key, def, false);
+    }
+
+    public String getStringOrDefault(String key, String def, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.getStringOrDefault(key, def);
+        return nbt.getStringOrDefault(key, def, ignoreCompound);
     }
 
     public int getInt(String key) {
+        return getInt(key, false);
+    }
+
+    public int getInt(String key, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.getInteger(key);
+        return nbt.getInteger(key, ignoreCompound);
     }
 
     public int getIntOrDefault(String key, int def) {
+        return getIntOrDefault(key, def, false);
+    }
+
+    public int getIntOrDefault(String key, int def, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.getIntegerOrDefault(key, def);
+        return nbt.getIntegerOrDefault(key, def, ignoreCompound);
     }
 
     public boolean getBoolean(String key) {
+        return getBoolean(key, false);
+    }
+
+    public boolean getBoolean(String key, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.getBoolean(key);
+        return nbt.getBoolean(key, ignoreCompound);
     }
 
     public boolean getBooleanOrDefault(String key, boolean def) {
+        return getBooleanOrDefault(key, def, false);
+    }
+
+    public boolean getBooleanOrDefault(String key, boolean def, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.getBooleanOrDefault(key, def);
+        return nbt.getBooleanOrDefault(key, def, ignoreCompound);
     }
 
     public double getDouble(String key) {
+        return getDouble(key, false);
+    }
+
+    public double getDouble(String key, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.getDouble(key);
+        return nbt.getDouble(key, ignoreCompound);
     }
 
     public double getDoubleOrDefault(String key, double def) {
+        return getDoubleOrDefault(key, def, false);
+    }
+
+    public double getDoubleOrDefault(String key, double def, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.getDoubleOrDefault(key, def);
+        return nbt.getDoubleOrDefault(key, def, ignoreCompound);
     }
 
     public long getLong(String key) {
+        return getLong(key, false);
+    }
+
+    public long getLong(String key, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.getLong(key);
+        return nbt.getLong(key, ignoreCompound);
     }
 
     public long getLongOrDefault(String key, long def) {
+        return getLongOrDefault(key, def, false);
+    }
+
+    public long getLongOrDefault(String key, long def, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.getLongOrDefault(key, def);
+        return nbt.getLongOrDefault(key, def, ignoreCompound);
     }
 
     public byte getByte(String key) {
+        return getByte(key, false);
+    }
+
+    public byte getByte(String key, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.getByte(key);
+        return nbt.getByte(key, ignoreCompound);
     }
 
     public byte getByteOrDefault(String key, byte def) {
+        return getByteOrDefault(key, def, false);
+    }
+
+    public byte getByteOrDefault(String key, byte def, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.getByteOrDefault(key, def);
+        return nbt.getByteOrDefault(key, def, ignoreCompound);
     }
 
     public short getShort(String key) {
+        return getShort(key, false);
+    }
+
+    public short getShort(String key, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.getShort(key);
+        return nbt.getShort(key, ignoreCompound);
     }
 
     public short getShortOrDefault(String key, short def) {
+        return getShortOrDefault (key, def, false);
+    }
+
+    public short getShortOrDefault(String key, short def, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.getShortOrDefault(key, def);
+        return nbt.getShortOrDefault(key, def, ignoreCompound);
     }
 
     public float getFloat(String key) {
+        return getFloat(key, false);
+    }
+
+    public float getFloat(String key, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.getFloat(key);
+        return nbt.getFloat(key, ignoreCompound);
     }
 
     public float getFloatOrDefault(String key, float def) {
+        return getFloatOrDefault(key, def, false);
+    }
+
+    public float getFloatOrDefault(String key, float def, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.getFloatOrDefault(key, def);
+        return nbt.getFloatOrDefault(key, def, ignoreCompound);
     }
 
     public byte[] getByteArray(String key) {
+        return getByteArray(key, false);
+    }
+
+    public byte[] getByteArray(String key, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.getByteArray(key);
+        return nbt.getByteArray(key, ignoreCompound);
     }
 
     public byte[] getByteArrayOrDefault(String key, byte[] def) {
+        return getByteArrayOrDefault(key, def, false);
+    }
+
+    public byte[] getByteArrayOrDefault(String key, byte[] def, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.getByteArrayOrDefault(key, def);
+        return nbt.getByteArrayOrDefault(key, def, ignoreCompound);
     }
 
     public int[] getIntArray(String key) {
+        return getIntArray(key, false);
+    }
+
+    public int[] getIntArray(String key, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.getIntArray(key);
+        return nbt.getIntArray(key, ignoreCompound);
     }
 
     public int[] getIntArrayOrDefault(String key, int[] def) {
+        return getIntArrayOrDefault(key, def, false);
+    }
+
+    public int[] getIntArrayOrDefault(String key, int[] def, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.getIntArrayOrDefault(key, def);
+        return nbt.getIntArrayOrDefault(key, def, ignoreCompound);
     }
 
     public boolean hasKey(String key) {
+        return hasKey(key, false);
+    }
+
+    public boolean hasKey(String key, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        return nbt.hasKey(key);
+        return nbt.hasKey(key, ignoreCompound);
     }
 
     public ItemBuilder HideFlags(int flags) {
@@ -331,8 +415,12 @@ public class ItemBuilder extends KBase {
     }
 
     public ItemBuilder applyCompoundFromString(String compoundAsString) {
+        return applyCompoundFromString(compoundAsString, false);
+    }
+
+    public ItemBuilder applyCompoundFromString(String compoundAsString, boolean ignoreCompound) {
         NBTItem nbt = new NBTItem(im);
-        nbt.applyFromString(compoundAsString);
+        nbt.applyFromString(compoundAsString, ignoreCompound);
         im = nbt.getItem();
         return this;
     }
