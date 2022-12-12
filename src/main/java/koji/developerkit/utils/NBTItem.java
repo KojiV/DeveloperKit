@@ -4,17 +4,27 @@ import de.tr7zw.changeme.nbtapi.NBTCompound;
 import de.tr7zw.changeme.nbtapi.NBTContainer;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+
 @SuppressWarnings("unused")
 public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
-
-    public NBTItem(ItemStack item) {
-        super(item);
-        getOrCreateCompound("ExtraAttributes");
-    }
 
     public NBTItem(ItemStack item, boolean directApply) {
         super(item, directApply);
         getOrCreateCompound("ExtraAttributes");
+    }
+
+    public NBTItem(ItemStack item) {
+        this(item, false);
+    }
+
+    public NBTItem(ItemStack item, boolean directApply, List<String> compounds) {
+        this(item, directApply);
+        compounds.forEach(this::getOrCreateCompound);
+    }
+
+    public NBTItem(ItemStack item, List<String> compounds) {
+        this(item, false, compounds);
     }
 
     public void setString(String key, String value) {
