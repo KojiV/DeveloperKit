@@ -31,6 +31,7 @@ import java.text.NumberFormat;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 /**
  * Class that (by recommended use) extends each used class for easy access to these methods
@@ -1027,6 +1028,81 @@ public class KBase {
                 return true;
             }
         }
+        return false;
+    }
+
+    public static List<String> wrapLine(String line, int wrapLength) {
+        List<String> resultList = new ArrayList<>();
+
+        if (line == null || line.length() == 0) {
+            resultList.add("");
+            return resultList;
+        }
+        if (line.length() <= wrapLength) {
+            resultList.add(line);
+            return resultList;
+        }
+
+        String[] words = line.split(" ");
+
+        for (String word : words) {
+            if (resultList.size() == 0) {
+                addNewWord(resultList, word, wrapLength);
+            } else {
+                String lastLine = resultList.get(resultList.size() - 1);
+
+                if (lastLine.length() + word.length() < wrapLength) {
+                    lastLine = lastLine + word + " ";
+                    resultList.set(resultList.size() - 1, lastLine);
+                } else if (lastLine.length() + word.length() == wrapLength) {
+                    lastLine = lastLine + word;
+                    resultList.set(resultList.size() - 1, lastLine);
+                } else {
+                    if (isThereMuchSpace(lastLine, wrapLength)) {
+                        breakLongWord(resultList, word, wrapLength, lastLine.length());
+                    } else {
+                        addNewWord(resultList, word, wrapLength);
+                    }
+                }
+            }
+        }
+
+        return resultList.stream().map(String::trim).collect(Collectors.toList());
+    }
+
+    private static void addNewWord(List<String> resultList, String word, int wrapLength) {
+        if (word.length() < wrapLength) {
+            resultList.add(word + " ");
+        } else if (word.length() == wrapLength) {
+            resultList.add(word);
+        } else {
+            breakLongWord(resultList, word, wrapLength, 0);
+        }
+    }
+
+    private static void breakLongWord(List<String> resultList, String word, int wrapLength, int offset) {
+        String part = word.substring(0, (wrapLength - offset) - 1);
+        if (offset > 1) {
+            String lastLine = resultList.get(resultList.size() - 1);
+            lastLine = lastLine + part + "-";
+            resultList.set(resultList.size() - 1, lastLine);
+        } else {
+            resultList.add(part + "-");
+        }
+
+        String nextPart = word.substring((wrapLength - offset) - 1, word.length());
+        if (nextPart.length() > wrapLength)
+            breakLongWord(resultList, nextPart, wrapLength, 0);
+        else if (nextPart.length() == wrapLength)
+            resultList.add(nextPart);
+        else
+            resultList.add(nextPart + " ");
+    }
+
+    private static boolean isThereMuchSpace(String line, double lineLength) {
+        double expectedPercent = (lineLength * 65) / 100;
+        if (line.length() <= expectedPercent)
+            return true;
         return false;
     }
 
