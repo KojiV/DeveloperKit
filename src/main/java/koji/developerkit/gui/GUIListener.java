@@ -28,16 +28,17 @@ public class GUIListener extends KListener {
     public void onInventoryClick(InventoryClickEvent e) {
         if(e.getSlot() < e.getInventory().getSize()) {
             if (e.getCurrentItem() != null && e.getCurrentItem().getType() != XMaterial.AIR.parseMaterial()) {
-                NBTItem item = new NBTItem(e.getCurrentItem());
-                if (item.hasKey("ClickItem")) {
-                    GUIClickableItem guiItem =
-                            GUIClickableItem.getItemsToRun().get(
-                                    item.getString("ClickItem")
-                            );
-                    if (guiItem == null) return;
-                    guiItem.run(e);
-                    e.setCancelled(e.isCancelled() || !guiItem.canPickup());
-                }
+                try { NBTItem item = new NBTItem(e.getCurrentItem());
+                    if (item.hasKey("ClickItem")) {
+                        GUIClickableItem guiItem =
+                                GUIClickableItem.getItemsToRun().get(
+                                        item.getString("ClickItem")
+                                );
+                        if (guiItem == null) return;
+                        guiItem.run(e);
+                        e.setCancelled(e.isCancelled() || !guiItem.canPickup());
+                    }
+                } catch (NullPointerException ignored) {}
             }
         }
     }
