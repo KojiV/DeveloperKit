@@ -7,12 +7,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
 import java.util.List;
 
 public abstract class KInventory extends KBase {
     private final int size;
     private final Inventory inv;
     private final String title;
+
+    private final HashMap<Player, PlayerInstance> playerInstances = new HashMap<>();
 
     public KInventory(String title, int size) {
         this.size = size;
@@ -31,6 +34,14 @@ public abstract class KInventory extends KBase {
 
     public int getSize() {
         return size;
+    }
+
+    public HashMap<Player, PlayerInstance> getPlayerInstances() {
+        return playerInstances;
+    }
+
+    public PlayerInstance getPlayerInstance(Player p) {
+        return playerInstances.get(p);
     }
 
     public abstract Inventory getConstantInventory();
@@ -52,6 +63,8 @@ public abstract class KInventory extends KBase {
 
             this.inventory = inv;
             this.title = base.getTitle();
+
+            base.getPlayerInstances().put(player, this);
         }
 
         public Player getPlayer() {
