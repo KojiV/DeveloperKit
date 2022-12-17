@@ -1298,6 +1298,16 @@ public class KBase {
     // Item Stuff
 
     /**
+     * Returns whether the item is valid or not
+     *
+     * @param item The item being checked
+     * @return If the item is not null and not air
+     */
+    public boolean isValidItem(ItemStack item) {
+        return item != null && item.getType() != XMaterial.AIR.parseMaterial();
+    }
+
+    /**
      * Dyes the item put in the color put in
      *
      * @param item  The item that will be colored
