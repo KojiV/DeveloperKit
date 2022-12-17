@@ -76,14 +76,16 @@ public class KBase {
      *
      * @param path  The main path
      * @param paths The added paths
+     * @return returns if the folder was successfully made
      */
-    public static void createFolder(String path, String[] paths) {
+    public static boolean createFolder(String path, String[] paths) {
         for (String s : paths) {
             File file = new File(path + s);
             if (!file.exists()) {
-                file.mkdir();
+                return file.mkdir();
             }
         }
+        return false;
     }
 
     /**
@@ -122,6 +124,7 @@ public class KBase {
      * @param inv The inventory it's attempting to add it to
      * @param item The item attempting to be added
      * @return Whether it successfully added the item or not
+     * @see KBase#addItemUnlessFull(Inventory, ItemStack, Runnable)
      */
     public static boolean addItemUnlessFull(Inventory inv, ItemStack item) {
         return addItemUnlessFull(inv, item, () -> {});
@@ -132,12 +135,15 @@ public class KBase {
      *
      * @param inv The inventory it's attempting to add it to
      * @param item The item attempting to be added
+     * @param run A runnable that will run when it is unable to add item
      * @return Whether it successfully added the item or not
      */
     public static boolean addItemUnlessFull(Inventory inv, ItemStack item, Runnable run) {
-        if(inv.firstEmpty() == -1) return false;
+        if(inv.firstEmpty() == -1) {
+            run.run();
+            return false;
+        }
         inv.addItem(item);
-        run.run();
         return true;
     }
 
@@ -670,7 +676,7 @@ public class KBase {
      * @return The arraylist of T type
      */
     public static <T> ArrayList<T> fromArray(T[] array) {
-        return new ArrayList<T>(Arrays.asList(array));
+        return new ArrayList<>(Arrays.asList(array));
     }
 
     /**
@@ -916,7 +922,7 @@ public class KBase {
         String suffix = e.getValue();
 
         long truncated = value / (divideBy / 10); //the number part of the output times 10
-        boolean hasDecimal = truncated < 100 && (truncated / 10d) != (truncated / 10);
+        boolean hasDecimal = truncated < 100 && (truncated / 10d) != (int) (truncated / 10.0);
         return hasDecimal ? (truncated / 10d) + suffix : (truncated / 10) + suffix;
     }
 
@@ -1102,7 +1108,7 @@ public class KBase {
             resultList.add(part + "-");
         }
 
-        String nextPart = word.substring((wrapLength - offset) - 1, word.length());
+        String nextPart = word.substring((wrapLength - offset) - 1);
         if (nextPart.length() > wrapLength)
             breakLongWord(resultList, nextPart, wrapLength, 0);
         else if (nextPart.length() == wrapLength)
@@ -1113,9 +1119,7 @@ public class KBase {
 
     private static boolean isThereMuchSpace(String line, double lineLength) {
         double expectedPercent = (lineLength * 65) / 100;
-        if (line.length() <= expectedPercent)
-            return true;
-        return false;
+        return line.length() <= expectedPercent;
     }
 
     // Internal Stuff
@@ -1283,8 +1287,8 @@ public class KBase {
 
         // for some reason (rounding error?) Math.random() * 3
         // can sometimes return '3' (once in ~30 million tries)
-        // so a check was added to avoid the inclusion of 'howbig'
-        float value = 0;
+        // so a check was added to avoid the inclusion of 'how big'
+        float value;
         do {
             value = internalRandom.nextFloat() * high;
         } while (value == high);
