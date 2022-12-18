@@ -43,7 +43,7 @@ public class KBase {
 
     private static final JavaPlugin plugin;
 
-    public static JavaPlugin getPlugin() {
+    protected static JavaPlugin getPlugin() {
         return plugin;
     }
 
@@ -63,7 +63,7 @@ public class KBase {
      * @param path The main path
      * @return Whether it was successful
      */
-    public static boolean createFolder(String path) {
+    protected static boolean createFolder(String path) {
         File file = new File(path);
         if (!file.exists()) {
             return file.mkdir();
@@ -78,7 +78,7 @@ public class KBase {
      * @param paths The added paths
      * @return returns if the folder was successfully made
      */
-    public static boolean createFolder(String path, String[] paths) {
+    protected static boolean createFolder(String path, String[] paths) {
         for (String s : paths) {
             File file = new File(path + s);
             if (!file.exists()) {
@@ -96,7 +96,7 @@ public class KBase {
      * @param deep Whether it includes the children or not
      * @return The keys it did find
      */
-    public static List<String> getKeys(FileConfiguration fc, String key, boolean deep) {
+    protected static List<String> getKeys(FileConfiguration fc, String key, boolean deep) {
         List<String> list = new ArrayList<>();
         for (String keys : fc.getKeys(true)) {
             if (keys.startsWith(key)) {
@@ -119,6 +119,38 @@ public class KBase {
     // GUI Stuff
 
     /**
+     * Gets the index of items if they were centered based on amount
+     *
+     * @param amount amount to be centered by
+     * @param centerSlot the start slot (can go down lines after that if amount > 7)
+     * @return the slot numbers
+     */
+    protected static Integer[] getCenteredSlots(int amount, int centerSlot) {
+        if(amount == 0) return new Integer[0];
+        List<Integer> ints = new ArrayList<>();
+
+        int calcAmount = amount;
+
+        for(int i = 1 ; i <= Math.ceil(amount / 7.0); i++) {
+            int center = centerSlot * i;
+
+            if (calcAmount % 2 != 0) {
+                ints.add(center);
+                calcAmount--;
+            }
+            for (int i1 = 1; i1 <= calcAmount / 2; i1++) {
+                ints.add(center + i1);
+                ints.add(center - i1);
+                calcAmount -= 2;
+            }
+        }
+
+        Integer[] returnValue = ints.toArray(new Integer[0]);
+        Arrays.sort(returnValue);
+        return returnValue;
+    }
+
+    /**
      * Adds an item to an inventory unless it's full
      *
      * @param inv The inventory it's attempting to add it to
@@ -126,7 +158,7 @@ public class KBase {
      * @return Whether it successfully added the item or not
      * @see KBase#addItemUnlessFull(Inventory, ItemStack, Runnable)
      */
-    public static boolean addItemUnlessFull(Inventory inv, ItemStack item) {
+    protected static boolean addItemUnlessFull(Inventory inv, ItemStack item) {
         return addItemUnlessFull(inv, item, () -> {});
     }
 
@@ -138,7 +170,7 @@ public class KBase {
      * @param run A runnable that will run when it is unable to add item
      * @return Whether it successfully added the item or not
      */
-    public static boolean addItemUnlessFull(Inventory inv, ItemStack item, Runnable run) {
+    protected static boolean addItemUnlessFull(Inventory inv, ItemStack item, Runnable run) {
         if(inv.firstEmpty() == -1) {
             run.run();
             return false;
@@ -153,7 +185,7 @@ public class KBase {
      * @param inv  The inventory
      * @param item The item
      */
-    public static void set(Inventory inv, GUIClickableItem item) {
+    protected static void set(Inventory inv, GUIClickableItem item) {
         inv.setItem(item.getSlot(), item.getFinishedItem());
     }
 
@@ -165,7 +197,7 @@ public class KBase {
      * @param slot the slot
      * @see KBase#set(Inventory, GUIClickableItem)
      */
-    public static void set(Inventory inv, GUIClickableItem item, int slot) {
+    protected static void set(Inventory inv, GUIClickableItem item, int slot) {
         inv.setItem(slot, item.getFinishedItem());
     }
 
@@ -175,7 +207,7 @@ public class KBase {
      * @param inventory The inventory to check
      * @return The amount of unclaimed slots
      */
-    public static int getEmptySlots(Inventory inventory) {
+    protected static int getEmptySlots(Inventory inventory) {
         int i = 0;
         for (ItemStack is : inventory.getContents()) {
             if (is == null)
@@ -191,7 +223,7 @@ public class KBase {
      * @param slots The slots it will set them to
      * @param is    The item all the slots are being set to
      */
-    public static void setMultipleSlots(Inventory inv, int[] slots, ItemStack is) {
+    protected static void setMultipleSlots(Inventory inv, int[] slots, ItemStack is) {
         for (int slot : slots) {
             inv.setItem(slot, is);
         }
@@ -205,7 +237,7 @@ public class KBase {
      * @param is    The item all the slots are being set to
      * @see KBase#setMultipleSlots(Inventory, int[], ItemStack)
      */
-    public static void setMultipleSlots(Inventory inv, int[] slots, GUIClickableItem is) {
+    protected static void setMultipleSlots(Inventory inv, int[] slots, GUIClickableItem is) {
         for (int slot : slots) {
             set(inv, is, slot);
         }
@@ -216,7 +248,7 @@ public class KBase {
      *
      * @param inv The inventory the border item is being set on
      */
-    public static void setBorder(Inventory inv) {
+    protected static void setBorder(Inventory inv) {
         int size = inv.getSize();
         if (size < 27) return;
 
@@ -241,7 +273,7 @@ public class KBase {
      * @param is  The item
      * @param inv The inventory is will be added to
      */
-    public static void addItem(ItemStack is, Inventory inv) {
+    protected static void addItem(ItemStack is, Inventory inv) {
         if (inv.firstEmpty() != -1) {
             inv.addItem(is);
         }
@@ -253,7 +285,7 @@ public class KBase {
      * @param inv The inventory to fill
      * @param is  The item that will fill it
      */
-    public static void fill(Inventory inv, ItemStack is) {
+    protected static void fill(Inventory inv, ItemStack is) {
         for (int i = 0; i < inv.getSize(); i++) {
             inv.setItem(i, is);
         }
@@ -265,7 +297,7 @@ public class KBase {
      * @param inv The inventory to fill
      * @param is  The item that will fill it
      */
-    public static void fill(Inventory inv, GUIClickableItem is) {
+    protected static void fill(Inventory inv, GUIClickableItem is) {
         for (int i = 0; i < inv.getSize(); i++) {
             set(inv, is, i);
         }
@@ -280,7 +312,7 @@ public class KBase {
      * @param types The types to check
      * @return Whether or not any match
      */
-    public boolean isMobType(Entity e, EntityType... types) {
+    protected static boolean isMobType(Entity e, EntityType... types) {
         return Arrays.stream(types).anyMatch(type -> type == e.getType());
     }
 
@@ -294,7 +326,7 @@ public class KBase {
      * @param hollow      Whether it is hollow or not
      * @return The locations of the sphere
      */
-    public static List<Location> generateSphere(Location centerBlock, int radius, boolean hollow) {
+    protected static List<Location> generateSphere(Location centerBlock, int radius, boolean hollow) {
 
         List<Location> circleBlocks = new ArrayList<>();
 
@@ -330,7 +362,7 @@ public class KBase {
      * @param text The text to be bolded
      * @return The text bolded
      */
-    public static String bold(String text) {
+    protected static String bold(String text) {
         return ChatColor.BOLD + text;
     }
 
@@ -341,7 +373,7 @@ public class KBase {
      * @param placeholder The stuff to replace
      * @return param original with the placeholders replaced
      */
-    public static List<String> replacePlaceholder(List<String> original, HashMap<String, List<String>> placeholder) {
+    protected static List<String> replacePlaceholder(List<String> original, HashMap<String, List<String>> placeholder) {
         List<String> lore = new ArrayList<>();
         for (String str : original) {
             boolean more = false;
@@ -373,7 +405,7 @@ public class KBase {
      * @param s The string to translate
      * @return The string but colored
      */
-    public static String color(String s) {
+    protected static String color(String s) {
         return ChatColor.translateAlternateColorCodes('&', s);
     }
 
@@ -384,7 +416,7 @@ public class KBase {
      * @return The list but with proper MC color code stuff
      * @see #color(String)
      */
-    public static List<String> coloredList(List<String> s) {
+    protected static List<String> coloredList(List<String> s) {
         List<String> list = new ArrayList<>();
         s.forEach(line -> list.add(color(line)));
         return list;
@@ -396,7 +428,7 @@ public class KBase {
      * @param string The string, that should be formatted like "r,g,b"
      * @return The color
      */
-    public static Color getColorByRGB(String string) {
+    protected static Color getColorByRGB(String string) {
         return Color.fromRGB(
                 Integer.parseInt(string.split(",")[0]),
                 Integer.parseInt(string.split(",")[1]),
@@ -410,7 +442,7 @@ public class KBase {
      * @param string The string that supposedly is a color
      * @return The color corresponding, otherwise null
      */
-    public static Color getColorByString(String string) {
+    protected static Color getColorByString(String string) {
         switch (string.toLowerCase()) {
             case "aqua":
                 return Color.AQUA;
@@ -463,7 +495,7 @@ public class KBase {
      * @param loc The location
      * @return The location centered in the exact middle of the block
      */
-    public static Location getBlockLocationCentered(Location loc) {
+    protected static Location getBlockLocationCentered(Location loc) {
         int x = loc.getBlockX();
         int y = loc.getBlockY();
         int z = loc.getBlockZ();
@@ -481,12 +513,11 @@ public class KBase {
      * @param b2 The second material to be checked
      * @return Whether they match or not
      */
-    public static boolean blockMatches(Block b1, Block b2) {
-        if (XMaterial.supports(13)) {
-            return b1.getType() == b2.getType();
-        } else {
-            return b1.getType() == b2.getType() && b1.getData() == b2.getData();
-        }
+    protected static boolean blockMatches(Block b1, Block b2) {
+        return blockMatches(
+                new MaterialData(b1.getType(), b1.getData()),
+                new MaterialData(b2.getType(), b2.getData())
+        );
     }
 
     /**
@@ -496,7 +527,7 @@ public class KBase {
      * @param m2 The second material to be checked
      * @return Whether they match or not
      */
-    public static boolean blockMatches(MaterialData m1, MaterialData m2) {
+    protected static boolean blockMatches(MaterialData m1, MaterialData m2) {
         if (XMaterial.supports(13)) {
             return m1.getItemType() == m2.getItemType();
         } else {
@@ -511,12 +542,8 @@ public class KBase {
      * @param b2 The second material to be checked
      * @return Whether they match or not
      */
-    public static boolean blockMatches(MaterialData m1, Block b2) {
-        if (XMaterial.supports(13)) {
-            return m1.getItemType() == b2.getType();
-        } else {
-            return m1.getItemType() == b2.getType() && m1.getData() == b2.getData();
-        }
+    protected static boolean blockMatches(MaterialData m1, Block b2) {
+        return blockMatches(m1, new MaterialData(b2.getType(), b2.getData()));
     }
 
     /**
@@ -526,7 +553,7 @@ public class KBase {
      * @param by The byte to set
      * @return Whether it successfully set the data or not
      */
-    public static boolean setData(Block b, byte by) {
+    protected static boolean setData(Block b, byte by) {
         try {
             Method setData = b.getClass().getMethod("setData", byte.class);
             setData.invoke(b, by);
@@ -545,7 +572,7 @@ public class KBase {
      * @param otherObj      The series of objects that will be checked with param otherObj
      * @return Whether any of the param otherObj equal comparisonObj
      */
-    public static boolean checkEquals(Object comparisonObj, Object... otherObj) {
+    protected static boolean checkEquals(Object comparisonObj, Object... otherObj) {
         for (Object o : otherObj) {
             if (comparisonObj.equals(o)) {
                 return true;
@@ -560,7 +587,7 @@ public class KBase {
      * @param obj The object to check
      * @return Whether it is a number or not
      */
-    public static boolean isNumeric(Object obj) {
+    protected static boolean isNumeric(Object obj) {
         if (obj == null) {
             return false;
         }
@@ -581,7 +608,7 @@ public class KBase {
      * @param <T>   The type of array
      * @return A random value in the array
      */
-    public static <T> T getRandom(T[] array) {
+    protected static <T> T getRandom(T[] array) {
         return array[new Random().nextInt(array.length)];
     }
 
@@ -593,7 +620,7 @@ public class KBase {
      * @return A random value in the arraylist
      * @see #getRandom(Object[])
      */
-    public static <T> T getRandom(List<T> list) {
+    protected static <T> T getRandom(List<T> list) {
         return list.get(new Random().nextInt(list.size()));
     }
 
@@ -606,7 +633,7 @@ public class KBase {
      * @see #arrayList(Object[])
      */
     @SafeVarargs
-    public static <T> T[] array(T... array) {
+    protected static <T> T[] array(T... array) {
         return array;
     }
 
@@ -618,7 +645,7 @@ public class KBase {
      * @param <T>   The type
      * @return An array that all contain the same value
      */
-    public static <T> T[] recursiveArray(int size, T array) {
+    protected static <T> T[] recursiveArray(int size, T array) {
         @SuppressWarnings("unchecked")
         T[] t = (T[]) Array.newInstance(array.getClass(), size);
         for (int i = 0; i < size; i++) {
@@ -635,7 +662,7 @@ public class KBase {
      * @return An arraylist with the itemsToRun
      */
     @SafeVarargs
-    public static <T> ArrayList<T> arrayList(T... array) {
+    protected static <T> ArrayList<T> arrayList(T... array) {
         return new ArrayList<>(Arrays.asList(array));
     }
 
@@ -647,7 +674,7 @@ public class KBase {
      * @param <T>   The type of array
      * @return A list of arrays that contain the split contents
      */
-    public static <T> ArrayList<T[]> split(T[] array, int size) {
+    protected static <T> ArrayList<T[]> split(T[] array, int size) {
         if (array.length == 0) return new ArrayList<>();
 
         Class<?> clazz = array[0].getClass();
@@ -675,7 +702,7 @@ public class KBase {
      * @param <T>   The type of array
      * @return The arraylist of T type
      */
-    public static <T> ArrayList<T> fromArray(T[] array) {
+    protected static <T> ArrayList<T> fromArray(T[] array) {
         return new ArrayList<>(Arrays.asList(array));
     }
 
@@ -686,7 +713,7 @@ public class KBase {
      * @param <T>  The type of list
      * @return The list randomized
      */
-    public static <T> List<T> shuffle(List<T> list) {
+    protected static <T> List<T> shuffle(List<T> list) {
         Random rnd = ThreadLocalRandom.current();
         for (int i = list.size() - 1; i > 0; i--) {
             int index = rnd.nextInt(i + 1);
@@ -707,7 +734,7 @@ public class KBase {
      * @return Either the slot in the list with that index or the default value
      * @see HashMap#getOrDefault(Object, Object)
      */
-    public static <T> T getOrDefault(List<T> list, int index, T def) {
+    protected static <T> T getOrDefault(List<T> list, int index, T def) {
         if (index < 0 || index >= list.size())
             return def;
         return list.get(index);
@@ -719,7 +746,7 @@ public class KBase {
      * @param list The list to be formatted
      * @return A string that has , like a normal list you would see
      */
-    public static String formatList(List<String> list) {
+    protected static String formatList(List<String> list) {
         StringBuilder sb = new StringBuilder();
         for (String s : list) {
             if (sb.length() != 0) {
@@ -738,7 +765,7 @@ public class KBase {
      * @return The final value in the array
      * @see #getLast(List)
      */
-    public static <T> T getLast(T[] list) {
+    protected static <T> T getLast(T[] list) {
         return getLast(fromArray(list));
     }
 
@@ -749,7 +776,7 @@ public class KBase {
      * @param <T>  The object type
      * @return The final value in the arraylist
      */
-    public static <T> T getLast(List<T> list) {
+    protected static <T> T getLast(List<T> list) {
         return list.get(list.size() - 1);
     }
 
@@ -762,7 +789,7 @@ public class KBase {
      * @param frac  The fraction
      * @return The rounded number
      */
-    public static double round(double value, int frac) {
+    protected static double round(double value, int frac) {
         return Math.round(Math.pow(10.0, frac) * value) / Math.pow(10.0, frac);
     }
 
@@ -773,7 +800,7 @@ public class KBase {
      * @param percent The percent that it's adding
      * @return The number + percent% of the number
      */
-     public static double addPercent(double value, double percent) {
+     protected static double addPercent(double value, double percent) {
         return value + (percent / 100 * value);
      }
 
@@ -783,7 +810,7 @@ public class KBase {
      * @param number The number that will be checked
      * @return Returns if the number is negative
      */
-    public static boolean isNegative(double number) {
+    protected static boolean isNegative(double number) {
         return number < 0;
     }
 
@@ -795,7 +822,7 @@ public class KBase {
      * @param range2 The range num 2
      * @return Whether the number is in the range (inclusive)
      */
-    public static boolean isInRange(double num, double range1, double range2) {
+    protected static boolean isInRange(double num, double range1, double range2) {
         return isInRange(num, range1, range2, true);
     }
 
@@ -807,7 +834,7 @@ public class KBase {
      * @param range2 The range num 2
      * @return Whether the number is in the range (inclusive according to boolean of same name)
      */
-    public static boolean isInRange(double num, double range1, double range2, boolean inclusive) {
+    protected static boolean isInRange(double num, double range1, double range2, boolean inclusive) {
         double lower = Math.min(range1, range2);
         double higher = Math.max(range1, range2);
         if(inclusive) {
@@ -827,7 +854,7 @@ public class KBase {
      * @param criteria The criteria if it has to be newly created
      * @return The objective gotten or created
      */
-    public static Objective getOrCreateObj(Scoreboard board, String name, String criteria) {
+    protected static Objective getOrCreateObj(Scoreboard board, String name, String criteria) {
         if (board.getObjective(name) == null)
             return board.registerNewObjective(name, criteria);
         return board.getObjective(name);
@@ -842,7 +869,7 @@ public class KBase {
      * @param thing The number to be formatted
      * @return The number formatted
      */
-    public static String num(String thing) {
+    protected static String num(String thing) {
         return thing.replace(".0", "");
     }
 
@@ -853,7 +880,7 @@ public class KBase {
      * @return The number formatted
      * @see #num(String)
      */
-    public static String num(double thing) {
+    protected static String num(double thing) {
         return num(thing + "");
     }
 
@@ -869,7 +896,7 @@ public class KBase {
      * @param i The number being formatted
      * @return Formatted number
      */
-    public static String commaify(int i) {
+    protected static String commaify(int i) {
         return commaify((double) i);
     }
 
@@ -879,7 +906,7 @@ public class KBase {
      * @param i The number being formatted
      * @return Formatted number
      */
-    public static String commaify(double i) {
+    protected static String commaify(double i) {
         return COMMA_FORMAT.format(i);
     }
 
@@ -890,7 +917,7 @@ public class KBase {
      * @param thing The string to be affected
      * @return Returns the string with spaces between each capital letter
      */
-    public static String space(String thing) {
+    protected static String space(String thing) {
         return thing.replaceAll("(.)([A-Z])", "$1 $2");
     }
 
@@ -911,7 +938,7 @@ public class KBase {
      * @param value The number to be formatted
      * @return Returns the number simplified with the suffixes (K, M, etc.)
      */
-    public static String formatNumberSuffixes(long value) {
+    protected static String formatNumberSuffixes(long value) {
         //Long.MIN_VALUE == -Long.MIN_VALUE so we need an adjustment here
         if (value == Long.MIN_VALUE) return formatNumberSuffixes(Long.MIN_VALUE + 1);
         if (value < 0) return "-" + formatNumberSuffixes(-value);
@@ -934,7 +961,7 @@ public class KBase {
      * @param num The number being put in
      * @return The number as a roman numeral
      */
-    public static String toRomanNumeral(int num) {
+    protected static String toRomanNumeral(int num) {
         StringBuilder sb = new StringBuilder();
         int times;
         String[] romans = new String[]{"I", "IV", "V", "IX", "X", "XL", "L",
@@ -958,7 +985,7 @@ public class KBase {
      * @param roman The roman integer
      * @return The number that the roman integer is equal to
      */
-    public static int romanToInteger(String roman) {
+    protected static int romanToInteger(String roman) {
         Map<Character, Integer> numbersMap = new HashMap<>();
         numbersMap.put('I', 1);
         numbersMap.put('V', 5);
@@ -995,7 +1022,7 @@ public class KBase {
      * @return The string with the first letter of each word being capitalized
      * @see #capitalize(String, char[])
      */
-    public static String capitalize(String str) {
+    protected static String capitalize(String str) {
         return capitalize(str, null);
     }
 
@@ -1006,7 +1033,7 @@ public class KBase {
      * @param delimiters The delimiters to check
      * @return The string with the first letter of each word being capitalized
      */
-    public static String capitalize(String str, char[] delimiters) {
+    protected static String capitalize(String str, char[] delimiters) {
         int delimLen = (delimiters == null ? -1 : delimiters.length);
         if (str == null || str.length() == 0 || delimLen == 0) {
             return str;
@@ -1049,7 +1076,7 @@ public class KBase {
         return false;
     }
 
-    public static List<String> wrapLine(String line, int wrapLength) {
+    protected static List<String> wrapLine(String line, int wrapLength) {
         List<String> resultList = new ArrayList<>();
 
         if (line == null || line.length() == 0) {
@@ -1131,7 +1158,7 @@ public class KBase {
      * @param variables The objects to print
      * @see #print
      */
-    public static void println(Object... variables) {
+    protected static void println(Object... variables) {
         print(variables);
         println();
     }
@@ -1143,7 +1170,7 @@ public class KBase {
      *
      * @param what What will be printed
      */
-    public static void println(Object what) {
+    protected static void println(Object what) {
         if (what == null) {
             System.out.println("null");
         } else if (what.getClass().isArray()) {
@@ -1157,7 +1184,7 @@ public class KBase {
     /**
      * Will print a new line
      */
-    public static void println() {
+    protected static void println() {
         System.out.println();
     }
 
@@ -1166,7 +1193,7 @@ public class KBase {
      *
      * @param variables The objects to print
      */
-    public static void print(Object... variables) {
+    protected static void print(Object... variables) {
         StringBuilder sb = new StringBuilder();
         for (Object o : variables) {
             if (sb.length() != 0) {
@@ -1186,7 +1213,7 @@ public class KBase {
      *
      * @param what What it will print
      */
-    public static void printArray(Object what) {
+    protected static void printArray(Object what) {
         if (what == null) {
             // special case since this does fuggly things on > 1.1
             System.out.println("null");
@@ -1266,7 +1293,7 @@ public class KBase {
         System.out.flush();
     }
 
-    static Random internalRandom;
+    private static Random internalRandom;
 
     /**
      * Makes a random number between 0 and every number less than param high
@@ -1275,7 +1302,7 @@ public class KBase {
      * @param high The highest the number can go (I'm pretty sure it would never hit this)
      * @return A random number between 0 and the param high
      */
-    public static float random(float high) {
+    protected static float random(float high) {
         // avoid an infinite loop when 0 or NaN are passed in
         if (high == 0 || high != high) {
             return 0;
@@ -1314,7 +1341,7 @@ public class KBase {
      * @param color The color the item will be colored
      * @return Returns the item dyed
      */
-    public static ItemStack colorToArmor(ItemStack item, Color color) {
+    protected static ItemStack colorToArmor(ItemStack item, Color color) {
         if (!item.getType().name().contains("LEATHER_")) return item;
         LeatherArmorMeta im = (LeatherArmorMeta) item.getItemMeta();
         im.setColor(color);
@@ -1329,7 +1356,7 @@ public class KBase {
      * @param amount The amount the item will be set to
      * @return The item x the amount
      */
-    public static ItemStack setStackAmount(ItemStack item, int amount) {
+    protected static ItemStack setStackAmount(ItemStack item, int amount) {
         ItemStack returnType = new ItemStack(item);
         returnType.setAmount(amount);
         return returnType;
@@ -1342,7 +1369,7 @@ public class KBase {
      * @param texture The texture the skull will be set
      * @return Returns the skull with the texture set
      */
-    public static ItemStack setTexture(ItemStack item, String texture) {
+    protected static ItemStack setTexture(ItemStack item, String texture) {
         if (item.getType() != XMaterial.PLAYER_HEAD.parseMaterial()) return item;
         SkullMeta hm = (SkullMeta) item.getItemMeta();
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
@@ -1368,7 +1395,7 @@ public class KBase {
      * @param pitch The pitch the sound will be played at)
      * @see Player#playSound(Location, Sound, float, float)
      */
-    public static void playSound(Player p, XSound sound, float pitch) {
+    protected static void playSound(Player p, XSound sound, float pitch) {
         p.playSound(p.getLocation(), sound.parseSound(), 100, pitch);
     }
 
@@ -1380,7 +1407,7 @@ public class KBase {
      * @param world The world of which it will be getting for NMS
      * @return Returns the Object (that is the NMS world) for reflection
      */
-    public static Object getNMSWorld(World world) {
+    protected static Object getNMSWorld(World world) {
         try {
             Class<?> craftWorldClass = ReflectionUtils.getCraftClass("CraftWorld");
             Object craftWorld = craftWorldClass.cast(world);
@@ -1390,7 +1417,7 @@ public class KBase {
         return null;
     }
 
-    public static Object getPrivateField(Object object, String field) throws SecurityException,
+    protected static Object getPrivateField(Object object, String field) throws SecurityException,
             NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         Class<?> clazz = object.getClass();
         Field objectField = clazz.getDeclaredField(field);
