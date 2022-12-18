@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
@@ -27,6 +28,10 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 public class KStatic extends KBase {
+
+    public static JavaPlugin getPlugin() {
+        return KBase.getPlugin();
+    }
 
     // File Stuff
 

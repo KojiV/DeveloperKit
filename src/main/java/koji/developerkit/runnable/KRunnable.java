@@ -1,6 +1,6 @@
 package koji.developerkit.runnable;
 
-import koji.developerkit.KBase;
+import koji.developerkit.utils.KStatic;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 
 public class KRunnable extends BukkitRunnable {
     static {
-        plugin = KBase.getPlugin();
+        plugin = KStatic.getPlugin();
     }
 
     private static final JavaPlugin plugin;

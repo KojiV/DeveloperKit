@@ -1,7 +1,7 @@
 package koji.developerkit.bossbar;
 
-import koji.developerkit.KBase;
 import koji.developerkit.runnable.KRunnable;
+import koji.developerkit.utils.KStatic;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
@@ -45,7 +45,7 @@ public class Bossbar_1_8 implements IBossbar {
 
         dragons.put(p.getName(), dragon);
         ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
-        teleportBar(p).runTaskTimer(KBase.getPlugin(), 0L, 3L);
+        teleportBar(p).runTaskTimer(KStatic.getPlugin(), 0L, 3L);
     }
 
     public void removeBar(Player p) {
