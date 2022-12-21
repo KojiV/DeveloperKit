@@ -122,7 +122,7 @@ public class KBase {
      * Gets the index of items if they were centered based on amount
      *
      * @param amount amount to be centered by
-     * @param centerSlot the start slot (can go down lines after that if amount > 7)
+     * @param centerSlot the start slot (can go down lines after that if amount greater than 7)
      * @return the slot numbers
      */
     protected static Integer[] getCenteredSlots(int amount, int centerSlot) {
@@ -832,6 +832,7 @@ public class KBase {
      * @param num The number it's checking
      * @param range1 The range num 1
      * @param range2 The range num 2
+     * @param inclusive whether the numbers range1 and range2 are included in the check or not
      * @return Whether the number is in the range (inclusive according to boolean of same name)
      */
     protected static boolean isInRange(double num, double range1, double range2, boolean inclusive) {
