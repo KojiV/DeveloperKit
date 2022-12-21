@@ -372,6 +372,20 @@ public class KBase {
      * @param original    The list that will have replaced stuff
      * @param placeholder The stuff to replace
      * @return param original with the placeholders replaced
+     * @see KBase#replacePlaceholder(List, HashMap)
+     */
+    protected static List<String> replacePlaceholders(List<String> original, HashMap<String, String> placeholder) {
+        HashMap<String, List<String>> placeholders = new HashMap<>();
+        placeholder.forEach((a, b) -> placeholders.put(a, arrayList(b)));
+        return replacePlaceholder(original, placeholders);
+    }
+
+    /**
+     * Replaces the placeholders in param placeholder wherever they are in param original
+     *
+     * @param original    The list that will have replaced stuff
+     * @param placeholder The stuff to replace
+     * @return param original with the placeholders replaced
      */
     protected static List<String> replacePlaceholder(List<String> original, HashMap<String, List<String>> placeholder) {
         List<String> lore = new ArrayList<>();
@@ -1331,7 +1345,7 @@ public class KBase {
      * @param item The item being checked
      * @return If the item is not null and not air
      */
-    public boolean isValidItem(ItemStack item) {
+    protected static boolean isValidItem(ItemStack item) {
         return item != null && item.getType() != XMaterial.AIR.parseMaterial();
     }
 
