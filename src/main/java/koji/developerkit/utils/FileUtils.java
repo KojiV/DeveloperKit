@@ -1,13 +1,9 @@
 package koji.developerkit.utils;
 
-import org.apache.commons.io.IOUtils;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 public class FileUtils {
     public static void loadFile(InputStream paramInputStream, File paramFile) throws IOException, InvalidConfigurationException {
@@ -41,13 +37,52 @@ public class FileUtils {
         try {
             FileOutputStream fileOutputStream = openOutputStream(paramFile);
             try {
-                IOUtils.copy(paramInputStream, fileOutputStream);
+                copy(paramInputStream, fileOutputStream);
                 fileOutputStream.close();
             } finally {
-                IOUtils.closeQuietly(fileOutputStream);
+                closeQuietly(fileOutputStream);
             }
         } finally {
-            IOUtils.closeQuietly(paramInputStream);
+            closeQuietly(paramInputStream);
+        }
+    }
+
+    public static int copy(InputStream input, OutputStream output) throws IOException {
+        long count = copyLarge(input, output);
+        if (count > Integer.MAX_VALUE) {
+            return -1;
+        }
+        return (int) count;
+    }
+
+
+    public static long copyLarge(InputStream input, OutputStream output)
+            throws IOException {
+        return copyLarge(input, output, new byte[1024 * 4]);
+    }
+
+    public static long copyLarge(InputStream input, OutputStream output, byte[] buffer)
+            throws IOException {
+        long count = 0;
+        int n;
+        while (-1 != (n = input.read(buffer))) {
+            output.write(buffer, 0, n);
+            count += n;
+        }
+        return count;
+    }
+
+    public static void closeQuietly(OutputStream output) {
+        closeQuietly((Closeable) output);
+    }
+
+    public static void closeQuietly(Closeable closeable) {
+        try {
+            if (closeable != null) {
+                closeable.close();
+            }
+        } catch (IOException ioe) {
+            // ignore
         }
     }
 }
