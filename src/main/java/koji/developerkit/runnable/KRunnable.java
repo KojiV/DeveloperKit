@@ -31,7 +31,11 @@ public class KRunnable extends BukkitRunnable {
     Consumer<KRunnable> task;
     HashMap<CancellationActivationType, Consumer<KRunnable>> tasksOnCancel = new HashMap<>();
 
-    boolean isCancelled = false;
+    private boolean cancelled = false;
+
+    public boolean isCancelled() {
+        return cancelled;
+    }
 
     @Override
     public void run() {
@@ -40,7 +44,7 @@ public class KRunnable extends BukkitRunnable {
 
     public KRunnable cancelAfter(long period) {
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            if (!isCancelled) {
+            if (!cancelled) {
                 cancel(CancellationActivationType.TIME);
             }
         }, period);
@@ -48,7 +52,7 @@ public class KRunnable extends BukkitRunnable {
     }
 
     public void cancel(CancellationActivationType type) {
-        isCancelled = true;
+        cancelled = true;
         super.cancel();
 
         CancellationActivationType[] typesList = new CancellationActivationType[]{
