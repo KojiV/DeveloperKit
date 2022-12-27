@@ -129,22 +129,18 @@ public class KBase {
         if(amount == 0) return new Integer[0];
         List<Integer> ints = new ArrayList<>();
 
-        int calcAmount = amount;
+        for (int i = 0; i < Math.ceil(amount / 7.0); i++) {
+            int lineCenter = centerSlot + i * 9;
+            int amountForLine = Math.min(amount - i * 7, 7);
 
-        for(int i = 1 ; i <= Math.ceil(amount / 7.0); i++) {
-            int center = centerSlot * i;
-
-            if (calcAmount % 2 != 0) {
-                ints.add(center);
-                calcAmount--;
+            if (amountForLine % 2 != 0) {
+                ints.add(lineCenter);
             }
-            for (int i1 = 1; i1 <= calcAmount / 2; i1++) {
-                ints.add(center + i1);
-                ints.add(center - i1);
-                calcAmount -= 2;
+            for (int i1 = 1; i1 <= amountForLine / 2; i1++) {
+                ints.add(lineCenter + i1);
+                ints.add(lineCenter - i1);
             }
         }
-
         Integer[] returnValue = ints.toArray(new Integer[0]);
         Arrays.sort(returnValue);
         return returnValue;
