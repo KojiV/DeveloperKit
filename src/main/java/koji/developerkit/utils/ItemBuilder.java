@@ -63,7 +63,10 @@ public class ItemBuilder extends KBase {
     }
 
     public String getName() {
-        return im.getItemMeta().getDisplayName();
+        if(im.getItemMeta().hasDisplayName()) {
+            im.getItemMeta().getDisplayName();
+        }
+        return capitalize(im.getType().name().toLowerCase().replace("_", ""));
     }
 
     public ItemBuilder setString(String string, String value) {
@@ -80,6 +83,7 @@ public class ItemBuilder extends KBase {
     public ItemBuilder setInt(String key, int value) {
         return setInt(key, value, false);
     }
+
     public ItemBuilder setInt(String string, int value, boolean ignoreCompound) {
         NBTItem nbtItem = new NBTItem(im);
         nbtItem.setInteger(string, value, ignoreCompound);
