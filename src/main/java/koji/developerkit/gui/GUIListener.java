@@ -35,7 +35,11 @@ public class GUIListener extends KListener {
                                         item.getString("ClickItem")
                                 );
                         if (guiItem == null) return;
-                        guiItem.run(e);
+                        try {
+                            guiItem.run(e);
+                        } catch (Exception exception) {
+                            exception.printStackTrace();
+                        }
                         e.setCancelled(e.isCancelled() || !guiItem.canPickup());
                     }
                 } catch (NullPointerException ignored) {}
