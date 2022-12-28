@@ -77,9 +77,9 @@ public class LocaleManager {
      * Send message with item name translated to the client's locale.
      * Material is required. Durability arg is arbitrary for 1.13+
      * and can be ignored by setting to a value less than 0.
-     * Enchantments & meta are optional and may be left null or empty,
-     * but note that most Potions use meta for 1.13+.<p>
-     * <p>
+     * Enchantments and meta are optional and may be left null or empty,
+     * but note that most Potions use meta for 1.13+.
+     *
      * Message should contain {@code <item>} string for replacement by
      * this method (along with applicable {@code <enchantment>} and/or
      * {@code <level>} strings).
@@ -90,6 +90,7 @@ public class LocaleManager {
      * @param durability   Durability for the item being translated
      * @param enchantments Enchantments for the item being translated
      * @param meta         ItemMeta for the item being translated
+     * @return whether it was a success or not
      */
     public boolean sendMessage(final Player player, final String message, final Material material, final short durability,
                                Map<Enchantment, Integer> enchantments, final ItemMeta meta) {
@@ -123,8 +124,8 @@ public class LocaleManager {
      * Send message with item name translated to the client's locale.
      * Material is required. Durability arg is arbitrary for 1.13+
      * and can be ignored by setting to a value less than 0.
-     * Enchantments are optional and may be left null or empty.<p>
-     * <p>
+     * Enchantments are optional and may be left null or empty.
+     *
      * Message should contain {@code <item>} string for replacement by
      * this method (along with applicable {@code <enchantment>} and/or
      * {@code <level>} strings).
@@ -134,6 +135,7 @@ public class LocaleManager {
      * @param material     The item to be translated
      * @param durability   Durability for the item being translated
      * @param enchantments Enchantments for the item being translated
+     * @return whether it was a success or not
      */
     public boolean sendMessage(final Player player, final String message, final Material material, final short durability,
                                final Map<Enchantment, Integer> enchantments) {
@@ -143,7 +145,7 @@ public class LocaleManager {
     /**
      * Send message with enchantments translated to the client's locale.
      * Map of Enchantment+level is required.
-     * <p>
+     *
      * Message should contain {@code <item>} string for replacement by
      * this method (along with applicable {@code <enchantment>} and/or
      * {@code <level>} strings).
@@ -151,6 +153,7 @@ public class LocaleManager {
      * @param player       The player whom the message is to be sent to
      * @param message      The message to be sent to the player
      * @param enchantments Enchantments for the item being translated
+     * @return whether it was a success or not
      */
     public boolean sendMessage(final Player player, final String message, final Map<Enchantment, Integer> enchantments) {
         if (player == null || message == null || enchantments == null) {
@@ -173,8 +176,8 @@ public class LocaleManager {
 
     /**
      * Send message with entity name translated to the client's locale.
-     * EntityType is required.<p>
-     * <p>
+     * EntityType is required.
+     *
      * Message should contain {@code <mob>}string for replacement by
      * this method.
      *
@@ -182,6 +185,7 @@ public class LocaleManager {
      * @param message The message to be sent to the player
      * @param type    The entity type to be translated
      * @param extra   Career, Ocelot, Rabbit, or TropicalFish type if applicable
+     * @return whether it was a success or not
      */
     public boolean sendMessage(final Player player, final String message, final EntityType type, final String extra) {
         if (player == null || message == null || type == null) {
@@ -419,6 +423,8 @@ public class LocaleManager {
      *
      * @param key the raw key for the object name
      * @return the display name of the specified key within the server locale file
+     * @throws IllegalArgumentException cuz
+     * @throws InvocationTargetException cuz
      */
     public String toServerLocale(final String key) throws IllegalAccessException, InvocationTargetException {
         final Method trans = Arrays.stream(localeClazz.getMethods())

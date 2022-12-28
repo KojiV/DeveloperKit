@@ -53,6 +53,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     if: ${{ startsWith(github.event.head_commit.message, 'feat') }}
+    needs: build
 
     steps:
       - uses: actions/checkout@v3
