@@ -65,6 +65,8 @@ public class ItemBuilder extends KBase {
     public String getName() {
         if(im.getItemMeta().hasDisplayName()) {
             return im.getItemMeta().getDisplayName();
+        } else {
+
         }
         return capitalize(im.getType().name().toLowerCase().replace("_", " "));
     }
