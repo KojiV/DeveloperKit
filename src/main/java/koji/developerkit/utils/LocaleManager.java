@@ -1,5 +1,6 @@
 package koji.developerkit.utils;
 
+import koji.developerkit.KBase;
 import org.apache.commons.lang.NullArgumentException;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,7 +23,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
-public class LocaleManager {
+public class LocaleManager extends KBase {
     private static final LocaleManager instance = new LocaleManager();
 
     public static LocaleManager getInstance() {
@@ -71,6 +72,7 @@ public class LocaleManager {
         } catch (final ClassNotFoundException e) {
             e.printStackTrace();
         }
+        println(oldVersion);
     }
 
     /**
