@@ -382,6 +382,17 @@ public class ItemBuilder extends KBase {
         return this;
     }
 
+    public ItemBuilder removeKey(String key) {
+        return removeKey(key, false);
+    }
+
+    public ItemBuilder removeKey(String key, boolean ignoreCompound) {
+        NBTItem nbt = new NBTItem(im);
+        nbt.removeKey(key, ignoreCompound);
+        im = nbt.getItem();
+        return this;
+    }
+
     public NBTCompound getCompound(String compound) {
         NBTItem nbt = new NBTItem(im, arrayList(compound));
         return nbt.getCompound("ExtraAttributes").getOrCreateCompound(compound);

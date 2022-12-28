@@ -32,8 +32,11 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public void setString(String key, String value, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        compound.setString(key, value);
+        if (ignoreCompound) {
+            super.setString(key, value);
+        } else {
+            getCompound("ExtraAttributes").setString(key, value);
+        }
     }
 
     public void setInteger(String key, int value) {
@@ -41,8 +44,11 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public void setInteger(String key, int value, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        compound.setInteger(key, value);
+        if (ignoreCompound) {
+            super.setInteger(key, value);
+        } else {
+            getCompound("ExtraAttributes").setInteger(key, value);
+        }
     }
 
     public void setBoolean(String key, boolean value) {
@@ -50,8 +56,11 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public void setBoolean(String key, boolean value, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        compound.setBoolean(key, value);
+        if (ignoreCompound) {
+            super.setBoolean(key, value);
+        } else {
+            getCompound("ExtraAttributes").setBoolean(key, value);
+        }
     }
 
     public void setDouble(String key, double value) {
@@ -59,8 +68,11 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public void setDouble(String key, double value, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        compound.setDouble(key, value);
+        if (ignoreCompound) {
+            super.setDouble(key, value);
+        } else {
+            getCompound("ExtraAttributes").setDouble(key, value);
+        }
     }
 
     public void setLong(String key, long value) {
@@ -68,8 +80,11 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public void setLong(String key, long value, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        compound.setLong(key, value);
+        if (ignoreCompound) {
+            super.setLong(key, value);
+        } else {
+            getCompound("ExtraAttributes").setLong(key, value);
+        }
     }
 
     public void setByte(String key, byte value) {
@@ -77,8 +92,11 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public void setByte(String key, byte value, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        compound.setByte(key, value);
+        if (ignoreCompound) {
+            super.setByte(key, value);
+        } else {
+            getCompound("ExtraAttributes").setByte(key, value);
+        }
     }
 
     public void setShort(String key, short value) {
@@ -86,8 +104,11 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public void setShort(String key, short value, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        compound.setShort(key, value);
+        if (ignoreCompound) {
+            super.setShort(key, value);
+        } else {
+            getCompound("ExtraAttributes").setShort(key, value);
+        }
     }
 
     public void setFloat(String key, float value) {
@@ -95,8 +116,11 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public void setFloat(String key, float value, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        compound.setFloat(key, value);
+        if (ignoreCompound) {
+            super.setFloat(key, value);
+        } else {
+            getCompound("ExtraAttributes").setFloat(key, value);
+        }
     }
 
     public void setByteArray(String key, byte[] value) {
@@ -104,8 +128,11 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public void setByteArray(String key, byte[] value, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        compound.setByteArray(key, value);
+        if (ignoreCompound) {
+            super.setByteArray(key, value);
+        } else {
+            getCompound("ExtraAttributes").setByteArray(key, value);
+        }
     }
 
     public void setIntArray(String key, int[] value) {
@@ -113,13 +140,19 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public void setIntArray(String key, int[] value, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        compound.setIntArray(key, value);
+        if (ignoreCompound) {
+            super.setIntArray(key, value);
+        } else {
+            getCompound("ExtraAttributes").setIntArray(key, value);
+        }
     }
 
     public String getString(String key, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        return compound.getString(key);
+        if (ignoreCompound) {
+            return super.getString(key);
+        } else {
+            return getCompound("ExtraAttributes").getString(key);
+        }
     }
 
     public String getString(String key) {
@@ -135,8 +168,11 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public Integer getInteger(String key, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        return compound.getInteger(key);
+        if (ignoreCompound) {
+            return super.getInteger(key);
+        } else {
+            return getCompound("ExtraAttributes").getInteger(key);
+        }
     }
 
     public Integer getInteger(String key) {
@@ -152,8 +188,11 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public Boolean getBoolean(String key, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        return compound.getBoolean(key);
+        if (ignoreCompound) {
+            return super.getBoolean(key);
+        } else {
+            return getCompound("ExtraAttributes").getBoolean(key);
+        }
     }
 
     public Boolean getBoolean(String key) {
@@ -169,8 +208,11 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public Double getDouble(String key, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        return compound.getDouble(key);
+        if (ignoreCompound) {
+            return super.getDouble(key);
+        } else {
+            return getCompound("ExtraAttributes").getDouble(key);
+        }
     }
 
     public Double getDouble(String key) {
@@ -186,8 +228,11 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public Long getLong(String key, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        return compound.getLong(key);
+        if (ignoreCompound) {
+            return super.getLong(key);
+        } else {
+            return getCompound("ExtraAttributes").getLong(key);
+        }
     }
 
     public Long getLong(String key) {
@@ -203,8 +248,11 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public Byte getByte(String key, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        return compound.getByte(key);
+        if (ignoreCompound) {
+            return super.getByte(key);
+        } else {
+            return getCompound("ExtraAttributes").getByte(key);
+        }
     }
 
     public Byte getByte(String key) {
@@ -220,8 +268,11 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public Short getShort(String key, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        return compound.getShort(key);
+        if (ignoreCompound) {
+            return super.getShort(key);
+        } else {
+            return getCompound("ExtraAttributes").getShort(key);
+        }
     }
 
     public Short getShort(String key) {
@@ -237,8 +288,11 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public Float getFloat(String key, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        return compound.getFloat(key);
+        if (ignoreCompound) {
+            return super.getFloat(key);
+        } else {
+            return getCompound("ExtraAttributes").getFloat(key);
+        }
     }
 
     public Float getFloat(String key) {
@@ -254,8 +308,11 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public byte[] getByteArray(String key, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        return compound.getByteArray(key);
+        if (ignoreCompound) {
+            return super.getByteArray(key);
+        } else {
+            return getCompound("ExtraAttributes").getByteArray(key);
+        }
     }
 
     public byte[] getByteArray(String key) {
@@ -271,8 +328,11 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public int[] getIntArray(String key, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        return compound.getIntArray(key);
+        if (ignoreCompound) {
+            return super.getIntArray(key);
+        } else {
+            return getCompound("ExtraAttributes").getIntArray(key);
+        }
     }
 
     public int[] getIntArray(String key) {
@@ -292,8 +352,23 @@ public class NBTItem extends de.tr7zw.changeme.nbtapi.NBTItem {
     }
 
     public Boolean hasKey(String key, boolean ignoreCompound) {
-        NBTCompound compound = ignoreCompound ? this : getCompound("ExtraAttributes");
-        return compound.hasTag(key);
+        if (ignoreCompound) {
+            return super.hasTag(key);
+        } else {
+            return getCompound("ExtraAttributes").hasTag(key);
+        }
+    }
+
+    public void removeKey(String key) {
+        removeKey(key, false);
+    }
+
+    public void removeKey(String key, boolean ignoreCompound) {
+        if(ignoreCompound) {
+            super.removeKey(key);
+        } else {
+            getCompound("ExtraAttributes").removeKey(key);
+        }
     }
 
     public void setUnbreakable(boolean boo) {
