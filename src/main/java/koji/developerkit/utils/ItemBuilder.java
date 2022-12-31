@@ -5,13 +5,16 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
 import koji.developerkit.KBase;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -63,11 +66,48 @@ public class ItemBuilder extends KBase {
     }
 
     public String getName() {
-        if(im.getItemMeta().hasDisplayName()) {
+        if(im.getItemMeta() != null && im.getItemMeta().hasDisplayName()) {
             return im.getItemMeta().getDisplayName();
-        } else {
-            return capitalize(LocaleManager.getInstance().queryMaterial(im.getType()));
         }
+        return getFriendlyName(im);
+    }
+
+    private static Class<?> localeClass = null;
+    private static Class<?> craftItemStackClass = null, nmsItemStackClass = null, nmsItemClass = null;
+    private static final String OBC_PREFIX = Bukkit.getServer().getClass().getPackage().getName();
+    private static final String NMS_PREFIX = OBC_PREFIX.replace(
+            "org.bukkit.craftbukkit", "net.minecraft.server"
+    );
+
+    private static String getFriendlyName(ItemStack itemStack) {
+        if (itemStack == null || itemStack.getType() == Material.AIR) return "Air";
+
+        try {
+            if (craftItemStackClass == null)
+                craftItemStackClass = Class.forName(OBC_PREFIX + ".inventory.CraftItemStack");
+            Method nmsCopyMethod = craftItemStackClass.getMethod("asNMSCopy", ItemStack.class);
+
+            if (nmsItemStackClass == null) nmsItemStackClass = Class.forName(NMS_PREFIX + ".ItemStack");
+            Object nmsItemStack = nmsCopyMethod.invoke(null, itemStack);
+
+            Object itemName;
+            Method getItemMethod = nmsItemStackClass.getMethod("getItem");
+            Object nmsItem = getItemMethod.invoke(nmsItemStack);
+
+            if (nmsItemClass == null) nmsItemClass = Class.forName(NMS_PREFIX + ".Item");
+
+            Method getNameMethod = nmsItemClass.getMethod("getName");
+            String localItemName = (String) getNameMethod.invoke(nmsItem);
+
+            if (localeClass == null) localeClass = Class.forName(NMS_PREFIX + ".LocaleI18n");
+            Method getLocaleMethod = localeClass.getMethod("get", String.class);
+
+            Object localeString = localItemName == null ? "" : getLocaleMethod.invoke(null, localItemName);
+            itemName = ("" + getLocaleMethod.invoke(null, localeString.toString() + ".name")).trim();
+
+            return itemName.toString();
+        } catch (Exception ignored) {}
+        return capitalize(itemStack.getType().name().replace("_", " ").toLowerCase());
     }
 
     public ItemBuilder setString(String string, String value) {
