@@ -14,6 +14,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
@@ -439,21 +440,26 @@ public class ItemBuilder extends KBase {
         return nbt.getCompound("ExtraAttributes").getOrCreateCompound(compound);
     }
 
+    public String getTexture() {
+        if (im.getType() != XMaterial.PLAYER_HEAD.parseMaterial()) return "";
+
+        return ((SkullMeta) im.getItemMeta()).getOwner();
+    }
+
     public ItemBuilder setTexture(String texture) {
         if(im.getType() != XMaterial.PLAYER_HEAD.parseMaterial()) return this;
 
         SkullMeta hm = (SkullMeta) im.getItemMeta();
-        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-        profile.getProperties().put("textures", new Property("textures", texture));
-        try {
-            Field field = hm.getClass().getDeclaredField("profile");
-            field.setAccessible(true);
-            field.set(hm, profile);
-        } catch (IllegalArgumentException | NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        mutateItemMeta(hm, texture);
         im.setItemMeta(hm);
         return this;
+    }
+
+    public Color getColor() {
+        if (!im.getType().toString().startsWith("LEATHER_")) return null;
+        
+        LeatherArmorMeta lAM = (LeatherArmorMeta) im.getItemMeta();
+        return lAM.getColor();
     }
 
     public ItemBuilder setColor(Color c) {
@@ -479,5 +485,43 @@ public class ItemBuilder extends KBase {
         nbt.applyFromString(compoundAsString, ignoreCompound);
         im = nbt.getItem();
         return this;
+    }
+
+    private static Field blockProfileField;
+    private static Method metaSetProfileMethod;
+    private static Field metaProfileField;
+
+    private static void mutateItemMeta(SkullMeta meta, String b64) {
+        try {
+            if (metaSetProfileMethod == null) {
+                metaSetProfileMethod = meta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
+                metaSetProfileMethod.setAccessible(true);
+            }
+            metaSetProfileMethod.invoke(meta, makeProfile(b64));
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
+            // if in an older API where there is no setProfile method,
+            // we set the profile field directly.
+            try {
+                if (metaProfileField == null) {
+                    metaProfileField = meta.getClass().getDeclaredField("profile");
+                    metaProfileField.setAccessible(true);
+                }
+                metaProfileField.set(meta, makeProfile(b64));
+
+            } catch (NoSuchFieldException | IllegalAccessException ex2) {
+                ex2.printStackTrace();
+            }
+        }
+    }
+
+    private static GameProfile makeProfile(String b64) {
+        // random uuid based on the b64 string
+        UUID id = new UUID(
+                b64.substring(b64.length() - 20).hashCode(),
+                b64.substring(b64.length() - 10).hashCode()
+        );
+        GameProfile profile = new GameProfile(id, "Player");
+        profile.getProperties().put("textures", new Property("textures", b64));
+        return profile;
     }
 }
