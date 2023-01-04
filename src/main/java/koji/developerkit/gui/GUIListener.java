@@ -43,7 +43,9 @@ public class GUIListener extends KListener {
                         }
                         e.setCancelled(e.isCancelled() || !guiItem.canPickup());
                     }
-                } catch (NullPointerException ignored) {}
+                } catch (NullPointerException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
     }
