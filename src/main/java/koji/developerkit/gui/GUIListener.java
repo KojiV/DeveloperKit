@@ -29,6 +29,7 @@ public class GUIListener extends KListener {
         if(e.getSlot() < e.getInventory().getSize()) {
             if (e.getCurrentItem() != null && e.getCurrentItem().getType() != XMaterial.AIR.parseMaterial()) {
                 try { NBTItem item = new NBTItem(e.getCurrentItem());
+                    println(item.hasKey("ClickItem"));
                     if (item.hasKey("ClickItem") && item.getString("ClickItem") != null) {
                         GUIClickableItem guiItem =
                                 GUIClickableItem.getItemsToRun().get(
