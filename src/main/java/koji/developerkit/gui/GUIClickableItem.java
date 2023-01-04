@@ -5,6 +5,7 @@ import com.cryptomorin.xseries.XSound;
 import koji.developerkit.KBase;
 import koji.developerkit.runnable.KRunnable;
 import koji.developerkit.utils.ItemBuilder;
+import koji.developerkit.utils.NBTItem;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -46,7 +47,9 @@ public abstract class GUIClickableItem extends KBase implements GUIItem {
      * @return The item with all of its things set
      */
     public ItemStack getFinishedItem() {
-        return new ItemBuilder(getItem()).setString("ClickItem", uuid).build();
+        NBTItem item = new NBTItem(getItem());
+        item.setString("ClickItem", uuid);
+        return item.getItem();
     }
 
     public abstract void run(InventoryClickEvent e);

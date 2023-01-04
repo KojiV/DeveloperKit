@@ -1,8 +1,9 @@
 package koji.developerkit.utils;
 
 import com.cryptomorin.xseries.XMaterial;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
-import de.tr7zw.changeme.nbtapi.NBTListCompound;
 import koji.developerkit.KBase;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -12,9 +13,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @SuppressWarnings("unused")
 public class ItemBuilder extends KBase {
@@ -445,15 +448,7 @@ public class ItemBuilder extends KBase {
     public ItemBuilder setTexture(String texture) {
         if(im.getType() != XMaterial.PLAYER_HEAD.parseMaterial()) return this;
 
-        de.tr7zw.changeme.nbtapi.NBTItem item = new de.tr7zw.changeme.nbtapi.NBTItem(im);
-        NBTListCompound compound = item
-                .addCompound("SkullOwner")
-                .addCompound("Properties")
-                .getCompoundList("textures")
-                .addCompound();
-        compound.setString("Value", texture);
-        im = item.getItem();
-        /*SkullMeta hm = (SkullMeta) im.getItemMeta();
+        SkullMeta hm = (SkullMeta) im.getItemMeta();
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
         profile.getProperties().put("textures", new Property("textures", texture));
         try {
@@ -463,7 +458,7 @@ public class ItemBuilder extends KBase {
         } catch (IllegalArgumentException | NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
-        im.setItemMeta(hm);*/
+        im.setItemMeta(hm);
         return this;
     }
 
