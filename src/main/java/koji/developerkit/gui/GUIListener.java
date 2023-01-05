@@ -1,15 +1,11 @@
 package koji.developerkit.gui;
 
-import com.cryptomorin.xseries.XMaterial;
 import koji.developerkit.listener.KListener;
 import koji.developerkit.utils.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
 
 public class GUIListener extends KListener {
 
@@ -29,11 +25,8 @@ public class GUIListener extends KListener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryClick(InventoryClickEvent e) {
-        println("hi 1");
         if(e.getSlot() < e.getInventory().getSize()) {
-            println("hi 2");
-            if (e.getCurrentItem() != null && e.getCurrentItem().getType() != XMaterial.AIR.parseMaterial()) {
-                println("hi 3");
+            if (isValidItem(e.getCurrentItem())) {
                 try { NBTItem item = new NBTItem(e.getCurrentItem());
                     if (item.hasKey("ClickItem") && item.getString("ClickItem") != null) {
                         GUIClickableItem guiItem =
@@ -50,16 +43,6 @@ public class GUIListener extends KListener {
                     }
                 } catch (NullPointerException ignored) {}
             }
-        }
-    }
-
-    @EventHandler
-    public void onInventoryDrag(InventoryDragEvent e) {
-        if (e.getRawSlots().stream().findAny().isPresent()) {
-            int slot = e.getRawSlots().stream().findAny().get();
-            onInventoryClick(new InventoryClickEvent(
-                    e.getView(), e.getView().getSlotType(slot), slot, ClickType.UNKNOWN, InventoryAction.UNKNOWN
-            ));
         }
     }
 }
