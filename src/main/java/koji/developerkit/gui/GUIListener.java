@@ -6,7 +6,10 @@ import koji.developerkit.utils.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 
 public class GUIListener extends KListener {
 
@@ -29,7 +32,6 @@ public class GUIListener extends KListener {
         if(e.getSlot() < e.getInventory().getSize()) {
             if (e.getCurrentItem() != null && e.getCurrentItem().getType() != XMaterial.AIR.parseMaterial()) {
                 try { NBTItem item = new NBTItem(e.getCurrentItem());
-                    println(item.hasKey("ClickItem"));
                     if (item.hasKey("ClickItem") && item.getString("ClickItem") != null) {
                         GUIClickableItem guiItem =
                                 GUIClickableItem.getItemsToRun().get(
@@ -43,10 +45,18 @@ public class GUIListener extends KListener {
                         }
                         e.setCancelled(e.isCancelled() || !guiItem.canPickup());
                     }
-                } catch (NullPointerException e1) {
-                    e1.printStackTrace();
-                }
+                } catch (NullPointerException ignored) {}
             }
+        }
+    }
+
+    @EventHandler
+    public void onInventoryDrag(InventoryDragEvent e) {
+        if (e.getRawSlots().stream().findAny().isPresent()) {
+            int slot = e.getRawSlots().stream().findAny().get();
+            onInventoryClick(new InventoryClickEvent(
+                    e.getView(), e.getView().getSlotType(slot), slot, ClickType.UNKNOWN, InventoryAction.UNKNOWN
+            ));
         }
     }
 }
