@@ -29,8 +29,11 @@ public class GUIListener extends KListener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryClick(InventoryClickEvent e) {
+        println("hi 1");
         if(e.getSlot() < e.getInventory().getSize()) {
+            println("hi 2");
             if (e.getCurrentItem() != null && e.getCurrentItem().getType() != XMaterial.AIR.parseMaterial()) {
+                println("hi 3");
                 try { NBTItem item = new NBTItem(e.getCurrentItem());
                     if (item.hasKey("ClickItem") && item.getString("ClickItem") != null) {
                         GUIClickableItem guiItem =
