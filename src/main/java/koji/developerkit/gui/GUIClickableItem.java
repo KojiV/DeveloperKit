@@ -66,7 +66,7 @@ public abstract class GUIClickableItem extends KBase implements GUIItem {
             public void run(InventoryClickEvent e) {
                 new KRunnable(task -> {
                     Player p = (Player) e.getWhoClicked();
-                    if(e.getView().getTopInventory().equals(p.getOpenInventory().getTopInventory())) {
+                    if(slot < p.getOpenInventory().getTopInventory().getSize()) {
                         e.getWhoClicked().closeInventory();
                     }
                 }).runTaskLater(getPlugin(), 1);
