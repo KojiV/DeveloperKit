@@ -103,7 +103,7 @@ public class KBase {
                 if (!deep) {
                     boolean skip = false;
                     for (String alreadyExisting : list) {
-                        if (keys.startsWith(alreadyExisting)) {
+                        if (keys.startsWith(alreadyExisting + ".")) {
                             skip = true;
                             break;
                         }
