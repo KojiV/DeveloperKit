@@ -47,6 +47,7 @@ The Developer Kit comes with multiple classes to aid in making the creation of M
   <groupId>io.github.kojiv</groupId>
   <artifactId>developerkit</artifactId>
   <version>version</version>
+  <scope>provided</scope>
 </dependency>
 ```
 #### Gradle
