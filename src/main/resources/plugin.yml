@@ -1,0 +1,6 @@
+name: KojiHook
+version: '${project.version}'
+main: koji.developerkit.KHook
+prefix: KojiDeveloperKit
+authors: [ Koji ]
+description: Koji's Developer Kit Hook

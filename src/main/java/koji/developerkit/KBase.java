@@ -48,7 +48,7 @@ public class KBase {
     }
 
     static {
-        plugin = JavaPlugin.getProvidingPlugin(KBase.class);
+        plugin = KHook.getHook();
 
         plugin.getLogger().log(Level.INFO, "Connecting Koji Dev Kit...");
 
