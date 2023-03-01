@@ -47,6 +47,10 @@ public class ItemBuilder extends KBase {
         return im;
     }
 
+    public List<String> getLore() {
+        return im.getItemMeta().getLore();
+    }
+
     public ItemBuilder setLore(String... lore) {
         return setLore(Arrays.asList(lore));
     }

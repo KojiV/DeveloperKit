@@ -7,7 +7,7 @@
     <groupId>io.github.kojiv</groupId>
     <artifactId>developerkit</artifactId>
     <!--https://github.com/marketplace/actions/github-release-changelog-generator-->
-    <version>1.13.6</version>
+    <version>1.13.7</version>
     <packaging>jar</packaging>
 
 
@@ -234,7 +234,7 @@
         <dependency>
             <groupId>com.github.cryptomorin</groupId>
             <artifactId>XSeries</artifactId>
-            <version>9.2.0</version>
+            <version>9.3.0</version>
         </dependency>
         <dependency>
             <groupId>com.mojang</groupId>

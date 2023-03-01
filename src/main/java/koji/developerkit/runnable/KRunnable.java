@@ -83,34 +83,4 @@ public class KRunnable extends BukkitRunnable {
         TIME,
         BOTH
     }
-
-    @NotNull
-    public synchronized BukkitTask runTask() throws IllegalArgumentException, IllegalStateException {
-        return super.runTask(plugin);
-    }
-
-    @NotNull
-    public synchronized BukkitTask runTaskAsynchronously() throws IllegalArgumentException, IllegalStateException {
-        return super.runTaskAsynchronously(plugin);
-    }
-
-    @NotNull
-    public synchronized BukkitTask runTaskLater(long delay) throws IllegalArgumentException, IllegalStateException {
-        return super.runTaskLater(plugin, delay);
-    }
-
-    @NotNull
-    public synchronized BukkitTask runTaskLaterAsynchronously(long delay) throws IllegalArgumentException, IllegalStateException {
-        return super.runTaskLaterAsynchronously(plugin, delay);
-    }
-
-    @NotNull
-    public synchronized BukkitTask runTaskTimer(long delay, long period) throws IllegalArgumentException, IllegalStateException {
-        return super.runTaskTimer(plugin, delay, period);
-    }
-
-    @NotNull
-    public synchronized BukkitTask runTaskTimerAsynchronously(long delay, long period) throws IllegalArgumentException, IllegalStateException {
-        return super.runTaskTimerAsynchronously(plugin, delay, period);
-    }
 }

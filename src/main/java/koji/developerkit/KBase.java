@@ -124,8 +124,21 @@ public class KBase {
      * @param amount amount to be centered by
      * @param centerSlot the start slot (can go down lines after that if amount greater than 7)
      * @return the slot numbers
+     * @see KBase#getCenteredSlots(int, int, boolean)
      */
     protected static Integer[] getCenteredSlots(int amount, int centerSlot) {
+        return getCenteredSlots(amount, centerSlot, false);
+    }
+
+    /**
+     * Gets the index of items if they were centered based on amount
+     *
+     * @param amount amount to be centered by
+     * @param centerSlot the start slot (can go down lines after that if amount greater than 7)
+     * @param affectsRows if param is true, it moves the rows up rows / 2 (rounded down)
+     * @return the slot numbers
+     */
+    protected static Integer[] getCenteredSlots(int amount, int centerSlot, boolean affectsRows) {
         if(amount == 0) return new Integer[0];
         List<Integer> ints = new ArrayList<>();
 
@@ -140,6 +153,10 @@ public class KBase {
                 ints.add(lineCenter + i1);
                 ints.add(lineCenter - i1);
             }
+        }
+        if(affectsRows) {
+            int move = ints.size() / 2;
+            ints = ints.stream().map(i -> i - move * 9).collect(Collectors.toList());
         }
         Integer[] returnValue = ints.toArray(new Integer[0]);
         Arrays.sort(returnValue);
