@@ -155,7 +155,7 @@ public class KBase {
             }
         }
         if(affectsRows) {
-            int move = ints.size() / 2;
+            int move = (int) Math.ceil(ints.size() / 7.0) / 2;
             ints = ints.stream().map(i -> i - move * 9).collect(Collectors.toList());
         }
         Integer[] returnValue = ints.toArray(new Integer[0]);
