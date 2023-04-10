@@ -1,12 +1,22 @@
 package koji.developerkit.utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class SafeList <A> extends ArrayList<A> {
     A defaultValue;
 
     public SafeList(A defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
+    public SafeList(Collection<? extends A> collection) {
+        this(collection, null);
+    }
+
+    public SafeList(Collection<? extends A> collection, A defaultValue) {
+        super(collection);
         this.defaultValue = defaultValue;
     }
 
