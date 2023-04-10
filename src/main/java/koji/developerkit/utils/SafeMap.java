@@ -11,7 +11,7 @@ public class SafeMap <A, B> extends HashMap<A, B> {
     }
 
     @Override public B get(Object key) {
-        return super.getOrDefault(key, defaultValue);
+        return get(key, defaultValue);
     }
 
     public B get(Object key, B defaultValue) {
