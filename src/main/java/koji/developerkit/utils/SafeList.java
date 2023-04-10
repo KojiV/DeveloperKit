@@ -2,6 +2,7 @@ package koji.developerkit.utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 public class SafeList <A> extends ArrayList<A> {
@@ -30,5 +31,10 @@ public class SafeList <A> extends ArrayList<A> {
 
     @Override public List<A> subList(int fromIndex, int toIndex) {
         return super.subList(fromIndex, Math.min(toIndex, size()));
+    }
+
+    public SafeList<A> returnSort(Comparator<? super A> c) {
+        super.sort(c);
+        return this;
     }
 }
