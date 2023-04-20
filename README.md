@@ -40,7 +40,7 @@ The Developer Kit comes with multiple classes to aid in making the creation of M
 
 ## Download
 
-To add it to your plugin, use the maven import and add "KojiHook" to the dependencies part of your plugin.yml
+To add it to your plugin, use the maven import and add "KojiDevKit" to the dependencies part of your plugin.yml
 
 #### Maven [![maven](https://img.shields.io/maven-central/v/io.github.kojiv/developerkit)](https://s01.oss.sonatype.org/content/repositories/releases/io/github/kojiv/developerkit/)
 
