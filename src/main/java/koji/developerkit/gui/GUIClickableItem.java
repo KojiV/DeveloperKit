@@ -40,6 +40,15 @@ public abstract class GUIClickableItem extends KBase implements GUIItem {
         return uuid;
     }
 
+    public static boolean isGUIClickable(ItemStack item) {
+        return new NBTItem(item).hasKey("ClickItem") &&
+                itemsToRun.containsKey(new NBTItem(item).getString("ClickItem"));
+    }
+
+    public static GUIClickableItem parse(ItemStack item) {
+        return isGUIClickable(item) ? itemsToRun.get(new NBTItem(item).getString("ClickItem")) : null;
+    }
+
     /**
      * Get the item fully made
      *

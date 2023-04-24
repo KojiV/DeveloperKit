@@ -100,7 +100,7 @@ public abstract class KInventory extends KBase {
                 if(base.getIgnoreSlots().contains(i)) continue;
 
                 if(oldItem != null && newItem != null) {
-                    if(!oldItem.equals(newItem)) {
+                    if(!isEqualOrNotApplicable(oldItem, newItem)) {
                         inventory.setItem(i, newItem);
                     }
                 } else inventory.setItem(i, newItem);
@@ -117,5 +117,13 @@ public abstract class KInventory extends KBase {
             set(inventory, item);
             return this;
         }
+    }
+
+    private static boolean isEqualOrNotApplicable(ItemStack item1, ItemStack item2) {
+        GUIClickableItem gui1 = GUIClickableItem.parse(item1);
+        GUIClickableItem gui2 = GUIClickableItem.parse(item2);
+        if(gui1 == null || gui2 == null)
+            return item1.equals(item2);
+        return gui1.equals(gui2);
     }
 }
