@@ -453,7 +453,7 @@ public class ItemBuilder extends KBase {
         if(im.getType() != XMaterial.PLAYER_HEAD.parseMaterial()) return this;
 
         SkullMeta hm = (SkullMeta) im.getItemMeta();
-        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+        GameProfile profile = new GameProfile(UUID.nameUUIDFromBytes(texture.getBytes()), null);
         profile.getProperties().put("textures", new Property("textures", texture));
         try {
             Field field = hm.getClass().getDeclaredField("profile");
