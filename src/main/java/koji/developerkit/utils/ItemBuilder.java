@@ -450,10 +450,17 @@ public class ItemBuilder extends KBase {
     }
 
     public ItemBuilder setTexture(String texture) {
-        if(im.getType() != XMaterial.PLAYER_HEAD.parseMaterial()) return this;
+        return setTexture(texture, true);
+    }
+
+    public ItemBuilder setTexture(String texture, boolean stackable) {
+        if(im.getType() != XMaterial.PLAYER_HEAD.parseMaterial() || texture == null) return this;
 
         SkullMeta hm = (SkullMeta) im.getItemMeta();
-        GameProfile profile = new GameProfile(UUID.nameUUIDFromBytes(texture.getBytes()), null);
+        GameProfile profile = new GameProfile(
+                stackable ? UUID.nameUUIDFromBytes(texture.getBytes()) : UUID.randomUUID(),
+                null
+        );
         profile.getProperties().put("textures", new Property("textures", texture));
         try {
             Field field = hm.getClass().getDeclaredField("profile");
