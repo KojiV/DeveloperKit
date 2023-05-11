@@ -402,23 +402,28 @@ public class KBase {
      */
     protected static List<String> replacePlaceholder(List<String> original, HashMap<String, List<String>> placeholder) {
         List<String> lore = new ArrayList<>();
-        for (String str : original) {
-            boolean more = false;
-            String holder = "";
-            for (String place : placeholder.keySet()) {
-                if (str.contains(place)) {
-                    str = str.replace(place, placeholder.get(place).get(0));
-                    if (placeholder.get(place).size() != 1) {
-                        more = true;
+        for(String str : original) {
+            boolean has = false;
+            StringBuilder allReplaced = new StringBuilder();
+            List<String> added = new ArrayList<>();
+
+            for(String place : placeholder.keySet()) {
+                List<String> contained = placeholder.get(place);
+                if(str.contains(place)) {
+                    has = true;
+                    if(contained.size() > 0) {
+                        allReplaced.append(contained.get(0));
+
+                        str = str.replace(place, contained.get(0));
+                        if(contained.size() > 1) {
+                            added.addAll(contained.subList(1, contained.size()));
+                        }
                     }
-                    holder = place;
                 }
             }
-            lore.add(str);
-            if (more) {
-                for (int i = 1; i < placeholder.get(holder).size(); i++) {
-                    lore.add(placeholder.get(holder).get(i));
-                }
+            if(!allReplaced.toString().equals("") || !has) {
+                lore.add(str);
+                lore.addAll(added);
             }
         }
         return lore;
