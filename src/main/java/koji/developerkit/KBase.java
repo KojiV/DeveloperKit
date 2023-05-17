@@ -1452,7 +1452,11 @@ public class KBase {
 
     protected static Object getPrivateField(Object object, String field) throws SecurityException,
             NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-        Class<?> clazz = object.getClass();
+        return getPrivateField(object.getClass(), object, field);
+    }
+
+    protected static Object getPrivateField(Class<?> clazz, Object object, String field) throws SecurityException,
+            NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         Field objectField = clazz.getDeclaredField(field);
         objectField.setAccessible(true);
         return objectField.get(object);
