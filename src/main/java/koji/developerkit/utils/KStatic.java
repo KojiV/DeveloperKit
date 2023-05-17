@@ -856,11 +856,11 @@ public class KStatic extends KBase {
 
     public static Object getPrivateField(Object object, String field) throws SecurityException,
             NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-        return KBase.getPrivateField(object, field);
+        return getPrivateField(object.getClass(), object, field);
     }
 
     public static Object getPrivateField(Class<?> clazz, Object object, String field) throws SecurityException,
             NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-        return KBase.getPrivateField(object, field);
+        return KBase.getPrivateField(clazz, object, field);
     }
 }
