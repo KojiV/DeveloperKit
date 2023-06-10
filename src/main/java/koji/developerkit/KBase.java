@@ -1364,7 +1364,7 @@ public class KBase {
      * @return If the item is not null and not air
      */
     protected static boolean isValidItem(ItemStack item) {
-        return item != null && item.getType() != XMaterial.AIR.parseMaterial();
+        return item != null && item.getType() != XMaterial.AIR.parseMaterial() && item.getAmount() != 0;
     }
 
     /**
