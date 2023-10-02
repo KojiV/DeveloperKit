@@ -22,6 +22,7 @@
 package koji.developerkit.inventory;
 
 import com.cryptomorin.xseries.ReflectionUtils;
+import com.cryptomorin.xseries.XMaterial;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 import koji.developerkit.utils.MethodHandleAssistant;
@@ -72,7 +73,7 @@ public final class InventoryUpdate extends MethodHandleAssistant {
     private static final boolean supports19 = ReflectionUtils.supports(19);
 
     private static final boolean TWO_ARGS_CHAT_MESSAGE_CONSTRUCTOR = ReflectionUtils.supports(7)
-            && ReflectionUtils.VER < 16;
+            && XMaterial.getVersion() < 16;
 
     private static final Set<String> UNOPENABLES = Sets.newHashSet("CRAFTING", "CREATIVE", "PLAYER");
 
@@ -162,7 +163,7 @@ public final class InventoryUpdate extends MethodHandleAssistant {
             if (container == null) return;
 
             // If the container was added in a newer version than the current, return.
-            if (container.getContainerVersion() > ReflectionUtils.VER && useContainers()) {
+            if (container.getContainerVersion() > XMaterial.getVersion() && useContainers()) {
                 Bukkit.getLogger()
                         .warning(String.format("[%s] This container doesn't work on your current version.",
                                 plugin.getDescription().getName()));
@@ -194,7 +195,7 @@ public final class InventoryUpdate extends MethodHandleAssistant {
      * @return whether to use containers.
      */
     private static boolean useContainers() {
-        return ReflectionUtils.VER > 13;
+        return XMaterial.getVersion() > 13;
     }
 
     /**
@@ -274,7 +275,7 @@ public final class InventoryUpdate extends MethodHandleAssistant {
         public Object getObject() {
             try {
                 if (!useContainers()) return getMinecraftName();
-                int version = ReflectionUtils.VER;
+                int version = XMaterial.getVersion();
                 String name = (version == 14 && this == CARTOGRAPHY_TABLE) ? "CARTOGRAPHY" : name();
                 // Since 1.17, containers go from "a" to "x".
                 if (version > 16) name = String.valueOf(alphabet[ordinal()]);
