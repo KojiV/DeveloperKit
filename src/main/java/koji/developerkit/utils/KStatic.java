@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "deprecation"})
 public class KStatic extends KBase {
 
     public static JavaPlugin getPlugin() {
@@ -383,6 +383,26 @@ public class KStatic extends KBase {
      */
     public static boolean isNumeric(Object obj) {
         return KBase.isNumeric(obj);
+    }
+
+    /**
+     * Safe way of turning a string into a int
+     *
+     * @param s the string to parse
+     * @return an int from s
+     */
+    public static int parseInteger(String s) {
+        return KBase.parseInteger(s);
+    }
+
+    /**
+     * Safe way of turning a string into a double
+     *
+     * @param s the string to parse
+     * @return a double from s
+     */
+    protected static double parseDouble(String s) {
+        return KBase.parseDouble(s);
     }
 
     // List Stuff
@@ -814,17 +834,6 @@ public class KStatic extends KBase {
      */
     public static ItemStack setStackAmount(ItemStack item, int amount) {
         return KBase.setStackAmount(item, amount);
-    }
-
-    /**
-     * Sets the texture of the item (player head) to the string
-     *
-     * @param item    The item (must be a player head)
-     * @param texture The texture the skull will be set
-     * @return Returns the skull with the texture set
-     */
-    public static ItemStack setTexture(ItemStack item, String texture) {
-        return KBase.setTexture(item, texture);
     }
 
     // Sound Stuff

@@ -24,6 +24,7 @@ package koji.developerkit.inventory;
 import com.cryptomorin.xseries.ReflectionUtils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
+import koji.developerkit.utils.MethodHandleAssistant;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
@@ -31,9 +32,7 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Set;
 
@@ -43,7 +42,7 @@ import java.util.Set;
  * Made by the lovely: AgustinEzequiel2
  * GitHub Link: <a href="https://github.com/aematsubara/InventoryUpdate">...</a>
  */
-public final class InventoryUpdate {
+public final class InventoryUpdate extends MethodHandleAssistant {
 
     // Classes.
     private static final Class<?> CRAFT_PLAYER;
@@ -65,11 +64,8 @@ public final class InventoryUpdate {
     private static final MethodHandle packetPlayOutOpenWindow;
 
     // Fields.
-    private static final MethodHandle activeContainer;
-    private static final MethodHandle windowId;
-
-    // Methods factory.
-    private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
+    private static final Field activeContainer;
+    private static final Field windowId;
 
     private static final JavaPlugin plugin = JavaPlugin.getProvidingPlugin(InventoryUpdate.class);
 
@@ -97,23 +93,23 @@ public final class InventoryUpdate {
                 : null;
 
         // Initialize methods.
-        getHandle = getMethod(CRAFT_PLAYER, "getHandle", MethodType.methodType(ENTITY_PLAYER));
-        getBukkitView = getMethod(CONTAINER, "getBukkitView", MethodType.methodType(InventoryView.class));
-        literal = supports19 ? getMethod(I_CHAT_BASE_COMPONENT, "b",
-                MethodType.methodType(I_CHAT_MUTABLE_COMPONENT, String.class), true) : null;
+        getHandle = getMethod(CRAFT_PLAYER, MethodType.methodType(ENTITY_PLAYER), "getHandle");
+        getBukkitView = getMethod(CONTAINER, MethodType.methodType(InventoryView.class), "getBukkitView");
+        literal = supports19 ? getMethod(I_CHAT_BASE_COMPONENT,
+                MethodType.methodType(I_CHAT_MUTABLE_COMPONENT, String.class), true, "b") : null;
 
         // Initialize constructors.
         chatMessage = supports19 ? null
                 : TWO_ARGS_CHAT_MESSAGE_CONSTRUCTOR ? getConstructor(CHAT_MESSAGE, String.class, Object[].class)
                 : getConstructor(CHAT_MESSAGE, String.class);
-        packetPlayOutOpenWindow = (useContainers())
+        packetPlayOutOpenWindow = useContainers()
                 ? getConstructor(PACKET_PLAY_OUT_OPEN_WINDOW, int.class, CONTAINERS, I_CHAT_BASE_COMPONENT) :
                 // Older versions use String instead of Containers, and require an int for the
                 // inventory size.
                 getConstructor(PACKET_PLAY_OUT_OPEN_WINDOW, int.class, String.class, I_CHAT_BASE_COMPONENT, int.class);
 
         // Initialize fields.
-        activeContainer = getField(ENTITY_PLAYER, CONTAINER, "activeContainer", "bV", "bW", "bU", "containerMenu");
+        activeContainer = getField(ENTITY_PLAYER, CONTAINER, "activeContainer", "bV", "bW", "bU", "bP", "containerMenu");
         windowId = getField(CONTAINER, int.class, "windowId", "j", "containerId");
     }
 
@@ -141,10 +137,10 @@ public final class InventoryUpdate {
                     : chatMessage.invoke(newTitle);
 
             // Get activeContainer from EntityPlayer.
-            Object activeContainer = InventoryUpdate.activeContainer.invoke(entityPlayer);
+            Object activeContainer = InventoryUpdate.activeContainer.get(entityPlayer);
 
             // Get windowId from activeContainer.
-            Integer windowId = (Integer) InventoryUpdate.windowId.invoke(activeContainer);
+            Integer windowId = (Integer) InventoryUpdate.windowId.get(activeContainer);
 
             // Get InventoryView from activeContainer.
             Object bukkitView = getBukkitView.invoke(activeContainer);
@@ -189,69 +185,6 @@ public final class InventoryUpdate {
             player.updateInventory();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
-        }
-    }
-
-    private static MethodHandle getField(Class<?> refc, Class<?> instc, String name, String... extraNames) {
-        MethodHandle handle = getFieldHandle(refc, instc, name);
-        if (handle != null) return handle;
-
-        if (extraNames != null && extraNames.length > 0) {
-            if (extraNames.length == 1) return getField(refc, instc, extraNames[0]);
-            return getField(refc, instc, extraNames[0], removeFirst(extraNames));
-        }
-
-        return null;
-    }
-
-    private static String[] removeFirst(String[] array) {
-        int length = array.length;
-
-        String[] result = new String[length - 1];
-        System.arraycopy(array, 1, result, 0, length - 1);
-
-        return result;
-    }
-
-    private static MethodHandle getFieldHandle(Class<?> refc, Class<?> inscofc, String name) {
-        try {
-            for (Field field : refc.getFields()) {
-                field.setAccessible(true);
-
-                if (!field.getName().equalsIgnoreCase(name)) continue;
-
-                if (field.getType().isInstance(inscofc) || field.getType().isAssignableFrom(inscofc)) {
-                    return LOOKUP.unreflectGetter(field);
-                }
-            }
-            return null;
-        } catch (ReflectiveOperationException ignored) {
-            return null;
-        }
-    }
-
-    private static MethodHandle getConstructor(Class<?> refc, Class<?>... types) {
-        try {
-            Constructor<?> constructor = refc.getDeclaredConstructor(types);
-            constructor.setAccessible(true);
-            return LOOKUP.unreflectConstructor(constructor);
-        } catch (ReflectiveOperationException exception) {
-            exception.printStackTrace();
-            return null;
-        }
-    }
-
-    private static MethodHandle getMethod(Class<?> refc, String name, MethodType type) {
-        return getMethod(refc, name, type, false);
-    }
-
-    private static MethodHandle getMethod(Class<?> refc, String name, MethodType type, boolean isStatic) {
-        try {
-            if (isStatic) return LOOKUP.findStatic(refc, name, type);
-            return LOOKUP.findVirtual(refc, name, type);
-        } catch (ReflectiveOperationException exception) {
-            exception.printStackTrace();
-            return null;
         }
     }
 

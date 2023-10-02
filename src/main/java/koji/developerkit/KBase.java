@@ -3,8 +3,6 @@ package koji.developerkit;
 import com.cryptomorin.xseries.ReflectionUtils;
 import com.cryptomorin.xseries.XMaterial;
 import com.cryptomorin.xseries.XSound;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import koji.developerkit.gui.GUIClickableItem;
 import org.bukkit.*;
@@ -16,7 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Objective;
@@ -38,7 +35,7 @@ import java.util.stream.Collectors;
  *
  * @author Koji
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "deprecation"})
 public class KBase {
 
     private static final JavaPlugin plugin;
@@ -629,6 +626,29 @@ public class KBase {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Safe way of turning a string into a int
+     *
+     * @param s the string to parse
+     * @return an int from s
+     */
+    protected static int parseInteger(String s) {
+        return (int) parseDouble(s);
+    }
+
+    /**
+     * Safe way of turning a string into a double
+     *
+     * @param s the string to parse
+     * @return a double from s
+     */
+    protected static double parseDouble(String s) {
+        String redux = s == null ? "0" : s.replaceAll("[^0-9.-]", "")
+                .replaceAll("-(?=\\d)", "")
+                .replaceAll("\\D+$", "");
+        return Double.parseDouble(redux.trim().isEmpty() ? "0" : redux.trim());
     }
 
     // List Stuff
@@ -1326,8 +1346,6 @@ public class KBase {
         System.out.flush();
     }
 
-    private static Random internalRandom;
-
     /**
      * Makes a random number between 0 and every number less than param high
      * If you cast this to an int, it would be 0 through param high - 1
@@ -1336,23 +1354,7 @@ public class KBase {
      * @return A random number between 0 and the param high
      */
     protected static float random(float high) {
-        // avoid an infinite loop when 0 or NaN are passed in
-        if (high == 0 || high != high) {
-            return 0;
-        }
-
-        if (internalRandom == null) {
-            internalRandom = new Random();
-        }
-
-        // for some reason (rounding error?) Math.random() * 3
-        // can sometimes return '3' (once in ~30 million tries)
-        // so a check was added to avoid the inclusion of 'how big'
-        float value;
-        do {
-            value = internalRandom.nextFloat() * high;
-        } while (value == high);
-        return value;
+        return (float) (Math.random() * high);
     }
 
     // Item Stuff
@@ -1393,29 +1395,6 @@ public class KBase {
         ItemStack returnType = new ItemStack(item);
         returnType.setAmount(amount);
         return returnType;
-    }
-
-    /**
-     * Sets the texture of the item (player head) to the string
-     *
-     * @param item    The item (must be a player head)
-     * @param texture The texture the skull will be set
-     * @return Returns the skull with the texture set
-     */
-    protected static ItemStack setTexture(ItemStack item, String texture) {
-        if (item.getType() != XMaterial.PLAYER_HEAD.parseMaterial()) return item;
-        SkullMeta hm = (SkullMeta) item.getItemMeta();
-        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-        profile.getProperties().put("textures", new Property("textures", texture));
-        try {
-            Field field = hm.getClass().getDeclaredField("profile");
-            field.setAccessible(true);
-            field.set(hm, profile);
-        } catch (IllegalArgumentException | NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        item.setItemMeta(hm);
-        return item;
     }
 
     // Sound Stuff

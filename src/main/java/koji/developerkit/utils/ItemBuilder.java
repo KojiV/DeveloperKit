@@ -1,10 +1,10 @@
 package koji.developerkit.utils;
 
+import com.cryptomorin.xseries.ReflectionUtils;
 import com.cryptomorin.xseries.XMaterial;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
-import koji.developerkit.KBase;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -13,14 +13,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @SuppressWarnings("unused")
-public class ItemBuilder extends KBase {
+public class ItemBuilder extends MethodHandleAssistant {
     protected ItemStack im;
 
     public ItemBuilder(ItemStack item, short data) {
@@ -75,43 +74,50 @@ public class ItemBuilder extends KBase {
         }
         return getFriendlyName(im);
     }
-
-    private static Class<?> localeClass = null;
-    private static Class<?> craftItemStackClass = null, nmsItemStackClass = null, nmsItemClass = null;
+    private static final MethodHandle COPE, GET_ITEM, GET_NAME, LOCALE_LANGUAGE, GET;
     private static final String OBC_PREFIX = Bukkit.getServer().getClass().getPackage().getName();
     private static final String NMS_PREFIX = OBC_PREFIX.replace(
             "org.bukkit.craftbukkit", "net.minecraft.server"
     );
 
+    static {
+        try {
+            Class<?> localLanguage = ReflectionUtils.getNMSClass("locale", "LocaleLanguage");
+            Class<?> nmsItemStackClass = ReflectionUtils.getNMSClass("world.item", "ItemStack");
+            Class<?> nmsItemClass = ReflectionUtils.getNMSClass("world.item", "Item");
+
+            COPE = getMethod(ReflectionUtils.getCraftClass("inventory.CraftItemStack"),
+                    MethodType.methodType(nmsItemStackClass, ItemStack.class), true, "asNMSCopy"
+            );
+            GET_ITEM = getMethod(nmsItemStackClass, MethodType.methodType(nmsItemClass),
+                    "getItem", "c"
+            );
+            GET_NAME = getMethod(nmsItemClass, MethodType.methodType(String.class),
+                    "getName", "a"
+            );
+            LOCALE_LANGUAGE = getMethod(localLanguage, MethodType.methodType(localLanguage), true, "a");
+            GET = getMethod(localLanguage, MethodType.methodType(String.class, String.class), "a");
+
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private static String getFriendlyName(ItemStack itemStack) {
         if (itemStack == null || itemStack.getType() == Material.AIR) return "Air";
 
         try {
-            if (craftItemStackClass == null)
-                craftItemStackClass = Class.forName(OBC_PREFIX + ".inventory.CraftItemStack");
-            Method nmsCopyMethod = craftItemStackClass.getMethod("asNMSCopy", ItemStack.class);
 
-            if (nmsItemStackClass == null) nmsItemStackClass = Class.forName(NMS_PREFIX + ".ItemStack");
-            Object nmsItemStack = nmsCopyMethod.invoke(null, itemStack);
+            Object nmsItemStack = COPE.invoke(itemStack);
+            Object nmsItem = GET_ITEM.invoke(nmsItemStack);
+            Object name = GET_NAME.invoke(nmsItem);
+            Object got = GET.invoke(LOCALE_LANGUAGE.invoke(), name);
 
-            Object itemName;
-            Method getItemMethod = nmsItemStackClass.getMethod("getItem");
-            Object nmsItem = getItemMethod.invoke(nmsItemStack);
-
-            if (nmsItemClass == null) nmsItemClass = Class.forName(NMS_PREFIX + ".Item");
-
-            Method getNameMethod = nmsItemClass.getMethod("getName");
-            String localItemName = (String) getNameMethod.invoke(nmsItem);
-
-            if (localeClass == null) localeClass = Class.forName(NMS_PREFIX + ".LocaleI18n");
-            Method getLocaleMethod = localeClass.getMethod("get", String.class);
-
-            Object localeString = localItemName == null ? "" : getLocaleMethod.invoke(null, localItemName);
-            itemName = ("" + getLocaleMethod.invoke(null, localeString.toString() + ".name")).trim();
-
-            return itemName.toString();
-        } catch (Exception ignored) {}
-        return capitalize(itemStack.getType().name().replace("_", " ").toLowerCase());
+            Object localeString = name == null ? "" : GET.invoke(LOCALE_LANGUAGE.invoke(), name);
+            return localeString.toString();
+        } catch (Throwable e) {
+            return capitalize(itemStack.getType().name().replace("_", " ").toLowerCase());
+        }
     }
 
     public ItemBuilder setString(String string, String value) {
@@ -445,6 +451,17 @@ public class ItemBuilder extends KBase {
 
     public String getTexture() {
         if (im.getType() != XMaterial.PLAYER_HEAD.parseMaterial()) return "";
+
+        SkullMeta skullMeta = (SkullMeta) im.getItemMeta();
+        try {
+            Field profileField = skullMeta.getClass().getDeclaredField("profile");
+            profileField.setAccessible(true);
+            GameProfile profile = (GameProfile) profileField.get(skullMeta);
+            Collection<Property> textures = profile.getProperties().get("textures");
+            return new ArrayList<>(textures).get(0).getValue();
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
         return ((SkullMeta) im.getItemMeta()).getOwner();
     }

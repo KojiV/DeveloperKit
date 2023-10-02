@@ -3,6 +3,7 @@ package koji.developerkit.gui;
 import com.cryptomorin.xseries.XMaterial;
 import com.cryptomorin.xseries.XSound;
 import koji.developerkit.KBase;
+import koji.developerkit.runnable.KRunnable;
 import koji.developerkit.utils.ItemBuilder;
 import koji.developerkit.utils.NBTItem;
 import org.bukkit.ChatColor;
@@ -72,12 +73,7 @@ public abstract class GUIClickableItem extends KBase implements GUIItem {
         return new GUIClickableItem() {
             @Override
             public void run(InventoryClickEvent e) {
-                Player p = (Player) e.getWhoClicked();
-                if (slot < p.getOpenInventory().getTopInventory().getSize() &&
-                        p.getOpenInventory().getTopInventory().equals(e.getView().getTopInventory())
-                ) {
-                    e.getWhoClicked().closeInventory();
-                }
+                new KRunnable(task -> e.getWhoClicked().closeInventory()).runTaskLater(getPlugin(), 1L);
             }
 
             @Override
