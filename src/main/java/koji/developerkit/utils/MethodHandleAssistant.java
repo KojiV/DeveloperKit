@@ -42,7 +42,7 @@ public class MethodHandleAssistant extends KBase {
         for (Field field : fields) {
             field.setAccessible(true);
 
-            if (!field.getName().equalsIgnoreCase(name)) continue;
+            if (!field.getName().equals(name)) continue;
 
             if (field.getType().isInstance(inscofc) || field.getType().isAssignableFrom(inscofc)) {
                 return field;
