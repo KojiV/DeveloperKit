@@ -261,6 +261,17 @@ public class KStatic extends KBase {
         return KBase.replacePlaceholder(original, placeholder);
     }
 
+    /**
+     * Replaces the placeholders in param placeholder wherever they are in param original
+     *
+     * @param original    The list that will have replaced stuff
+     * @param placeholder The stuff to replace
+     * @return param original with the placeholders replaced
+     */
+    public static List<String> replacePlaceholder(List<String> original, List<OrderedReplacements> placeholder) {
+        return KBase.replacePlaceholder(original, placeholder);
+    }
+
     // Color Stuff
 
     /**

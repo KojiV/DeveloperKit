@@ -5,6 +5,7 @@ import com.cryptomorin.xseries.XMaterial;
 import com.cryptomorin.xseries.XSound;
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import koji.developerkit.gui.GUIClickableItem;
+import koji.developerkit.utils.OrderedReplacements;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -382,12 +383,26 @@ public class KBase {
      * @param original    The list that will have replaced stuff
      * @param placeholder The stuff to replace
      * @return param original with the placeholders replaced
-     * @see KBase#replacePlaceholder(List, HashMap)
+     * @see KBase#replacePlaceholder(List, List)
      */
-    protected static List<String> replacePlaceholders(List<String> original, HashMap<String, String> placeholder) {
-        HashMap<String, List<String>> placeholders = new HashMap<>();
-        placeholder.forEach((a, b) -> placeholders.put(a, arrayList(b)));
-        return replacePlaceholder(original, placeholders);
+    protected static List<String> replacePlaceholders(List<String> original, Map<String, String> placeholder) {
+        List<OrderedReplacements> replacements = new ArrayList<>(placeholder.size());
+        placeholder.forEach((a, b) -> replacements.add(new OrderedReplacements(a, b)));
+        return replacePlaceholder(original, replacements);
+    }
+
+    /**
+     * Replaces the placeholders in param placeholder wherever they are in param original
+     *
+     * @param original    The list that will have replaced stuff
+     * @param placeholder The stuff to replace
+     * @return param original with the placeholders replaced
+     * @see KBase#replacePlaceholder(List, List)
+     */
+    protected static List<String> replacePlaceholder(List<String> original, Map<String, List<String>> placeholder) {
+        List<OrderedReplacements> replacements = new ArrayList<>(placeholder.size());
+        placeholder.forEach((a, b) -> replacements.add(new OrderedReplacements(a, b)));
+        return replacePlaceholder(original, replacements);
     }
 
     /**
@@ -397,21 +412,21 @@ public class KBase {
      * @param placeholder The stuff to replace
      * @return param original with the placeholders replaced
      */
-    protected static List<String> replacePlaceholder(List<String> original, HashMap<String, List<String>> placeholder) {
+    protected static List<String> replacePlaceholder(List<String> original, List<OrderedReplacements> placeholder) {
         List<String> lore = new ArrayList<>();
         for(String str : original) {
             boolean has = false;
             StringBuilder allReplaced = new StringBuilder();
             List<String> added = new ArrayList<>();
 
-            for(String place : placeholder.keySet()) {
-                List<String> contained = placeholder.get(place);
-                if(str.contains(place)) {
+            for(OrderedReplacements place : placeholder) {
+                List<String> contained = place.getReplaced();
+                if(str.contains(place.getPlaceholder())) {
                     has = true;
                     if(contained.size() > 0) {
                         allReplaced.append(contained.get(0));
 
-                        str = str.replace(place, contained.get(0));
+                        str = str.replace(place.getPlaceholder(), contained.get(0));
                         if(contained.size() > 1) {
                             added.addAll(contained.subList(1, contained.size()));
                         }
