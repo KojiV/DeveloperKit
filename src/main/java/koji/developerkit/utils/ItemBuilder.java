@@ -13,14 +13,20 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
 import java.util.*;
 
 @SuppressWarnings("unused")
-public class ItemBuilder extends MethodHandleAssistant {
-    protected ItemStack im;
+public class ItemBuilder extends MethodHandleAssistant implements Serializable {
+    protected transient ItemStack im;
+    private String compound;
+    private XMaterial material;
 
     public ItemBuilder(ItemStack item, short data) {
         im = new ItemStack(item.getType(), 1, data);
@@ -520,5 +526,17 @@ public class ItemBuilder extends MethodHandleAssistant {
         nbt.applyFromString(compoundAsString, ignoreCompound);
         im = nbt.getItem();
         return this;
+    }
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        compound = getStringFromCompound();
+        material = XMaterial.matchXMaterial(im.getType());
+        out.defaultWriteObject();
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        im = new ItemStack(material.parseMaterial());
+        applyCompoundFromString(compound, true);
     }
 }

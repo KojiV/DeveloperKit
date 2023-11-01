@@ -21,6 +21,7 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.io.File;
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -37,7 +38,7 @@ import java.util.stream.Collectors;
  * @author Koji
  */
 @SuppressWarnings({"unused", "deprecation"})
-public class KBase {
+public class KBase implements Serializable {
 
     private static final JavaPlugin plugin;
 

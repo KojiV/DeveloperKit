@@ -2,6 +2,7 @@ package koji.developerkit.utils;
 
 import koji.developerkit.KBase;
 
+import java.io.Serializable;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
@@ -11,7 +12,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MethodHandleAssistant extends KBase {
+public class MethodHandleAssistant extends KBase implements Serializable {
     private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
 
     protected static Field getField(Class<?> refc, Class<?> instc, String name, String... extraNames) {
