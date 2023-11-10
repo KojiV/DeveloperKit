@@ -28,7 +28,7 @@ public class ItemBuilder extends MethodHandleAssistant implements Serializable {
     protected transient ItemStack im;
     private String compound;
     private XMaterial material;
-    private Color color;
+    private int red, green, blue;
 
     public ItemBuilder(ItemStack item, short data) {
         im = new ItemStack(item.getType(), 1, data);
@@ -533,8 +533,12 @@ public class ItemBuilder extends MethodHandleAssistant implements Serializable {
     private void writeObject(ObjectOutputStream out) throws IOException {
         compound = getStringFromCompound();
         material = XMaterial.matchXMaterial(im.getType());
-        color = im.getItemMeta() instanceof LeatherArmorMeta ?
+        Color color = im.getItemMeta() instanceof LeatherArmorMeta ?
                 ((LeatherArmorMeta) im.getItemMeta()).getColor() : null;
+        red = color != null ? color.getRed() : -1;
+        green = color != null ? color.getGreen() : -1;
+        blue = color != null ? color.getBlue() : -1;
+
         out.defaultWriteObject();
     }
 
@@ -542,6 +546,6 @@ public class ItemBuilder extends MethodHandleAssistant implements Serializable {
         in.defaultReadObject();
         im = new ItemStack(material.parseMaterial());
         applyCompoundFromString(compound, true);
-        setColor(color);
+        if(red != -1 && green != -1 && blue != -1) setColor(Color.fromRGB(red, green, blue));
     }
 }
