@@ -1,5 +1,8 @@
 package koji.developerkit.reflection;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -7,8 +10,19 @@ import java.io.Serializable;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class SerializedMethod extends MethodHandleAssistant implements Serializable {
+    public SerializedMethod(Method method) {
+        this(getMethod(method));
+    }
+
+    public SerializedMethod(MethodHandle handle) {
+        this.handle = handle;
+
+        setSerializedVariables();
+    }
+
     private static final Field MEMBER, NAME;
     private static final MethodHandle IS_STATIC, GET_DECLARING;
 
@@ -39,13 +53,13 @@ public class SerializedMethod extends MethodHandleAssistant implements Serializa
         }
     }
 
-    private transient MethodHandle handle;
-    private Class<?> referenceClass, returnTypeClass;
-    private Class<?>[] paramClasses;
-    private boolean isStatic;
-    private String name;
+    @Getter @Setter private transient MethodHandle handle;
+    @Getter private Class<?> referenceClass, returnTypeClass;
+    @Getter private Class<?>[] paramClasses;
+    @Getter private boolean isStatic;
+    @Getter private String name;
 
-    private void writeObject(ObjectOutputStream oos) throws IOException {
+    private void setSerializedVariables() {
         try {
             Object memberName = MEMBER.get(handle);
             returnTypeClass = handle.type().returnType();
@@ -58,7 +72,10 @@ public class SerializedMethod extends MethodHandleAssistant implements Serializa
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }
+    }
 
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        setSerializedVariables();
         // default serialization
         oos.defaultWriteObject();
     }
@@ -71,11 +88,7 @@ public class SerializedMethod extends MethodHandleAssistant implements Serializa
         handle = getMethodHandle(referenceClass, name, methodType, isStatic);
     }
 
-    public MethodHandle getHandle() {
-        return handle;
-    }
-
-    public void setHandle(MethodHandle handle) {
-        this.handle = handle;
+    public Method getAsMethod() throws NoSuchMethodException {
+        return referenceClass.getMethod(name, paramClasses);
     }
 }

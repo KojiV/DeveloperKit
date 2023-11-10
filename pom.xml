@@ -7,7 +7,7 @@
     <groupId>io.github.kojiv</groupId>
     <artifactId>developerkit</artifactId>
     <!--https://github.com/marketplace/actions/github-release-changelog-generator-->
-    <version>1.17.5</version>
+    <version>1.17.6</version>
     <packaging>jar</packaging>
 
 
@@ -182,6 +182,7 @@
         <repository>
             <id>${repo-id}</id>
             <name>${repo-name}</name>
+            <!--suppress UnresolvedMavenProperty -->
             <url>${repo-url}</url>
         </repository>
         <snapshotRepository>
@@ -277,6 +278,12 @@
             <version>1.8</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/nms/spigot-1.8.8.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
