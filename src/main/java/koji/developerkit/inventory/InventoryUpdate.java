@@ -25,7 +25,7 @@ import com.cryptomorin.xseries.ReflectionUtils;
 import com.cryptomorin.xseries.XMaterial;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
-import koji.developerkit.utils.MethodHandleAssistant;
+import koji.developerkit.reflection.MethodHandleAssistant;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;

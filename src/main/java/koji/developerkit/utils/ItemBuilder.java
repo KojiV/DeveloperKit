@@ -5,6 +5,7 @@ import com.cryptomorin.xseries.XMaterial;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import de.tr7zw.changeme.nbtapi.NBTCompound;
+import koji.developerkit.reflection.MethodHandleAssistant;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;

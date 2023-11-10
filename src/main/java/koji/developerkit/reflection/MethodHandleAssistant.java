@@ -1,4 +1,4 @@
-package koji.developerkit.utils;
+package koji.developerkit.reflection;
 
 import koji.developerkit.KBase;
 
