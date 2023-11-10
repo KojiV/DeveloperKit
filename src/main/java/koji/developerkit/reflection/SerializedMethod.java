@@ -9,6 +9,36 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
 
 public class SerializedMethod extends MethodHandleAssistant implements Serializable {
+    private static final Field MEMBER, NAME;
+    private static final MethodHandle IS_STATIC, GET_DECLARING;
+
+    static {
+        try {
+            Class<?> memberName = Class.forName("java.lang.invoke.MemberName");
+            Class<?> methodHandle = Class.forName("java.lang.invoke.DirectMethodHandle");
+
+            MEMBER = getField(methodHandle, memberName, "member");
+            IS_STATIC = getMethodHandle(
+                    memberName, "isStatic", MethodType.methodType(boolean.class)
+            );
+            GET_DECLARING = getMethodHandle(
+                    memberName, "getDeclaringClass", MethodType.methodType(Class.class)
+            );
+            NAME = getField(memberName, String.class, "name");
+
+            if(MEMBER == null)
+                throw new RuntimeException("MemberName that should be there is null!");
+            if(IS_STATIC == null)
+                throw new RuntimeException("isStatic method that should be there is null!");
+            if (GET_DECLARING == null)
+                throw new RuntimeException("getDeclaringClass method that should be there is null!");
+            if(NAME == null)
+                throw new RuntimeException("Field \"name\" that should be there is null!");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private transient MethodHandle handle;
     private Class<?> referenceClass, returnTypeClass;
     private Class<?>[] paramClasses;
@@ -17,23 +47,13 @@ public class SerializedMethod extends MethodHandleAssistant implements Serializa
 
     private void writeObject(ObjectOutputStream oos) throws IOException {
         try {
+            Object memberName = MEMBER.get(handle);
             returnTypeClass = handle.type().returnType();
             paramClasses = handle.type().parameterArray();
-            Class<?> clazz = Class.forName("java.lang.invoke.MemberName");
-            Field field = getField(handle.getClass(), clazz, "member");
-            MethodHandle isStaticMethod = getMethodHandle(
-                    clazz, "isStatic", MethodType.methodType(boolean.class)
-            );
-            Field name = getField(clazz, String.class, "name");
+            referenceClass = (Class<?>) GET_DECLARING.invoke(memberName);
 
-            if(field == null)
-                throw new RuntimeException("MemberName that should be there is null!");
-            if(isStaticMethod == null)
-                throw new RuntimeException("isStatic method that should be there is null!");
-            if(name == null)
-                throw new RuntimeException("Field \"name\" that should be there is null!");
-            isStatic = (boolean) isStaticMethod.invoke(field.get(handle));
-            this.name = (String) name.get(field.get(handle));
+            isStatic = (boolean) IS_STATIC.invoke(memberName);
+            this.name = (String) NAME.get(memberName);
 
         } catch (Throwable e) {
             throw new RuntimeException(e);
