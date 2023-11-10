@@ -8,6 +8,8 @@ import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -61,6 +63,13 @@ public class MethodHandleAssistant extends KBase implements Serializable {
             exception.printStackTrace();
             return null;
         }
+    }
+
+    // Syrus said "always use protection," if you ever see him kill him.
+    protected static MethodHandle getMethod(Method method) {
+        return getMethodHandle(method.getDeclaringClass(), method.getName(), MethodType.methodType(
+                method.getReturnType(), method.getParameterTypes()
+        ), Modifier.isStatic(method.getModifiers()));
     }
 
     protected static MethodHandle getMethod(Class<?> refc, MethodType type, String name, String... extraNames) {
