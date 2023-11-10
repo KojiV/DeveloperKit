@@ -25,6 +25,7 @@ import java.util.*;
 
 @SuppressWarnings("unused")
 public class ItemBuilder extends MethodHandleAssistant implements Serializable {
+    private static final long serialVersionUID = 1231246598235L;
     protected transient ItemStack im;
     private String compound;
     private XMaterial material;

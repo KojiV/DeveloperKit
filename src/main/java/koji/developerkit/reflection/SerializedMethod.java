@@ -13,6 +13,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class SerializedMethod extends MethodHandleAssistant implements Serializable {
+    private static final long serialVersionUID = -987876512335L;
+
     public SerializedMethod(Method method) {
         this(getMethod(method));
     }

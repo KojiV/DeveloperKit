@@ -39,6 +39,7 @@ import java.util.stream.Collectors;
  */
 @SuppressWarnings({"unused", "deprecation"})
 public class KBase implements Serializable {
+    private static final long serialVersionUID = 6334569083456L;
 
     private static final JavaPlugin plugin;
 

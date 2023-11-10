@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class MethodHandleAssistant extends KBase implements Serializable {
+    private static final long serialVersionUID = -9786108276535L;
     private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
 
     protected static Field getField(Class<?> refc, Class<?> instc, String name, String... extraNames) {

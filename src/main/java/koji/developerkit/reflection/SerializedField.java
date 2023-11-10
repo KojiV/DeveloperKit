@@ -10,6 +10,8 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 
 public class SerializedField extends MethodHandleAssistant implements Serializable {
+    private static final long serialVersionUID = -23945807347567L;
+
     public SerializedField(Field field) {
         this.field = field;
 
