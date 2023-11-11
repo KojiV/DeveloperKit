@@ -13,10 +13,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.nustaq.serialization.FSTBasicObjectSerializer;
 import org.nustaq.serialization.FSTClazzInfo;
 import org.nustaq.serialization.FSTObjectInput;
 import org.nustaq.serialization.FSTObjectOutput;
-import org.nustaq.serialization.FSTObjectSerializer;
 
 import java.io.IOException;
 import java.lang.invoke.MethodHandle;
@@ -594,7 +594,7 @@ public class ItemBuilder extends MethodHandleAssistant {
 
     }*/
 
-    public static class ItemBuilderSerializer implements FSTObjectSerializer {
+    public static class ItemBuilderSerializer extends FSTBasicObjectSerializer {
         @Override
         public void writeObject(FSTObjectOutput out, Object toWrite, FSTClazzInfo clzInfo, FSTClazzInfo.FSTFieldInfo referencedBy, int streamPosition) throws IOException {
             if(toWrite instanceof ItemBuilder) {
@@ -625,21 +625,6 @@ public class ItemBuilder extends MethodHandleAssistant {
                 if(ib.red != -1 && ib.green != -1 && ib.blue != -1)
                     ib.setColor(Color.fromRGB(ib.red, ib.green, ib.blue));
             }
-        }
-
-        @Override
-        public boolean willHandleClass(Class cl) {
-            return true;
-        }
-
-        @Override
-        public boolean alwaysCopy() {
-            return false;
-        }
-
-        @Override
-        public Object instantiate(Class objectClass, FSTObjectInput fstObjectInput, FSTClazzInfo serializationInfo, FSTClazzInfo.FSTFieldInfo referencee, int streamPosition) throws Exception {
-            return null;
         }
     }
 }

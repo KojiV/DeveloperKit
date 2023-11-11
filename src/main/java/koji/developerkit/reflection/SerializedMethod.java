@@ -2,10 +2,10 @@ package koji.developerkit.reflection;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.nustaq.serialization.FSTBasicObjectSerializer;
 import org.nustaq.serialization.FSTClazzInfo;
 import org.nustaq.serialization.FSTObjectInput;
 import org.nustaq.serialization.FSTObjectOutput;
-import org.nustaq.serialization.FSTObjectSerializer;
 
 import java.io.IOException;
 import java.lang.invoke.MethodHandle;
@@ -95,7 +95,7 @@ public class SerializedMethod extends MethodHandleAssistant {
         handle = getMethodHandle(referenceClass, name, methodType, isStatic);
     }*/
 
-    public static class FSTMethodSerializer implements FSTObjectSerializer {
+    public static class FSTMethodSerializer extends FSTBasicObjectSerializer {
         @Override
         public void writeObject(FSTObjectOutput out, Object toWrite, FSTClazzInfo clzInfo, FSTClazzInfo.FSTFieldInfo referencedBy, int streamPosition) throws IOException {
             if (toWrite instanceof SerializedMethod) {
@@ -126,21 +126,5 @@ public class SerializedMethod extends MethodHandleAssistant {
                 method.handle = getMethodHandle(method.referenceClass, method.name, methodType, method.isStatic);
             }
         }
-
-        @Override
-        public boolean willHandleClass(Class cl) {
-            return true;
-        }
-
-        @Override
-        public boolean alwaysCopy() {
-            return false;
-        }
-
-        @Override
-        public Object instantiate(Class objectClass, FSTObjectInput fstObjectInput, FSTClazzInfo serializationInfo, FSTClazzInfo.FSTFieldInfo referencee, int streamPosition) throws Exception {
-            return null;
-        }
-
     }
 }
