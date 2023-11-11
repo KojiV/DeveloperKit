@@ -13,18 +13,19 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.nustaq.serialization.FSTClazzInfo;
+import org.nustaq.serialization.FSTObjectInput;
+import org.nustaq.serialization.FSTObjectOutput;
+import org.nustaq.serialization.FSTObjectSerializer;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
 import java.util.*;
 
 @SuppressWarnings("unused")
-public class ItemBuilder extends MethodHandleAssistant implements Serializable {
+public class ItemBuilder extends MethodHandleAssistant {
     private static final long serialVersionUID = 1231246598235L;
     protected transient ItemStack im;
     private String compound;
@@ -531,7 +532,17 @@ public class ItemBuilder extends MethodHandleAssistant implements Serializable {
         return this;
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
+    private void setSerializedVariables() {
+        compound = getStringFromCompound();
+        material = XMaterial.matchXMaterial(im.getType());
+        Color color = im.getItemMeta() instanceof LeatherArmorMeta ?
+                ((LeatherArmorMeta) im.getItemMeta()).getColor() : null;
+        red = color != null ? color.getRed() : -1;
+        green = color != null ? color.getGreen() : -1;
+        blue = color != null ? color.getBlue() : -1;
+    }
+
+    /*private void writeObject(ObjectOutputStream out) throws IOException {
         compound = getStringFromCompound();
         material = XMaterial.matchXMaterial(im.getType());
         Color color = im.getItemMeta() instanceof LeatherArmorMeta ?
@@ -545,8 +556,90 @@ public class ItemBuilder extends MethodHandleAssistant implements Serializable {
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
+
+
+@Override
+    public void write(Kryo kryo, Output output) {
+        compound = getStringFromCompound();
+        material = XMaterial.matchXMaterial(im.getType());
+        Color color = im.getItemMeta() instanceof LeatherArmorMeta ?
+                ((LeatherArmorMeta) im.getItemMeta()).getColor() : null;
+        red = color != null ? color.getRed() : -1;
+        green = color != null ? color.getGreen() : -1;
+        blue = color != null ? color.getBlue() : -1;
+
+        kryo.register(XMaterial.class, 9);
+
+        output.writeString(compound);
+        kryo.writeObject(output, material);
+        output.writeInt(red);
+        output.writeInt(green);
+        output.writeInt(blue);
+    }
+
+    @Override
+    public void read(Kryo kryo, Input input) {
+        kryo.register(XMaterial.class, 9);
+
+        compound = input.readString();
+        material = kryo.readObject(input, XMaterial.class);
+        red = input.readInt();
+        green = input.readInt();
+        blue = input.readInt();
+
         im = new ItemStack(material.parseMaterial());
         applyCompoundFromString(compound, true);
         if(red != -1 && green != -1 && blue != -1) setColor(Color.fromRGB(red, green, blue));
+    }
+
+    }*/
+
+    public static class ItemBuilderSerializer implements FSTObjectSerializer {
+        @Override
+        public void writeObject(FSTObjectOutput out, Object toWrite, FSTClazzInfo clzInfo, FSTClazzInfo.FSTFieldInfo referencedBy, int streamPosition) throws IOException {
+            if(toWrite instanceof ItemBuilder) {
+                ItemBuilder ib = (ItemBuilder) toWrite;
+                ib.setSerializedVariables();
+
+                out.writeStringUTF(ib.compound);
+                out.writeObject(ib.material, XMaterial.class);
+                out.writeInt(ib.red);
+                out.writeInt(ib.green);
+                out.writeInt(ib.blue);
+            }
+        }
+
+        @Override
+        public void readObject(FSTObjectInput in, Object toRead, FSTClazzInfo clzInfo, FSTClazzInfo.FSTFieldInfo referencedBy) throws Exception {
+            if(toRead instanceof ItemBuilder) {
+                ItemBuilder ib = (ItemBuilder) toRead;
+
+                ib.compound = in.readStringUTF();
+                ib.material = (XMaterial) in.readObject(XMaterial.class);
+                ib.red = in.readInt();
+                ib.green = in.readInt();
+                ib.blue = in.readInt();
+
+                ib.im = new ItemStack(ib.material.parseMaterial());
+                ib.applyCompoundFromString(ib.compound, true);
+                if(ib.red != -1 && ib.green != -1 && ib.blue != -1)
+                    ib.setColor(Color.fromRGB(ib.red, ib.green, ib.blue));
+            }
+        }
+
+        @Override
+        public boolean willHandleClass(Class cl) {
+            return true;
+        }
+
+        @Override
+        public boolean alwaysCopy() {
+            return false;
+        }
+
+        @Override
+        public Object instantiate(Class objectClass, FSTObjectInput fstObjectInput, FSTClazzInfo serializationInfo, FSTClazzInfo.FSTFieldInfo referencee, int streamPosition) throws Exception {
+            return null;
+        }
     }
 }

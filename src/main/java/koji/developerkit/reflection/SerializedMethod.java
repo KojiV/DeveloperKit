@@ -2,17 +2,18 @@ package koji.developerkit.reflection;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.nustaq.serialization.FSTClazzInfo;
+import org.nustaq.serialization.FSTObjectInput;
+import org.nustaq.serialization.FSTObjectOutput;
+import org.nustaq.serialization.FSTObjectSerializer;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public class SerializedMethod extends MethodHandleAssistant implements Serializable {
+public class SerializedMethod extends MethodHandleAssistant {
     private static final long serialVersionUID = -987876512335L;
 
     public SerializedMethod(Method method) {
@@ -76,7 +77,11 @@ public class SerializedMethod extends MethodHandleAssistant implements Serializa
         }
     }
 
-    private void writeObject(ObjectOutputStream oos) throws IOException {
+    public Method getAsMethod() throws NoSuchMethodException {
+        return referenceClass.getMethod(name, paramClasses);
+    }
+
+    /*private void writeObject(ObjectOutputStream oos) throws IOException {
         setSerializedVariables();
         // default serialization
         oos.defaultWriteObject();
@@ -88,9 +93,54 @@ public class SerializedMethod extends MethodHandleAssistant implements Serializa
 
         MethodType methodType = MethodType.methodType(returnTypeClass, paramClasses);
         handle = getMethodHandle(referenceClass, name, methodType, isStatic);
-    }
+    }*/
 
-    public Method getAsMethod() throws NoSuchMethodException {
-        return referenceClass.getMethod(name, paramClasses);
+    public static class FSTMethodSerializer implements FSTObjectSerializer {
+        @Override
+        public void writeObject(FSTObjectOutput out, Object toWrite, FSTClazzInfo clzInfo, FSTClazzInfo.FSTFieldInfo referencedBy, int streamPosition) throws IOException {
+            if (toWrite instanceof SerializedMethod) {
+                SerializedMethod method = (SerializedMethod) toWrite;
+                method.setSerializedVariables();
+
+                out.writeClassTag(method.referenceClass);
+                out.writeClassTag(method.returnTypeClass);
+                out.writeObject(method.paramClasses);
+                out.writeBoolean(method.isStatic);
+                out.writeStringUTF(method.name);
+            }
+
+        }
+
+        @Override
+        public void readObject(FSTObjectInput in, Object toRead, FSTClazzInfo clzInfo, FSTClazzInfo.FSTFieldInfo referencedBy) throws Exception {
+            if (toRead instanceof SerializedMethod) {
+                SerializedMethod method = (SerializedMethod) toRead;
+
+                method.referenceClass = in.readClass().getClazz();
+                method.returnTypeClass = in.readClass().getClazz();
+                method.paramClasses = (Class<?>[]) in.readObject(Class[].class);
+                method.isStatic = in.readBoolean();
+                method.name = in.readStringUTF();
+
+                MethodType methodType = MethodType.methodType(method.returnTypeClass, method.paramClasses);
+                method.handle = getMethodHandle(method.referenceClass, method.name, methodType, method.isStatic);
+            }
+        }
+
+        @Override
+        public boolean willHandleClass(Class cl) {
+            return true;
+        }
+
+        @Override
+        public boolean alwaysCopy() {
+            return false;
+        }
+
+        @Override
+        public Object instantiate(Class objectClass, FSTObjectInput fstObjectInput, FSTClazzInfo serializationInfo, FSTClazzInfo.FSTFieldInfo referencee, int streamPosition) throws Exception {
+            return null;
+        }
+
     }
 }

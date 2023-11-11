@@ -7,7 +7,7 @@
     <groupId>io.github.kojiv</groupId>
     <artifactId>developerkit</artifactId>
     <!--https://github.com/marketplace/actions/github-release-changelog-generator-->
-    <version>1.17.8</version>
+    <version>2.0</version>
     <packaging>jar</packaging>
 
 
@@ -81,6 +81,10 @@
                             <pattern>com.cryptomorin.xseries</pattern>
                             <shadedPattern>koji.developerkit.utils.xseries</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>org.nustaq</pattern>
+                            <shadedPattern>koji.developerkit.reflection</shadedPattern>
+                        </relocation>
                     </relocations>
                 </configuration>
             </plugin>
@@ -145,7 +149,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>3.0.1</version>
+                        <version>3.1.0</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -284,6 +288,11 @@
             <artifactId>lombok</artifactId>
             <version>1.18.30</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.ruedigermoeller</groupId>
+            <artifactId>fst</artifactId>
+            <version>2.56</version>
         </dependency>
     </dependencies>
 </project>
