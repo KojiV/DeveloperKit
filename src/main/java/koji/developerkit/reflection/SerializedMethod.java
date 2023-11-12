@@ -9,9 +9,12 @@ import org.nustaq.serialization.FSTObjectOutput;
 
 import java.io.IOException;
 import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
 
 public class SerializedMethod extends MethodHandleAssistant {
     private static final long serialVersionUID = -987876512335L;
@@ -27,7 +30,6 @@ public class SerializedMethod extends MethodHandleAssistant {
     }
 
     private static final Field MEMBER, NAME;
-    private static final MethodHandle IS_STATIC, GET_DECLARING;
 
     static {
         try {
@@ -35,20 +37,10 @@ public class SerializedMethod extends MethodHandleAssistant {
             Class<?> methodHandle = Class.forName("java.lang.invoke.DirectMethodHandle");
 
             MEMBER = getField(methodHandle, memberName, "member");
-            IS_STATIC = getMethodHandle(
-                    memberName, "isStatic", MethodType.methodType(boolean.class)
-            );
-            GET_DECLARING = getMethodHandle(
-                    memberName, "getDeclaringClass", MethodType.methodType(Class.class)
-            );
             NAME = getField(memberName, String.class, "name");
 
             if(MEMBER == null)
                 throw new RuntimeException("MemberName that should be there is null!");
-            if(IS_STATIC == null)
-                throw new RuntimeException("isStatic method that should be there is null!");
-            if (GET_DECLARING == null)
-                throw new RuntimeException("getDeclaringClass method that should be there is null!");
             if(NAME == null)
                 throw new RuntimeException("Field \"name\" that should be there is null!");
         } catch (ClassNotFoundException e) {
@@ -66,10 +58,12 @@ public class SerializedMethod extends MethodHandleAssistant {
         try {
             Object memberName = MEMBER.get(handle);
             returnTypeClass = handle.type().returnType();
-            paramClasses = handle.type().parameterArray();
-            referenceClass = (Class<?>) GET_DECLARING.invoke(memberName);
 
-            isStatic = (boolean) IS_STATIC.invoke(memberName);
+            Class<?>[] classes = handle.type().parameterArray();
+            paramClasses = Arrays.copyOfRange(classes, 1, classes.length);
+            referenceClass = MethodHandles.lookup().revealDirect(handle).getDeclaringClass();
+
+            isStatic = Modifier.isStatic(MethodHandles.lookup().revealDirect(handle).getModifiers());
             this.name = (String) NAME.get(memberName);
 
         } catch (Throwable e) {
@@ -102,8 +96,8 @@ public class SerializedMethod extends MethodHandleAssistant {
                 SerializedMethod method = (SerializedMethod) toWrite;
                 method.setSerializedVariables();
 
-                out.writeClassTag(method.referenceClass);
-                out.writeClassTag(method.returnTypeClass);
+                out.writeObject(method.referenceClass, Class.class);
+                out.writeObject(method.returnTypeClass, Class.class);
                 out.writeObject(method.paramClasses);
                 out.writeBoolean(method.isStatic);
                 out.writeStringUTF(method.name);
@@ -116,8 +110,8 @@ public class SerializedMethod extends MethodHandleAssistant {
             if (toRead instanceof SerializedMethod) {
                 SerializedMethod method = (SerializedMethod) toRead;
 
-                method.referenceClass = in.readClass().getClazz();
-                method.returnTypeClass = in.readClass().getClazz();
+                method.referenceClass = (Class<?>) in.readObject(Class.class);
+                method.returnTypeClass = (Class<?>) in.readObject(Class.class);
                 method.paramClasses = (Class<?>[]) in.readObject(Class[].class);
                 method.isStatic = in.readBoolean();
                 method.name = in.readStringUTF();

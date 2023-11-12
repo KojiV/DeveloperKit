@@ -53,8 +53,8 @@ public class SerializedField extends MethodHandleAssistant {
                 SerializedField field = (SerializedField) toWrite;
 
                 field.setSerializedVariables();
-                out.writeClassTag(field.referenceClass);
-                out.writeClassTag(field.instanceClass);
+                out.writeObject(field.referenceClass, Class.class);
+                out.writeObject(field.instanceClass, Class.class);
                 out.writeStringUTF(field.name);
             }
         }
@@ -64,14 +64,12 @@ public class SerializedField extends MethodHandleAssistant {
             if(toRead instanceof SerializedField) {
                 SerializedField field = (SerializedField) toRead;
 
-                field.referenceClass = in.readClass().getClazz();
-                field.instanceClass = in.readClass().getClazz();
+                field.referenceClass = (Class<?>) in.readObject(Class.class);
+                field.instanceClass = (Class<?>) in.readObject(Class.class);
                 field.name = in.readStringUTF();
 
                 field.field = getFieldHandle(field.referenceClass, field.instanceClass, field.name);
             }
         }
     }
-
-
 }
