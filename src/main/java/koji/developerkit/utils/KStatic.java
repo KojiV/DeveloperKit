@@ -73,12 +73,25 @@ public class KStatic extends KBase {
     /**
      * Gets the index of items if they were centered based on amount
      *
-     * @param amount     amount to be centered by
+     * @param amount amount to be centered by
      * @param centerSlot the start slot (can go down lines after that if amount greater than 7)
      * @return the slot numbers
+     * @see KBase#getCenteredSlots(int, int, boolean)
      */
-    public static Integer[] getCenteredSlots(int amount, int centerSlot) {
+    public static int[] getCenteredSlots(int amount, int centerSlot) {
         return KBase.getCenteredSlots(amount, centerSlot);
+    }
+
+    /**
+     * Gets the index of items if they were centered based on amount
+     *
+     * @param amount amount to be centered by
+     * @param centerSlot the start slot (can go down lines after that if amount greater than 7)
+     * @param affectsRows if param is true, it moves the rows up rows / 2 (rounded down)
+     * @return the slot numbers
+     */
+    public static int[] getCenteredSlots(int amount, int centerSlot, boolean affectsRows) {
+        return KBase.getCenteredSlots(amount, centerSlot, affectsRows);
     }
 
     /**
@@ -268,7 +281,7 @@ public class KStatic extends KBase {
      * @param placeholder The stuff to replace
      * @return param original with the placeholders replaced
      */
-    public static List<String> replacePlaceholder(List<String> original, List<OrderedReplacements> placeholder) {
+    public static List<String> replacePlaceholder(List<String> original, List<Placeholder> placeholder) {
         return KBase.replacePlaceholder(original, placeholder);
     }
 

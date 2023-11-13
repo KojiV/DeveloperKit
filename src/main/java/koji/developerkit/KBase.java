@@ -5,7 +5,7 @@ import com.cryptomorin.xseries.XMaterial;
 import com.cryptomorin.xseries.XSound;
 import de.tr7zw.changeme.nbtapi.utils.MinecraftVersion;
 import koji.developerkit.gui.GUIClickableItem;
-import koji.developerkit.utils.OrderedReplacements;
+import koji.developerkit.utils.Placeholder;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -126,7 +126,7 @@ public class KBase implements Serializable {
      * @return the slot numbers
      * @see KBase#getCenteredSlots(int, int, boolean)
      */
-    protected static Integer[] getCenteredSlots(int amount, int centerSlot) {
+    protected static int[] getCenteredSlots(int amount, int centerSlot) {
         return getCenteredSlots(amount, centerSlot, false);
     }
 
@@ -138,29 +138,22 @@ public class KBase implements Serializable {
      * @param affectsRows if param is true, it moves the rows up rows / 2 (rounded down)
      * @return the slot numbers
      */
-    protected static Integer[] getCenteredSlots(int amount, int centerSlot, boolean affectsRows) {
-        if(amount == 0) return new Integer[0];
-        List<Integer> ints = new ArrayList<>();
+    protected static int[] getCenteredSlots(int amount, int centerSlot, boolean affectsRows) {
+        if(amount == 0) return new int[0];
+        int[] slots = new int[amount];
+        int move = (int) Math.ceil(amount / 7.0) / 2;
 
-        for (int i = 0; i < Math.ceil(amount / 7.0); i++) {
-            int lineCenter = centerSlot + i * 9;
-            int amountForLine = Math.min(amount - i * 7, 7);
+        for(int i = 0; i < amount; i++) {
+            int line = (int) Math.floor(i / 7.0);
 
-            if (amountForLine % 2 != 0) {
-                ints.add(lineCenter);
-            }
-            for (int i1 = 1; i1 <= amountForLine / 2; i1++) {
-                ints.add(lineCenter + i1);
-                ints.add(lineCenter - i1);
-            }
+            int center = centerSlot + line * 9;
+            int amountForLine = Math.min(amount - line * 7, 7);
+
+            int slot = center - 4 + (i - line * 7);
+            if(amountForLine % 2 == 0 && slot >= amountForLine / 2) slot++;
+            slots[i] = affectsRows ? slot - move * 9 : slot;
         }
-        if(affectsRows) {
-            int move = (int) Math.ceil(ints.size() / 7.0) / 2;
-            ints = ints.stream().map(i -> i - move * 9).collect(Collectors.toList());
-        }
-        Integer[] returnValue = ints.toArray(new Integer[0]);
-        Arrays.sort(returnValue);
-        return returnValue;
+        return slots;
     }
 
     /**
@@ -388,8 +381,8 @@ public class KBase implements Serializable {
      * @see KBase#replacePlaceholder(List, List)
      */
     protected static List<String> replacePlaceholders(List<String> original, Map<String, String> placeholder) {
-        List<OrderedReplacements> replacements = new ArrayList<>(placeholder.size());
-        placeholder.forEach((a, b) -> replacements.add(new OrderedReplacements(a, b)));
+        List<Placeholder> replacements = new ArrayList<>(placeholder.size());
+        placeholder.forEach((a, b) -> replacements.add(new Placeholder(a, b)));
         return replacePlaceholder(original, replacements);
     }
 
@@ -402,8 +395,8 @@ public class KBase implements Serializable {
      * @see KBase#replacePlaceholder(List, List)
      */
     protected static List<String> replacePlaceholder(List<String> original, Map<String, List<String>> placeholder) {
-        List<OrderedReplacements> replacements = new ArrayList<>(placeholder.size());
-        placeholder.forEach((a, b) -> replacements.add(new OrderedReplacements(a, b)));
+        List<Placeholder> replacements = new ArrayList<>(placeholder.size());
+        placeholder.forEach((a, b) -> replacements.add(new Placeholder(a, b)));
         return replacePlaceholder(original, replacements);
     }
 
@@ -414,14 +407,14 @@ public class KBase implements Serializable {
      * @param placeholder The stuff to replace
      * @return param original with the placeholders replaced
      */
-    protected static List<String> replacePlaceholder(List<String> original, List<OrderedReplacements> placeholder) {
+    protected static List<String> replacePlaceholder(List<String> original, List<Placeholder> placeholder) {
         List<String> lore = new ArrayList<>();
         for(String str : original) {
             boolean has = false;
             StringBuilder allReplaced = new StringBuilder();
             List<String> added = new ArrayList<>();
 
-            for(OrderedReplacements place : placeholder) {
+            for(Placeholder place : placeholder) {
                 List<String> contained = place.getReplaced();
                 if(str.contains(place.getPlaceholder())) {
                     has = true;
