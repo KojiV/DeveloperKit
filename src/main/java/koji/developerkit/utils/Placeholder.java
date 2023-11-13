@@ -1,14 +1,15 @@
 package koji.developerkit.utils;
 
 import koji.developerkit.KBase;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 
 public class Placeholder extends KBase implements Serializable {
-    private final String placeholder;
-    private final List<String> replaced;
+    @Getter @Setter private String placeholder;
+    @Getter @Setter private List<String> replaced;
 
     public Placeholder(String placeholder, List<String> replaced) {
         this.placeholder = placeholder;
@@ -19,19 +20,7 @@ public class Placeholder extends KBase implements Serializable {
         this(placeholder, arrayList(replaced));
     }
 
-    public String getPlaceholder() {
-        return placeholder;
-    }
-
-    public List<String> getReplaced() {
-        return replaced;
-    }
-
     public String getReplacedSimple() {
         return getOrDefault(replaced, 0, null);
-    }
-
-    @Override public int hashCode() {
-        return Objects.hash(placeholder);
     }
 }
