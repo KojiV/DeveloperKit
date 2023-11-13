@@ -4,6 +4,7 @@ import koji.developerkit.KBase;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 public class Placeholder extends KBase implements Serializable {
     private final String placeholder;
@@ -28,5 +29,9 @@ public class Placeholder extends KBase implements Serializable {
 
     public String getReplacedSimple() {
         return getOrDefault(replaced, 0, null);
+    }
+
+    @Override public int hashCode() {
+        return Objects.hash(placeholder);
     }
 }
