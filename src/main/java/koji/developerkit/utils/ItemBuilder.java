@@ -597,6 +597,7 @@ public class ItemBuilder extends MethodHandleAssistant {
     public static class ItemBuilderSerializer extends FSTBasicObjectSerializer {
         @Override
         public void writeObject(FSTObjectOutput out, Object toWrite, FSTClazzInfo clzInfo, FSTClazzInfo.FSTFieldInfo referencedBy, int streamPosition) throws IOException {
+            if (toWrite.getClass() != ItemBuilder.class) out.defaultWriteObject(toWrite, clzInfo);
             if(toWrite instanceof ItemBuilder) {
                 ItemBuilder ib = (ItemBuilder) toWrite;
                 ib.setSerializedVariables();
@@ -611,6 +612,7 @@ public class ItemBuilder extends MethodHandleAssistant {
 
         @Override
         public void readObject(FSTObjectInput in, Object toRead, FSTClazzInfo clzInfo, FSTClazzInfo.FSTFieldInfo referencedBy) throws Exception {
+            if (toRead != ItemBuilder.class) in.defaultReadObject(referencedBy, clzInfo, toRead);
             if(toRead instanceof ItemBuilder) {
                 ItemBuilder ib = (ItemBuilder) toRead;
 

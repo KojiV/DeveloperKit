@@ -49,6 +49,7 @@ public class SerializedField extends MethodHandleAssistant {
     public static class FSTFieldSerializer extends FSTBasicObjectSerializer {
         @Override
         public void writeObject(FSTObjectOutput out, Object toWrite, FSTClazzInfo clzInfo, FSTClazzInfo.FSTFieldInfo referencedBy, int streamPosition) throws IOException {
+            if (toWrite.getClass() != SerializedField.class) out.defaultWriteObject(toWrite, clzInfo);
             if(toWrite instanceof SerializedField) {
                 SerializedField field = (SerializedField) toWrite;
 
@@ -61,6 +62,7 @@ public class SerializedField extends MethodHandleAssistant {
 
         @Override
         public void readObject(FSTObjectInput in, Object toRead, FSTClazzInfo clzInfo, FSTClazzInfo.FSTFieldInfo referencedBy) throws Exception {
+            if (toRead != SerializedField.class) in.defaultReadObject(referencedBy, clzInfo, toRead);
             if(toRead instanceof SerializedField) {
                 SerializedField field = (SerializedField) toRead;
 

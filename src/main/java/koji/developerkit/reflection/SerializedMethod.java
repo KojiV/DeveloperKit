@@ -92,6 +92,7 @@ public class SerializedMethod extends MethodHandleAssistant {
     public static class FSTMethodSerializer extends FSTBasicObjectSerializer {
         @Override
         public void writeObject(FSTObjectOutput out, Object toWrite, FSTClazzInfo clzInfo, FSTClazzInfo.FSTFieldInfo referencedBy, int streamPosition) throws IOException {
+            if (toWrite.getClass() != SerializedMethod.class) out.defaultWriteObject(toWrite, clzInfo);
             if (toWrite instanceof SerializedMethod) {
                 SerializedMethod method = (SerializedMethod) toWrite;
                 method.setSerializedVariables();
@@ -107,6 +108,7 @@ public class SerializedMethod extends MethodHandleAssistant {
 
         @Override
         public void readObject(FSTObjectInput in, Object toRead, FSTClazzInfo clzInfo, FSTClazzInfo.FSTFieldInfo referencedBy) throws Exception {
+            if (toRead != SerializedMethod.class) in.defaultReadObject(referencedBy, clzInfo, toRead);
             if (toRead instanceof SerializedMethod) {
                 SerializedMethod method = (SerializedMethod) toRead;
 
