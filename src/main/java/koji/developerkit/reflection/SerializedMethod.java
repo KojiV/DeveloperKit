@@ -19,8 +19,8 @@ import java.util.Arrays;
 public class SerializedMethod extends MethodHandleAssistant {
     private static final long serialVersionUID = -987876512335L;
 
-    public SerializedMethod(Method method) {
-        this(getMethod(method));
+    public SerializedMethod(Method method) throws IllegalAccessException {
+        this(MethodHandles.lookup().unreflect(method));
     }
 
     public SerializedMethod(MethodHandle handle) {
