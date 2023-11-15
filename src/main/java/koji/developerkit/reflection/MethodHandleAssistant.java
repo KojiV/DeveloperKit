@@ -69,8 +69,9 @@ public class MethodHandleAssistant extends KBase implements Serializable {
     // Syrus said "always use protection," if you ever see him kill him.
     protected static MethodHandle getMethod(Method method) {
         return getMethodHandle(method.getDeclaringClass(), method.getName(), MethodType.methodType(
-                method.getReturnType(), method.getParameterTypes()
-        ), Modifier.isStatic(method.getModifiers()));
+                method.getReturnType(), Arrays.copyOfRange(
+                        method.getParameterTypes(), 1, method.getParameterCount()
+                )), Modifier.isStatic(method.getModifiers()));
     }
 
     protected static MethodHandle getMethod(Class<?> refc, MethodType type, String name, String... extraNames) {
