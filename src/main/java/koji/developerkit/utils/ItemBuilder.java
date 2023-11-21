@@ -597,30 +597,18 @@ public class ItemBuilder extends MethodHandleAssistant {
     public static class ItemBuilderSerializer extends FSTBasicObjectSerializer {
         @Override
         public void writeObject(FSTObjectOutput out, Object toWrite, FSTClazzInfo clzInfo, FSTClazzInfo.FSTFieldInfo referencedBy, int streamPosition) throws IOException {
-            if (toWrite.getClass() != ItemBuilder.class) out.defaultWriteObject(toWrite, clzInfo);
             if(toWrite instanceof ItemBuilder) {
                 ItemBuilder ib = (ItemBuilder) toWrite;
                 ib.setSerializedVariables();
-
-                out.writeStringUTF(ib.compound);
-                out.writeObject(ib.material, XMaterial.class);
-                out.writeInt(ib.red);
-                out.writeInt(ib.green);
-                out.writeInt(ib.blue);
             }
+            out.defaultWriteObject(toWrite, clzInfo);
         }
 
         @Override
         public void readObject(FSTObjectInput in, Object toRead, FSTClazzInfo clzInfo, FSTClazzInfo.FSTFieldInfo referencedBy) throws Exception {
-            if (toRead != ItemBuilder.class) in.defaultReadObject(referencedBy, clzInfo, toRead);
+            in.defaultReadObject(referencedBy, clzInfo, toRead);
             if(toRead instanceof ItemBuilder) {
                 ItemBuilder ib = (ItemBuilder) toRead;
-
-                ib.compound = in.readStringUTF();
-                ib.material = (XMaterial) in.readObject(XMaterial.class);
-                ib.red = in.readInt();
-                ib.green = in.readInt();
-                ib.blue = in.readInt();
 
                 ib.im = new ItemStack(ib.material.parseMaterial());
                 ib.applyCompoundFromString(ib.compound, true);

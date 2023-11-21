@@ -49,26 +49,19 @@ public class SerializedField extends MethodHandleAssistant {
     public static class FSTFieldSerializer extends FSTBasicObjectSerializer {
         @Override
         public void writeObject(FSTObjectOutput out, Object toWrite, FSTClazzInfo clzInfo, FSTClazzInfo.FSTFieldInfo referencedBy, int streamPosition) throws IOException {
-            if (toWrite.getClass() != SerializedField.class) out.defaultWriteObject(toWrite, clzInfo);
             if(toWrite instanceof SerializedField) {
                 SerializedField field = (SerializedField) toWrite;
 
                 field.setSerializedVariables();
-                out.writeObject(field.referenceClass, Class.class);
-                out.writeObject(field.instanceClass, Class.class);
-                out.writeStringUTF(field.name);
             }
+            out.defaultWriteObject(toWrite, clzInfo);
         }
 
         @Override
         public void readObject(FSTObjectInput in, Object toRead, FSTClazzInfo clzInfo, FSTClazzInfo.FSTFieldInfo referencedBy) throws Exception {
-            if (toRead != SerializedField.class) in.defaultReadObject(referencedBy, clzInfo, toRead);
+            in.defaultReadObject(referencedBy, clzInfo, toRead);
             if(toRead instanceof SerializedField) {
                 SerializedField field = (SerializedField) toRead;
-
-                field.referenceClass = (Class<?>) in.readObject(Class.class);
-                field.instanceClass = (Class<?>) in.readObject(Class.class);
-                field.name = in.readStringUTF();
 
                 field.field = getFieldHandle(field.referenceClass, field.instanceClass, field.name);
             }

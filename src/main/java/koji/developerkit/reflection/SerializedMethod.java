@@ -92,31 +92,18 @@ public class SerializedMethod extends MethodHandleAssistant {
     public static class FSTMethodSerializer extends FSTBasicObjectSerializer {
         @Override
         public void writeObject(FSTObjectOutput out, Object toWrite, FSTClazzInfo clzInfo, FSTClazzInfo.FSTFieldInfo referencedBy, int streamPosition) throws IOException {
-            if (toWrite.getClass() != SerializedMethod.class) out.defaultWriteObject(toWrite, clzInfo);
             if (toWrite instanceof SerializedMethod) {
                 SerializedMethod method = (SerializedMethod) toWrite;
                 method.setSerializedVariables();
-
-                out.writeObject(method.referenceClass, Class.class);
-                out.writeObject(method.returnTypeClass, Class.class);
-                out.writeObject(method.paramClasses);
-                out.writeBoolean(method.isStatic);
-                out.writeStringUTF(method.name);
             }
-
+            out.defaultWriteObject(toWrite, clzInfo);
         }
 
         @Override
         public void readObject(FSTObjectInput in, Object toRead, FSTClazzInfo clzInfo, FSTClazzInfo.FSTFieldInfo referencedBy) throws Exception {
-            if (toRead != SerializedMethod.class) in.defaultReadObject(referencedBy, clzInfo, toRead);
+            in.defaultReadObject(referencedBy, clzInfo, toRead);
             if (toRead instanceof SerializedMethod) {
                 SerializedMethod method = (SerializedMethod) toRead;
-
-                method.referenceClass = (Class<?>) in.readObject(Class.class);
-                method.returnTypeClass = (Class<?>) in.readObject(Class.class);
-                method.paramClasses = (Class<?>[]) in.readObject(Class[].class);
-                method.isStatic = in.readBoolean();
-                method.name = in.readStringUTF();
 
                 MethodType methodType = MethodType.methodType(method.returnTypeClass, method.paramClasses);
                 method.handle = getMethodHandle(method.referenceClass, method.name, methodType, method.isStatic);
