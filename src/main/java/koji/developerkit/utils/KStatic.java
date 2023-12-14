@@ -76,7 +76,7 @@ public class KStatic extends KBase {
      * @param amount amount to be centered by
      * @param centerSlot the start slot (can go down lines after that if amount greater than 7)
      * @return the slot numbers
-     * @see KBase#getCenteredSlots(int, int, boolean)
+     * @see KBase#getCenteredSlots(int, int, int, boolean)
      */
     public static int[] getCenteredSlots(int amount, int centerSlot) {
         return KBase.getCenteredSlots(amount, centerSlot);
@@ -87,11 +87,12 @@ public class KStatic extends KBase {
      *
      * @param amount amount to be centered by
      * @param centerSlot the start slot (can go down lines after that if amount greater than 7)
+     * @param perLine the amount of items per line
      * @param affectsRows if param is true, it moves the rows up rows / 2 (rounded down)
      * @return the slot numbers
      */
-    public static int[] getCenteredSlots(int amount, int centerSlot, boolean affectsRows) {
-        return KBase.getCenteredSlots(amount, centerSlot, affectsRows);
+    public static int[] getCenteredSlots(int amount, int centerSlot, int perLine, boolean affectsRows) {
+        return KBase.getCenteredSlots(amount, centerSlot, perLine, affectsRows);
     }
 
     /**

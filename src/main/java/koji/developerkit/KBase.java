@@ -124,10 +124,10 @@ public class KBase implements Serializable {
      * @param amount amount to be centered by
      * @param centerSlot the start slot (can go down lines after that if amount greater than 7)
      * @return the slot numbers
-     * @see KBase#getCenteredSlots(int, int, boolean)
+     * @see KBase#getCenteredSlots(int, int, int, boolean)
      */
     protected static int[] getCenteredSlots(int amount, int centerSlot) {
-        return getCenteredSlots(amount, centerSlot, false);
+        return getCenteredSlots(amount, centerSlot, 7, false);
     }
 
     /**
@@ -135,22 +135,23 @@ public class KBase implements Serializable {
      *
      * @param amount amount to be centered by
      * @param centerSlot the start slot (can go down lines after that if amount greater than 7)
+     * @param perLine the amount of items in one line
      * @param affectsRows if param is true, it moves the rows up rows / 2 (rounded down)
      * @return the slot numbers
      */
-    protected static int[] getCenteredSlots(int amount, int centerSlot, boolean affectsRows) {
+    protected static int[] getCenteredSlots(int amount, int centerSlot, int perLine, boolean affectsRows) {
         if(amount == 0) return new int[0];
         int[] slots = new int[amount];
-        int move = (int) Math.ceil(amount / 7.0) / 2;
+        int move = (int) Math.ceil((double) amount / perLine) / 2;
 
         for(int i = 0; i < amount; i++) {
-            int line = (int) Math.floor(i / 7.0);
+            int line = i / perLine;
 
             int center = centerSlot + line * 9;
-            int amountForLine = Math.min(amount - line * 7, 7);
+            int amountForLine = Math.min(amount - line * perLine, perLine);
 
-            int slot = center - 4 + (i - line * 7);
-            if(amountForLine % 2 == 0 && slot >= amountForLine / 2) slot++;
+            int slot = center - amountForLine / 2 + (i - line * perLine);
+            if(amountForLine % 2 == 0 && i % perLine >= amountForLine / 2) slot++;
             slots[i] = affectsRows ? slot - move * 9 : slot;
         }
         return slots;
